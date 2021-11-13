@@ -1,0 +1,999 @@
+{
+  "paragraphs": [
+    {
+      "text": "%md\n# 构建推荐系统API",
+      "user": "anonymous",
+      "dateUpdated": "2021-11-06 10:00:54.446",
+      "progress": 0,
+      "config": {
+        "editorMode": "ace/mode/markdown",
+        "editorHide": true,
+        "editorSetting": {
+          "language": "markdown",
+          "editOnDblClick": true
+        }
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "HTML",
+            "data": "\u003cdiv class\u003d\"markdown-body\"\u003e\n\u003ch1\u003e构建推荐系统API\u003c/h1\u003e\n\u003c/div\u003e"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {},
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1636192854446_1766303966",
+      "id": "20211106-100054_1122519027",
+      "dateCreated": "2021-11-06 10:00:54.446",
+      "status": "READY"
+    },
+    {
+      "text": "%md\n## 召回阶段(MF)：用户 Embedding 存入 Hbase",
+      "user": "anonymous",
+      "dateUpdated": "2021-11-06 10:00:54.446",
+      "progress": 0,
+      "config": {
+        "editorMode": "ace/mode/markdown",
+        "editorHide": true,
+        "editorSetting": {
+          "language": "markdown",
+          "editOnDblClick": true
+        }
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "HTML",
+            "data": "\u003cdiv class\u003d\"markdown-body\"\u003e\n\u003ch2\u003e召回阶段(MF)：用户 Embedding 存入 Hbase\u003c/h2\u003e\n\u003c/div\u003e"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {},
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1636192854446_65996924",
+      "id": "20211106-100054_294908498",
+      "dateCreated": "2021-11-06 10:00:54.446",
+      "status": "READY"
+    },
+    {
+      "text": "%python\nimport pandas as pd\n\ndf_user_embedding \u003d pd.read_csv(\"./datas/movielens_sparkals_user_embedding.csv\")\ndf_user_embedding.head()",
+      "user": "anonymous",
+      "dateUpdated": "2021-11-06 10:00:54.446",
+      "progress": 0,
+      "config": {
+        "editorMode": "ace/mode/python",
+        "editorHide": false
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "HTML",
+            "data": "\u003cdiv\u003e\n\u003cstyle scoped\u003e\n    .dataframe tbody tr th:only-of-type {\n        vertical-align: middle;\n    }\n\n    .dataframe tbody tr th {\n        vertical-align: top;\n    }\n\n    .dataframe thead th {\n        text-align: right;\n    }\n\u003c/style\u003e\n\u003ctable border\u003d\"1\" class\u003d\"dataframe\"\u003e\n  \u003cthead\u003e\n    \u003ctr style\u003d\"text-align: right;\"\u003e\n      \u003cth\u003e\u003c/th\u003e\n      \u003cth\u003eid\u003c/th\u003e\n      \u003cth\u003efeatures\u003c/th\u003e\n    \u003c/tr\u003e\n  \u003c/thead\u003e\n  \u003ctbody\u003e\n    \u003ctr\u003e\n      \u003cth\u003e0\u003c/th\u003e\n      \u003ctd\u003e10\u003c/td\u003e\n      \u003ctd\u003e[-1.4438247680664062, 0.0444270484149456, 0.49...\u003c/td\u003e\n    \u003c/tr\u003e\n    \u003ctr\u003e\n      \u003cth\u003e1\u003c/th\u003e\n      \u003ctd\u003e20\u003c/td\u003e\n      \u003ctd\u003e[-1.190703272819519, -0.1952604204416275, -0.2...\u003c/td\u003e\n    \u003c/tr\u003e\n    \u003ctr\u003e\n      \u003cth\u003e2\u003c/th\u003e\n      \u003ctd\u003e30\u003c/td\u003e\n      \u003ctd\u003e[-1.398386001586914, 0.5086374282836914, -0.43...\u003c/td\u003e\n    \u003c/tr\u003e\n    \u003ctr\u003e\n      \u003cth\u003e3\u003c/th\u003e\n      \u003ctd\u003e40\u003c/td\u003e\n      \u003ctd\u003e[-0.5107501745223999, 0.177013099193573, -0.43...\u003c/td\u003e\n    \u003c/tr\u003e\n    \u003ctr\u003e\n      \u003cth\u003e4\u003c/th\u003e\n      \u003ctd\u003e50\u003c/td\u003e\n      \u003ctd\u003e[-0.4870927929878235, 0.06653213500976562, 0.8...\u003c/td\u003e\n    \u003c/tr\u003e\n  \u003c/tbody\u003e\n\u003c/table\u003e\n\u003c/div\u003e"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {},
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1636192854446_401375678",
+      "id": "20211106-100054_1203483772",
+      "dateCreated": "2021-11-06 10:00:54.446",
+      "status": "READY"
+    },
+    {
+      "text": "%python\n!pip install happybase",
+      "user": "anonymous",
+      "dateUpdated": "2021-11-06 10:00:54.446",
+      "progress": 0,
+      "config": {
+        "editorMode": "ace/mode/python",
+        "editorHide": false
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "TEXT",
+            "data": "\u001b[33mWARNING: Keyring is skipped due to an exception: Failed to unlock the collection!\u001b[0m\nProcessing /home/bigdata/.cache/pip/wheels/4f/25/62/9ed654061bb749e2ddae58f872b92155e759747490a8dcce57/happybase-1.2.0-py2.py3-none-any.whl\nRequirement already satisfied: six in /data/anaconda3/lib/python3.8/site-packages (from happybase) (1.15.0)\nProcessing /home/bigdata/.cache/pip/wheels/eb/a5/fa/60bfe53464bb7eb85b1153e0469f3cc177d522ddf7ff4fc1c8/thriftpy2-0.4.14-cp38-cp38-linux_x86_64.whl\nRequirement already satisfied: ply\u003c4.0,\u003e\u003d3.4 in /data/anaconda3/lib/python3.8/site-packages (from thriftpy2\u003e\u003d0.4-\u003ehappybase) (3.11)\nInstalling collected packages: thriftpy2, happybase\nSuccessfully installed happybase-1.2.0 thriftpy2-0.4.14\n"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {},
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1636192854446_1541531619",
+      "id": "20211106-100054_1375856450",
+      "dateCreated": "2021-11-06 10:00:54.446",
+      "status": "READY"
+    },
+    {
+      "text": "%md\n为了能够让 python 使用 happy base 连接 hbase，需要启动 hbase 的 thrift 服务。\n\n```bash\nnohup hbase thrift start-port:9090 \u0026\n```\n\n**如果出现 hbase 无法启动的情况，查看zookeeper状态，或者查看zk中的信息是否有问题**",
+      "user": "anonymous",
+      "dateUpdated": "2021-11-06 10:00:54.446",
+      "progress": 0,
+      "config": {
+        "editorMode": "ace/mode/markdown",
+        "editorHide": true,
+        "editorSetting": {
+          "language": "markdown",
+          "editOnDblClick": true
+        }
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "HTML",
+            "data": "\u003cdiv class\u003d\"markdown-body\"\u003e\n\u003cp\u003e为了能够让 python 使用 happy base 连接 hbase，需要启动 hbase 的 thrift 服务。\u003c/p\u003e\n\u003cpre\u003e\u003ccode class\u003d\"bash\"\u003enohup hbase thrift start-port:9090 \u0026amp;\n\u003c/code\u003e\u003c/pre\u003e\n\u003cp\u003e\u003cstrong\u003e如果出现 hbase 无法启动的情况，查看zookeeper状态，或者查看zk中的信息是否有问题\u003c/strong\u003e\u003c/p\u003e\n\u003c/div\u003e"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {},
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1636192854446_801889473",
+      "id": "20211106-100054_330846358",
+      "dateCreated": "2021-11-06 10:00:54.446",
+      "status": "READY"
+    },
+    {
+      "text": "%python\nimport happybase\n\nconnection \u003d happybase.Connection(\u002710.20.36.137\u0027, port\u003d19090)",
+      "user": "anonymous",
+      "dateUpdated": "2021-11-06 10:00:54.446",
+      "progress": 0,
+      "config": {
+        "editorMode": "ace/mode/python",
+        "editorHide": false
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": []
+      },
+      "apps": [],
+      "runtimeInfos": {},
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1636192854446_192981401",
+      "id": "20211106-100054_498545105",
+      "dateCreated": "2021-11-06 10:00:54.446",
+      "status": "READY"
+    },
+    {
+      "text": "%python\nconnection.create_table(\n    \u0027user\u0027,\n    {\u0027feature\u0027: dict(max_versions\u003d10),\n     \u0027embedding\u0027: dict(max_versions\u003d10)}\n)",
+      "user": "anonymous",
+      "dateUpdated": "2021-11-06 10:00:54.446",
+      "progress": 0,
+      "config": {
+        "editorMode": "ace/mode/python",
+        "editorHide": false
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": []
+      },
+      "apps": [],
+      "runtimeInfos": {},
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1636192854446_1285208122",
+      "id": "20211106-100054_129334863",
+      "dateCreated": "2021-11-06 10:00:54.446",
+      "status": "READY"
+    },
+    {
+      "text": "%python\nuser_talbe \u003d connection.table(\u0027user\u0027)\n\nwith user_talbe.batch() as b:\n    def save_embedding_to_hbase(idx, row):\n        user_talbe.put(f\u0027{idx:0\u003e6d}\u0027 + \u0027-user\u0027 , {b\u0027embedding:mf\u0027: str(row.features)})\n    for idx, row in df_user_embedding.iterrows():\n        save_embedding_to_hbase(idx, row)",
+      "user": "anonymous",
+      "dateUpdated": "2021-11-06 10:00:54.446",
+      "progress": 0,
+      "config": {
+        "editorMode": "ace/mode/python",
+        "editorHide": false
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": []
+      },
+      "apps": [],
+      "runtimeInfos": {},
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1636192854446_494875604",
+      "id": "20211106-100054_1515434508",
+      "dateCreated": "2021-11-06 10:00:54.446",
+      "status": "READY"
+    },
+    {
+      "text": "%python\nuser_talbe \u003d connection.table(\u0027user\u0027)\nfor i in user_talbe.scan(row_start\u003db\u0027000005\u0027, row_stop\u003db\u0027000006\u0027):\n    print(i)",
+      "user": "anonymous",
+      "dateUpdated": "2021-11-06 10:00:54.446",
+      "progress": 0,
+      "config": {
+        "editorMode": "ace/mode/python",
+        "editorHide": false
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "TEXT",
+            "data": "(b\u0027000005-user\u0027, {b\u0027embedding:mf\u0027: b\u0027[-0.13574348390102386, 0.9383314847946167, -0.09299562126398087, 0.6760643720626831, -2.8248355388641357, 0.8201507329940796, 0.5453522801399231, 1.6296663284301758, 1.086187481880188, -1.01802396774292]\u0027, b\u0027embedding:two-tower\u0027: b\u00270.0,0.0,0.0977413,1.0987232,0.13518794,0.1711683,0.0764934,0.0\u0027})\n"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {},
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1636192854446_1464415751",
+      "id": "20211106-100054_197031216",
+      "dateCreated": "2021-11-06 10:00:54.446",
+      "status": "READY"
+    },
+    {
+      "text": "%md\n## 召回阶段(MF)：电影 Embedding 存入 Faiss",
+      "user": "anonymous",
+      "dateUpdated": "2021-11-06 10:00:54.446",
+      "progress": 0,
+      "config": {
+        "editorMode": "ace/mode/markdown",
+        "editorHide": true,
+        "editorSetting": {
+          "language": "markdown",
+          "editOnDblClick": true
+        }
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "HTML",
+            "data": "\u003cdiv class\u003d\"markdown-body\"\u003e\n\u003ch2\u003e召回阶段(MF)：电影 Embedding 存入 Faiss\u003c/h2\u003e\n\u003c/div\u003e"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {},
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1636192854446_745021007",
+      "id": "20211106-100054_790885423",
+      "dateCreated": "2021-11-06 10:00:54.446",
+      "status": "READY"
+    },
+    {
+      "text": "%python\nimport pandas as pd\n\ndf_movie_embedding \u003d pd.read_csv(\"./datas/movielens_sparkals_item_embedding.csv\")\ndf_movie_embedding.head()",
+      "user": "anonymous",
+      "dateUpdated": "2021-11-06 10:00:54.446",
+      "progress": 0,
+      "config": {
+        "editorMode": "ace/mode/python",
+        "editorHide": false
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "HTML",
+            "data": "\u003cdiv\u003e\n\u003cstyle scoped\u003e\n    .dataframe tbody tr th:only-of-type {\n        vertical-align: middle;\n    }\n\n    .dataframe tbody tr th {\n        vertical-align: top;\n    }\n\n    .dataframe thead th {\n        text-align: right;\n    }\n\u003c/style\u003e\n\u003ctable border\u003d\"1\" class\u003d\"dataframe\"\u003e\n  \u003cthead\u003e\n    \u003ctr style\u003d\"text-align: right;\"\u003e\n      \u003cth\u003e\u003c/th\u003e\n      \u003cth\u003eid\u003c/th\u003e\n      \u003cth\u003efeatures\u003c/th\u003e\n    \u003c/tr\u003e\n  \u003c/thead\u003e\n  \u003ctbody\u003e\n    \u003ctr\u003e\n      \u003cth\u003e0\u003c/th\u003e\n      \u003ctd\u003e10\u003c/td\u003e\n      \u003ctd\u003e[-0.4235650897026062, 0.13135862350463867, -0....\u003c/td\u003e\n    \u003c/tr\u003e\n    \u003ctr\u003e\n      \u003cth\u003e1\u003c/th\u003e\n      \u003ctd\u003e20\u003c/td\u003e\n      \u003ctd\u003e[-0.46852362155914307, 0.3792363405227661, 0.4...\u003c/td\u003e\n    \u003c/tr\u003e\n    \u003ctr\u003e\n      \u003cth\u003e2\u003c/th\u003e\n      \u003ctd\u003e30\u003c/td\u003e\n      \u003ctd\u003e[-0.23346072435379028, -0.09688711166381836, 0...\u003c/td\u003e\n    \u003c/tr\u003e\n    \u003ctr\u003e\n      \u003cth\u003e3\u003c/th\u003e\n      \u003ctd\u003e40\u003c/td\u003e\n      \u003ctd\u003e[-0.8263968229293823, -0.6343675851821899, 0.4...\u003c/td\u003e\n    \u003c/tr\u003e\n    \u003ctr\u003e\n      \u003cth\u003e4\u003c/th\u003e\n      \u003ctd\u003e50\u003c/td\u003e\n      \u003ctd\u003e[-0.47463130950927734, 0.16038160026073456, 0....\u003c/td\u003e\n    \u003c/tr\u003e\n  \u003c/tbody\u003e\n\u003c/table\u003e\n\u003c/div\u003e"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {},
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1636192854446_589308688",
+      "id": "20211106-100054_63479938",
+      "dateCreated": "2021-11-06 10:00:54.446",
+      "status": "READY"
+    },
+    {
+      "text": "%python\nimport json\nimport faiss\nimport numpy as np",
+      "user": "anonymous",
+      "dateUpdated": "2021-11-06 10:00:54.446",
+      "progress": 0,
+      "config": {
+        "editorMode": "ace/mode/python",
+        "editorHide": false
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": []
+      },
+      "apps": [],
+      "runtimeInfos": {},
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1636192854446_37760917",
+      "id": "20211106-100054_1145876773",
+      "dateCreated": "2021-11-06 10:00:54.446",
+      "status": "READY"
+    },
+    {
+      "text": "%python\n# 构建 ID 集\nids \u003d df_movie_embedding[\"id\"].values.astype(np.int64)\ntype(ids), ids.shape",
+      "user": "anonymous",
+      "dateUpdated": "2021-11-06 10:00:54.446",
+      "progress": 0,
+      "config": {
+        "editorMode": "ace/mode/python",
+        "editorHide": false
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "TEXT",
+            "data": "(numpy.ndarray, (3706,))"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {},
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1636192854446_1829951995",
+      "id": "20211106-100054_1017338729",
+      "dateCreated": "2021-11-06 10:00:54.446",
+      "status": "READY"
+    },
+    {
+      "text": "%python\n# 构建向量集\nembeddings \u003d []\n\nfor x in df_movie_embedding[\"features\"]:\n    embeddings.append(json.loads(x))\nembeddings \u003d np.array(embeddings).astype(np.float32)\n\n# 向量维度\ndimension \u003d embeddings.shape[1]\ndimension",
+      "user": "anonymous",
+      "dateUpdated": "2021-11-06 10:00:54.446",
+      "progress": 0,
+      "config": {
+        "editorMode": "ace/mode/python",
+        "editorHide": false
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "TEXT",
+            "data": "10"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {},
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1636192854446_1335237834",
+      "id": "20211106-100054_210846302",
+      "dateCreated": "2021-11-06 10:00:54.446",
+      "status": "READY"
+    },
+    {
+      "text": "%python\n# 在 faiss 构建索引\nindex \u003d faiss.IndexFlatL2(dimension)\nindex2 \u003d faiss.IndexIDMap(index)\nindex2.add_with_ids(embeddings, ids)\nindex.ntotal",
+      "user": "anonymous",
+      "dateUpdated": "2021-11-06 10:00:54.447",
+      "progress": 0,
+      "config": {
+        "editorMode": "ace/mode/python",
+        "editorHide": false
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "TEXT",
+            "data": "3706"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {},
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1636192854447_705901826",
+      "id": "20211106-100054_1243299838",
+      "dateCreated": "2021-11-06 10:00:54.447",
+      "status": "READY"
+    },
+    {
+      "text": "%python\n# 索引写入文件\nfaiss.write_index(index2, \u0027faiss-movie.index\u0027)",
+      "user": "anonymous",
+      "dateUpdated": "2021-11-06 10:00:54.447",
+      "progress": 0,
+      "config": {
+        "editorMode": "ace/mode/python",
+        "editorHide": false
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": []
+      },
+      "apps": [],
+      "runtimeInfos": {},
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1636192854447_1746584225",
+      "id": "20211106-100054_1811900929",
+      "dateCreated": "2021-11-06 10:00:54.447",
+      "status": "READY"
+    },
+    {
+      "text": "%python\n# 从文件中读取索引\nmovie_index \u003d faiss.read_index(\u0027faiss-movie.index\u0027)",
+      "user": "anonymous",
+      "dateUpdated": "2021-11-06 10:00:54.447",
+      "progress": 0,
+      "config": {
+        "editorMode": "ace/mode/python",
+        "editorHide": false
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": []
+      },
+      "apps": [],
+      "runtimeInfos": {},
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1636192854447_1460386665",
+      "id": "20211106-100054_1294011396",
+      "dateCreated": "2021-11-06 10:00:54.447",
+      "status": "READY"
+    },
+    {
+      "text": "%python\nimport happybase\n\nconnection \u003d happybase.Connection(\u002710.20.36.137\u0027, port\u003d19090)\n\nuser_talbe \u003d connection.table(\u0027user\u0027)\n\nfor i in user_talbe.scan(row_start\u003db\u0027000005\u0027, row_stop\u003db\u0027000006\u0027):\n    user_embedding \u003d i[1][b\u0027embedding:mf\u0027]\n    user_embedding \u003d np.array(json.loads(user_embedding.decode(\u0027utf-8\u0027)))\n    user_embedding \u003d np.expand_dims(user_embedding, axis\u003d0).astype(np.float32)\nuser_embedding",
+      "user": "anonymous",
+      "dateUpdated": "2021-11-06 10:00:54.447",
+      "progress": 0,
+      "config": {
+        "editorMode": "ace/mode/python",
+        "editorHide": false
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "TEXT",
+            "data": "array([[-0.13574348,  0.9383315 , -0.09299562,  0.6760644 , -2.8248355 ,\n         0.82015073,  0.5453523 ,  1.6296663 ,  1.0861875 , -1.018024  ]],\n      dtype\u003dfloat32)"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {},
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1636192854447_2047256688",
+      "id": "20211106-100054_1260659788",
+      "dateCreated": "2021-11-06 10:00:54.447",
+      "status": "READY"
+    },
+    {
+      "text": "%python\n%%time\n# 查找某个用户相近的电影 embeddings\ntopk \u003d 100\nD, I \u003d movie_index.search(user_embedding, topk)     # actual search",
+      "user": "anonymous",
+      "dateUpdated": "2021-11-06 10:00:54.447",
+      "progress": 0,
+      "config": {
+        "editorMode": "ace/mode/python",
+        "editorHide": false
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "TEXT",
+            "data": "CPU times: user 1.84 ms, sys: 99 µs, total: 1.94 ms\nWall time: 60.4 ms\n"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {},
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1636192854447_1830232497",
+      "id": "20211106-100054_1481836057",
+      "dateCreated": "2021-11-06 10:00:54.447",
+      "status": "READY"
+    },
+    {
+      "text": "%python\n# 搜索结果\n# ID 为 movie id\nI",
+      "user": "anonymous",
+      "dateUpdated": "2021-11-06 10:00:54.447",
+      "progress": 0,
+      "config": {
+        "editorMode": "ace/mode/python",
+        "editorHide": false
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "TEXT",
+            "data": "array([[3318,  853, 3517, 1317,  573, 1610, 3430, 2812, 3062, 1287, 3916,\n        1008, 2989, 3555, 3066,  848,  744, 3256, 3366,  161, 2403, 3639,\n        3510, 2991,  494,  349, 1608, 2993, 1262, 2728, 3753,  457, 2670,\n        2948,  572,  150, 2211, 1198, 3076, 2947, 3029, 2353, 1408, 1272,\n        3233, 2669, 1722, 2000, 3469, 2045, 2990, 1101, 3643, 3635, 3230,\n        2401, 1376,  480, 3950, 1721, 3607,  151, 1036, 3196, 2949, 3654,\n        2819,  832, 2944, 1792, 2028, 1250, 3197, 3928, 2501, 1226, 1616,\n        3849, 2510, 2393, 2881, 2268, 2183, 1954,  553,   10,  733,  110,\n        3365, 1234,  168, 1283,  736, 2605,  953, 3198, 2129, 2409, 3427,\n        1304]])"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {},
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1636192854447_1299230670",
+      "id": "20211106-100054_1215090800",
+      "dateCreated": "2021-11-06 10:00:54.447",
+      "status": "READY"
+    },
+    {
+      "text": "%md\n## 排序阶段：双塔结构的用户和电影 Embeding 存入",
+      "user": "anonymous",
+      "dateUpdated": "2021-11-06 10:00:54.447",
+      "progress": 0,
+      "config": {
+        "editorMode": "ace/mode/markdown",
+        "editorHide": true,
+        "editorSetting": {
+          "language": "markdown",
+          "editOnDblClick": true
+        }
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "HTML",
+            "data": "\u003cdiv class\u003d\"markdown-body\"\u003e\n\u003ch2\u003e排序阶段：双塔结构的用户和电影 Embeding 存入\u003c/h2\u003e\n\u003c/div\u003e"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {},
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1636192854447_2113331237",
+      "id": "20211106-100054_233354325",
+      "dateCreated": "2021-11-06 10:00:54.447",
+      "status": "READY"
+    },
+    {
+      "text": "%python\ndf_user__two_tower_embedding \u003d pd.read_csv(\"./datas/ml-latest-small/tensorflow_user_embedding.csv\")\ndf_movie_two_tower_embedding \u003d pd.read_csv(\"./datas/ml-latest-small/tensorflow_movie_embedding.csv\")",
+      "user": "anonymous",
+      "dateUpdated": "2021-11-06 10:00:54.447",
+      "progress": 0,
+      "config": {
+        "editorMode": "ace/mode/python",
+        "editorHide": false
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": []
+      },
+      "apps": [],
+      "runtimeInfos": {},
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1636192854447_2042202670",
+      "id": "20211106-100054_1736763360",
+      "dateCreated": "2021-11-06 10:00:54.447",
+      "status": "READY"
+    },
+    {
+      "text": "%python\ndf_user__two_tower_embedding.head()",
+      "user": "anonymous",
+      "dateUpdated": "2021-11-06 10:00:54.447",
+      "progress": 0,
+      "config": {
+        "editorMode": "ace/mode/python",
+        "editorHide": false
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "HTML",
+            "data": "\u003cdiv\u003e\n\u003cstyle scoped\u003e\n    .dataframe tbody tr th:only-of-type {\n        vertical-align: middle;\n    }\n\n    .dataframe tbody tr th {\n        vertical-align: top;\n    }\n\n    .dataframe thead th {\n        text-align: right;\n    }\n\u003c/style\u003e\n\u003ctable border\u003d\"1\" class\u003d\"dataframe\"\u003e\n  \u003cthead\u003e\n    \u003ctr style\u003d\"text-align: right;\"\u003e\n      \u003cth\u003e\u003c/th\u003e\n      \u003cth\u003euser_id\u003c/th\u003e\n      \u003cth\u003euser_embedding\u003c/th\u003e\n    \u003c/tr\u003e\n  \u003c/thead\u003e\n  \u003ctbody\u003e\n    \u003ctr\u003e\n      \u003cth\u003e0\u003c/th\u003e\n      \u003ctd\u003e1\u003c/td\u003e\n      \u003ctd\u003e0.0,0.0,0.097497694,1.0597025,0.13395694,0.171...\u003c/td\u003e\n    \u003c/tr\u003e\n    \u003ctr\u003e\n      \u003cth\u003e1\u003c/th\u003e\n      \u003ctd\u003e2\u003c/td\u003e\n      \u003ctd\u003e0.0,0.0,0.095551714,0.876866,0.12764303,0.1713...\u003c/td\u003e\n    \u003c/tr\u003e\n    \u003ctr\u003e\n      \u003cth\u003e2\u003c/th\u003e\n      \u003ctd\u003e3\u003c/td\u003e\n      \u003ctd\u003e0.0,0.0,0.097643815,1.007555,0.13270569,0.1712...\u003c/td\u003e\n    \u003c/tr\u003e\n    \u003ctr\u003e\n      \u003cth\u003e3\u003c/th\u003e\n      \u003ctd\u003e4\u003c/td\u003e\n      \u003ctd\u003e0.0,0.0,0.0975248,1.0336777,0.13321964,0.17117...\u003c/td\u003e\n    \u003c/tr\u003e\n    \u003ctr\u003e\n      \u003cth\u003e4\u003c/th\u003e\n      \u003ctd\u003e5\u003c/td\u003e\n      \u003ctd\u003e0.0,0.0,0.09568408,0.72526884,0.1240492,0.1719...\u003c/td\u003e\n    \u003c/tr\u003e\n  \u003c/tbody\u003e\n\u003c/table\u003e\n\u003c/div\u003e"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {},
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1636192854447_1112414664",
+      "id": "20211106-100054_665278151",
+      "dateCreated": "2021-11-06 10:00:54.447",
+      "status": "READY"
+    },
+    {
+      "text": "%python\ndf_movie_two_tower_embedding.head()",
+      "user": "anonymous",
+      "dateUpdated": "2021-11-06 10:00:54.447",
+      "progress": 0,
+      "config": {
+        "editorMode": "ace/mode/python",
+        "editorHide": false
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "HTML",
+            "data": "\u003cdiv\u003e\n\u003cstyle scoped\u003e\n    .dataframe tbody tr th:only-of-type {\n        vertical-align: middle;\n    }\n\n    .dataframe tbody tr th {\n        vertical-align: top;\n    }\n\n    .dataframe thead th {\n        text-align: right;\n    }\n\u003c/style\u003e\n\u003ctable border\u003d\"1\" class\u003d\"dataframe\"\u003e\n  \u003cthead\u003e\n    \u003ctr style\u003d\"text-align: right;\"\u003e\n      \u003cth\u003e\u003c/th\u003e\n      \u003cth\u003emovie_id\u003c/th\u003e\n      \u003cth\u003emovie_embedding\u003c/th\u003e\n    \u003c/tr\u003e\n  \u003c/thead\u003e\n  \u003ctbody\u003e\n    \u003ctr\u003e\n      \u003cth\u003e0\u003c/th\u003e\n      \u003ctd\u003e1\u003c/td\u003e\n      \u003ctd\u003e0.019901808,0.0,0.0,1.5856311,0.0,0.0,0.0,0.0\u003c/td\u003e\n    \u003c/tr\u003e\n    \u003ctr\u003e\n      \u003cth\u003e1\u003c/th\u003e\n      \u003ctd\u003e2\u003c/td\u003e\n      \u003ctd\u003e0.002985985,0.0,0.0,0.77441466,0.0,0.0,0.0,0.0\u003c/td\u003e\n    \u003c/tr\u003e\n    \u003ctr\u003e\n      \u003cth\u003e2\u003c/th\u003e\n      \u003ctd\u003e3\u003c/td\u003e\n      \u003ctd\u003e0.0,0.0,0.0,0.36602277,0.0,0.0,0.0,0.0\u003c/td\u003e\n    \u003c/tr\u003e\n    \u003ctr\u003e\n      \u003cth\u003e3\u003c/th\u003e\n      \u003ctd\u003e4\u003c/td\u003e\n      \u003ctd\u003e0.0022277217,0.0,0.0,0.51782936,0.0,0.0,0.0,0.0\u003c/td\u003e\n    \u003c/tr\u003e\n    \u003ctr\u003e\n      \u003cth\u003e4\u003c/th\u003e\n      \u003ctd\u003e5\u003c/td\u003e\n      \u003ctd\u003e0.0020577833,0.0,0.0,0.7980935,0.0,0.0,0.0,0.0\u003c/td\u003e\n    \u003c/tr\u003e\n  \u003c/tbody\u003e\n\u003c/table\u003e\n\u003c/div\u003e"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {},
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1636192854447_1619242042",
+      "id": "20211106-100054_157744403",
+      "dateCreated": "2021-11-06 10:00:54.447",
+      "status": "READY"
+    },
+    {
+      "text": "%python\nimport happybase\n\nconnection \u003d happybase.Connection(\u002710.20.36.137\u0027, port\u003d19090)",
+      "user": "anonymous",
+      "dateUpdated": "2021-11-06 10:00:54.447",
+      "progress": 0,
+      "config": {
+        "editorMode": "ace/mode/python",
+        "editorHide": false
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": []
+      },
+      "apps": [],
+      "runtimeInfos": {},
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1636192854447_162033045",
+      "id": "20211106-100054_1105508982",
+      "dateCreated": "2021-11-06 10:00:54.447",
+      "status": "READY"
+    },
+    {
+      "text": "%python\n# 存储双塔的 user-embedding\nuser_talbe \u003d connection.table(\u0027user\u0027)\n\nwith user_talbe.batch() as b:\n    def save_embedding_to_hbase(idx, row):\n        user_talbe.put(f\u0027{idx:0\u003e6d}\u0027 + \u0027-user\u0027 , {b\u0027embedding:two-tower\u0027: str(row.user_embedding)})\n    for idx, row in df_user__two_tower_embedding.iterrows():\n        save_embedding_to_hbase(idx, row)",
+      "user": "anonymous",
+      "dateUpdated": "2021-11-06 10:00:54.447",
+      "progress": 0,
+      "config": {
+        "editorMode": "ace/mode/python",
+        "editorHide": false
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": []
+      },
+      "apps": [],
+      "runtimeInfos": {},
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1636192854447_858517944",
+      "id": "20211106-100054_27258445",
+      "dateCreated": "2021-11-06 10:00:54.447",
+      "status": "READY"
+    },
+    {
+      "text": "%python\nuser_talbe \u003d connection.table(\u0027user\u0027)\nfor i in user_talbe.scan(row_start\u003db\u0027000005\u0027, row_stop\u003db\u0027000006\u0027):\n    print(i)",
+      "user": "anonymous",
+      "dateUpdated": "2021-11-06 10:00:54.447",
+      "progress": 0,
+      "config": {
+        "editorMode": "ace/mode/python",
+        "editorHide": false
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "TEXT",
+            "data": "(b\u0027000005-user\u0027, {b\u0027embedding:mf\u0027: b\u0027[-0.13574348390102386, 0.9383314847946167, -0.09299562126398087, 0.6760643720626831, -2.8248355388641357, 0.8201507329940796, 0.5453522801399231, 1.6296663284301758, 1.086187481880188, -1.01802396774292]\u0027, b\u0027embedding:two-tower\u0027: b\u00270.0,0.0,0.0977413,1.0987232,0.13518794,0.1711683,0.0764934,0.0\u0027})\n"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {},
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1636192854447_1803526448",
+      "id": "20211106-100054_471040471",
+      "dateCreated": "2021-11-06 10:00:54.447",
+      "status": "READY"
+    },
+    {
+      "text": "%python\n# 创建 movie 表\nimport happybase\n\nconnection \u003d happybase.Connection(\u002710.20.36.137\u0027, port\u003d19090)\nconnection.create_table(\n    \u0027movie\u0027,\n    {\u0027feature\u0027: dict(max_versions\u003d10),\n     \u0027embedding\u0027: dict(max_versions\u003d10)}\n)",
+      "user": "anonymous",
+      "dateUpdated": "2021-11-06 10:00:54.447",
+      "progress": 0,
+      "config": {
+        "editorMode": "ace/mode/python",
+        "editorHide": false
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": []
+      },
+      "apps": [],
+      "runtimeInfos": {},
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1636192854447_1358451785",
+      "id": "20211106-100054_572746019",
+      "dateCreated": "2021-11-06 10:00:54.447",
+      "status": "READY"
+    },
+    {
+      "text": "%python\n# 存储双塔的 movie-embedding\nimport happybase\n\nconnection \u003d happybase.Connection(\u002710.20.36.137\u0027, port\u003d19090)\nmovie_talbe \u003d connection.table(\u0027movie\u0027)\n\nwith movie_talbe.batch() as b:\n    def save_embedding_to_hbase(idx, row):\n        movie_talbe.put(f\u0027{idx:0\u003e6d}\u0027 + \u0027-movie\u0027 , {b\u0027embedding:two-tower\u0027: str(row.movie_embedding)})\n    for idx, row in df_movie_two_tower_embedding.iterrows():\n        save_embedding_to_hbase(idx, row)",
+      "user": "anonymous",
+      "dateUpdated": "2021-11-06 10:00:54.447",
+      "progress": 0,
+      "config": {
+        "editorMode": "ace/mode/python",
+        "editorHide": false
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": []
+      },
+      "apps": [],
+      "runtimeInfos": {},
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1636192854447_676581454",
+      "id": "20211106-100054_1181761563",
+      "dateCreated": "2021-11-06 10:00:54.447",
+      "status": "READY"
+    },
+    {
+      "text": "%md\n## 排序阶段：双塔模型的 Inference",
+      "user": "anonymous",
+      "dateUpdated": "2021-11-06 10:00:54.447",
+      "progress": 0,
+      "config": {
+        "editorMode": "ace/mode/markdown",
+        "editorHide": true,
+        "editorSetting": {
+          "language": "markdown",
+          "editOnDblClick": true
+        }
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "HTML",
+            "data": "\u003cdiv class\u003d\"markdown-body\"\u003e\n\u003ch2\u003e排序阶段：双塔模型的 Inference\u003c/h2\u003e\n\u003c/div\u003e"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {},
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1636192854447_1630194943",
+      "id": "20211106-100054_954413854",
+      "dateCreated": "2021-11-06 10:00:54.447",
+      "status": "READY"
+    },
+    {
+      "text": "%python\n# 获取 user embedding 和 movie embedding\nimport happybase\n\nconnection \u003d happybase.Connection(\u002710.20.36.137\u0027, port\u003d19090)\n\nuser_talbe \u003d connection.table(\u0027user\u0027)\n\nfor i in user_talbe.scan(row_start\u003db\u0027000005\u0027, row_stop\u003db\u0027000006\u0027):\n    user_embedding \u003d i[1][b\u0027embedding:two-tower\u0027]\n    user_embedding \u003d np.array(user_embedding.decode(\u0027utf-8\u0027).split(\u0027,\u0027))\n    user_embedding \u003d np.expand_dims(user_embedding, axis\u003d0).astype(np.float32)\nuser_embedding",
+      "user": "anonymous",
+      "dateUpdated": "2021-11-06 10:00:54.447",
+      "progress": 0,
+      "config": {
+        "editorMode": "ace/mode/python",
+        "editorHide": false
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "TEXT",
+            "data": "array([[0.        , 0.        , 0.0977413 , 1.0987232 , 0.13518794,\n        0.1711683 , 0.0764934 , 0.        ]], dtype\u003dfloat32)"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {},
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1636192854447_2126544535",
+      "id": "20211106-100054_947781868",
+      "dateCreated": "2021-11-06 10:00:54.447",
+      "status": "READY"
+    },
+    {
+      "text": "%python\nimport happybase\n\nconnection \u003d happybase.Connection(\u002710.20.36.137\u0027, port\u003d19090)\n\nmovie_talbe \u003d connection.table(\u0027movie\u0027)\n\nfor i in movie_talbe.scan(row_start\u003db\u0027000853\u0027, row_stop\u003db\u0027000854\u0027):\n    movie_embedding \u003d i[1][b\u0027embedding:two-tower\u0027]\n    movie_embedding \u003d np.array(movie_embedding.decode(\u0027utf-8\u0027).split(\u0027,\u0027))\n    movie_embedding \u003d np.expand_dims(user_embedding, axis\u003d0).astype(np.float32)\nmovie_embedding",
+      "user": "anonymous",
+      "dateUpdated": "2021-11-06 10:00:54.447",
+      "progress": 0,
+      "config": {
+        "editorMode": "ace/mode/python",
+        "editorHide": false
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "TEXT",
+            "data": "array([[[0.00624178, 0.        , 0.        , 0.9234892 , 0.        ,\n         0.        , 0.        , 0.        ]]], dtype\u003dfloat32)"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {},
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1636192854447_695371976",
+      "id": "20211106-100054_28122289",
+      "dateCreated": "2021-11-06 10:00:54.447",
+      "status": "READY"
+    },
+    {
+      "text": "%python\nimport tensorflow as tf\nfrom tensorflow.keras import layers\n\n\n# 线上推理的模型\n# 每个用户的embedding和item的embedding作点积\ndot_user_movie \u003d tf.reduce_sum(user_embedding*movie_embedding, axis \u003d 1)\ndot_user_movie \u003d tf.expand_dims(dot_user_movie, 1)\n\noutput \u003d layers.Dense(1, activation\u003d\u0027sigmoid\u0027)(dot_user_movie)\nprint(output)",
+      "user": "anonymous",
+      "dateUpdated": "2021-11-06 10:00:54.447",
+      "progress": 0,
+      "config": {
+        "editorMode": "ace/mode/python",
+        "editorHide": false
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "TEXT",
+            "data": "tf.Tensor([[[0.36639792]]], shape\u003d(1, 1, 1), dtype\u003dfloat32)\n"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {},
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1636192854447_25201084",
+      "id": "20211106-100054_1167713287",
+      "dateCreated": "2021-11-06 10:00:54.447",
+      "status": "READY"
+    },
+    {
+      "text": "%python\n",
+      "user": "anonymous",
+      "dateUpdated": "2021-11-06 10:00:54.447",
+      "progress": 0,
+      "config": {
+        "editorMode": "ace/mode/python",
+        "editorHide": false
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": []
+      },
+      "apps": [],
+      "runtimeInfos": {},
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1636192854447_1433295947",
+      "id": "20211106-100054_1682130025",
+      "dateCreated": "2021-11-06 10:00:54.447",
+      "status": "READY"
+    }
+  ],
+  "name": "12.sql-dataframe",
+  "id": "2GNM7EJ24",
+  "defaultInterpreterGroup": "spark",
+  "version": "0.9.0",
+  "noteParams": {},
+  "noteForms": {},
+  "angularObjects": {},
+  "config": {
+    "isZeppelinNotebookCronEnable": false
+  },
+  "info": {}
+}

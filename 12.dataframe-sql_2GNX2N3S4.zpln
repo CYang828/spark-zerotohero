@@ -1,0 +1,1609 @@
+{
+  "paragraphs": [
+    {
+      "text": "%md\n# Spark SQL and Data Frames",
+      "user": "anonymous",
+      "dateUpdated": "2021-11-06 10:56:04.088",
+      "progress": 0,
+      "config": {
+        "editorMode": "ace/mode/markdown",
+        "editorHide": true,
+        "editorSetting": {
+          "language": "markdown",
+          "editOnDblClick": true
+        }
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "HTML",
+            "data": "\u003cdiv class\u003d\"markdown-body\"\u003e\n\u003ch1\u003eSpark SQL and Data Frames\u003c/h1\u003e\n\u003c/div\u003e"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {},
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1636196164088_147300725",
+      "id": "20211106-105604_1890911996",
+      "dateCreated": "2021-11-06 10:56:04.088",
+      "status": "READY"
+    },
+    {
+      "text": "%md\nThis notebook will introduce Spark capabilities to deal with data in a structured way. Basically, everything turns around the concept of *Data Frame* and using *SQL language* to query them. We will see how the data frame abstraction, very popular in other data analytics ecosystems (e.g. R and Python/Pandas), it is very powerful when performing exploratory data analysis. In fact, it is very easy to express data queries when used together with the SQL language. Moreover, Spark distributes this column-based data structure transparently, in order to make the querying process as efficient as possible.      ",
+      "user": "anonymous",
+      "dateUpdated": "2021-11-06 10:56:04.089",
+      "progress": 0,
+      "config": {
+        "editorMode": "ace/mode/markdown",
+        "editorHide": true,
+        "editorSetting": {
+          "language": "markdown",
+          "editOnDblClick": true
+        }
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "HTML",
+            "data": "\u003cdiv class\u003d\"markdown-body\"\u003e\n\u003cp\u003eThis notebook will introduce Spark capabilities to deal with data in a structured way. Basically, everything turns around the concept of \u003cem\u003eData Frame\u003c/em\u003e and using \u003cem\u003eSQL language\u003c/em\u003e to query them. We will see how the data frame abstraction, very popular in other data analytics ecosystems (e.g. R and Python/Pandas), it is very powerful when performing exploratory data analysis. In fact, it is very easy to express data queries when used together with the SQL language. Moreover, Spark distributes this column-based data structure transparently, in order to make the querying process as efficient as possible. \u003c/p\u003e\n\u003c/div\u003e"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {},
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1636196164089_927218244",
+      "id": "20211106-105604_470868388",
+      "dateCreated": "2021-11-06 10:56:04.089",
+      "status": "READY"
+    },
+    {
+      "text": "%md\n## Getting the data and creating the RDD",
+      "user": "anonymous",
+      "dateUpdated": "2021-11-06 10:56:04.089",
+      "progress": 0,
+      "config": {
+        "editorMode": "ace/mode/markdown",
+        "editorHide": true,
+        "editorSetting": {
+          "language": "markdown",
+          "editOnDblClick": true
+        }
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "HTML",
+            "data": "\u003cdiv class\u003d\"markdown-body\"\u003e\n\u003ch2\u003eGetting the data and creating the RDD\u003c/h2\u003e\n\u003c/div\u003e"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {},
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1636196164089_164973123",
+      "id": "20211106-105604_1432749700",
+      "dateCreated": "2021-11-06 10:56:04.089",
+      "status": "READY"
+    },
+    {
+      "text": "%md\nAs we did in previous notebooks, we will use the reduced dataset (10 percent) provided for the [KDD Cup 1999](http://kdd.ics.uci.edu/databases/kddcup99/kddcup99.html), containing nearly half million nework interactions. The file is provided as a Gzip file that we will download locally.  ",
+      "user": "anonymous",
+      "dateUpdated": "2021-11-06 10:56:04.089",
+      "progress": 0,
+      "config": {
+        "editorMode": "ace/mode/markdown",
+        "editorHide": true,
+        "editorSetting": {
+          "language": "markdown",
+          "editOnDblClick": true
+        }
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "HTML",
+            "data": "\u003cdiv class\u003d\"markdown-body\"\u003e\n\u003cp\u003eAs we did in previous notebooks, we will use the reduced dataset (10 percent) provided for the \u003ca href\u003d\"http://kdd.ics.uci.edu/databases/kddcup99/kddcup99.html\"\u003eKDD Cup 1999\u003c/a\u003e, containing nearly half million nework interactions. The file is provided as a Gzip file that we will download locally. \u003c/p\u003e\n\u003c/div\u003e"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {},
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1636196164089_1655005904",
+      "id": "20211106-105604_1720692941",
+      "dateCreated": "2021-11-06 10:56:04.089",
+      "status": "READY"
+    },
+    {
+      "text": "%python\nimport urllib\nf \u003d urllib.urlretrieve (\"http://kdd.ics.uci.edu/databases/kddcup99/kddcup.data_10_percent.gz\", \"kddcup.data_10_percent.gz\")",
+      "user": "anonymous",
+      "dateUpdated": "2021-11-06 10:56:04.089",
+      "progress": 0,
+      "config": {
+        "editorMode": "ace/mode/python",
+        "editorHide": false
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": []
+      },
+      "apps": [],
+      "runtimeInfos": {},
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1636196164089_901878360",
+      "id": "20211106-105604_1993081066",
+      "dateCreated": "2021-11-06 10:56:04.089",
+      "status": "READY"
+    },
+    {
+      "text": "%pyspark\ndata_file \u003d \"hdfs://namenode:9000/dataset/kddcup.data_10_percent.gz\"\nraw_data \u003d sc.textFile(data_file).cache()",
+      "user": "anonymous",
+      "dateUpdated": "2021-11-06 13:57:56.502",
+      "progress": 0,
+      "config": {
+        "editorSetting": {
+          "language": "python",
+          "editOnDblClick": false,
+          "completionSupport": true,
+          "completionKey": "TAB"
+        },
+        "editorMode": "ace/mode/python",
+        "colWidth": 12.0,
+        "editorHide": false,
+        "fontSize": 9.0,
+        "results": {},
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": []
+      },
+      "apps": [],
+      "runtimeInfos": {},
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1636196164089_1168160454",
+      "id": "20211106-105604_1843318566",
+      "dateCreated": "2021-11-06 10:56:04.089",
+      "dateStarted": "2021-11-06 13:57:56.513",
+      "dateFinished": "2021-11-06 13:57:56.555",
+      "status": "FINISHED"
+    },
+    {
+      "text": "%md\n## Getting a Data Frame",
+      "user": "anonymous",
+      "dateUpdated": "2021-11-06 10:56:04.089",
+      "progress": 0,
+      "config": {
+        "editorMode": "ace/mode/markdown",
+        "editorHide": true,
+        "editorSetting": {
+          "language": "markdown",
+          "editOnDblClick": true
+        }
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "HTML",
+            "data": "\u003cdiv class\u003d\"markdown-body\"\u003e\n\u003ch2\u003eGetting a Data Frame\u003c/h2\u003e\n\u003c/div\u003e"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {},
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1636196164089_301064259",
+      "id": "20211106-105604_318814769",
+      "dateCreated": "2021-11-06 10:56:04.089",
+      "status": "READY"
+    },
+    {
+      "text": "%md\nA Spark `DataFrame` is a distributed collection of data organized into named columns. It is conceptually equivalent to a table in a relational database or a data frame in R or Pandas. They can be constructed from a wide array of sources such as a existing RDD in our case.",
+      "user": "anonymous",
+      "dateUpdated": "2021-11-06 10:56:04.089",
+      "progress": 0,
+      "config": {
+        "editorMode": "ace/mode/markdown",
+        "editorHide": true,
+        "editorSetting": {
+          "language": "markdown",
+          "editOnDblClick": true
+        }
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "HTML",
+            "data": "\u003cdiv class\u003d\"markdown-body\"\u003e\n\u003cp\u003eA Spark \u003ccode\u003eDataFrame\u003c/code\u003e is a distributed collection of data organized into named columns. It is conceptually equivalent to a table in a relational database or a data frame in R or Pandas. They can be constructed from a wide array of sources such as a existing RDD in our case.\u003c/p\u003e\n\u003c/div\u003e"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {},
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1636196164089_26356324",
+      "id": "20211106-105604_1526873144",
+      "dateCreated": "2021-11-06 10:56:04.089",
+      "status": "READY"
+    },
+    {
+      "text": "%md\nThe entry point into all SQL functionality in Spark is the `SQLContext` class. To create a basic instance, all we need is a `SparkContext` reference. Since we are running Spark in shell mode (using pySpark) we can use the global context object `sc` for this purpose.    ",
+      "user": "anonymous",
+      "dateUpdated": "2021-11-06 10:56:04.089",
+      "progress": 0,
+      "config": {
+        "editorMode": "ace/mode/markdown",
+        "editorHide": true,
+        "editorSetting": {
+          "language": "markdown",
+          "editOnDblClick": true
+        }
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "HTML",
+            "data": "\u003cdiv class\u003d\"markdown-body\"\u003e\n\u003cp\u003eThe entry point into all SQL functionality in Spark is the \u003ccode\u003eSQLContext\u003c/code\u003e class. To create a basic instance, all we need is a \u003ccode\u003eSparkContext\u003c/code\u003e reference. Since we are running Spark in shell mode (using pySpark) we can use the global context object \u003ccode\u003esc\u003c/code\u003e for this purpose. \u003c/p\u003e\n\u003c/div\u003e"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {},
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1636196164089_2140109935",
+      "id": "20211106-105604_1298119906",
+      "dateCreated": "2021-11-06 10:56:04.089",
+      "status": "READY"
+    },
+    {
+      "text": "%pyspark\nfrom pyspark.sql import SQLContext\nsqlContext \u003d SQLContext(sc)",
+      "user": "anonymous",
+      "dateUpdated": "2021-11-06 13:58:13.172",
+      "progress": 0,
+      "config": {
+        "editorSetting": {
+          "language": "python",
+          "editOnDblClick": false,
+          "completionSupport": true,
+          "completionKey": "TAB"
+        },
+        "editorMode": "ace/mode/python",
+        "colWidth": 12.0,
+        "editorHide": false,
+        "fontSize": 9.0,
+        "results": {},
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": []
+      },
+      "apps": [],
+      "runtimeInfos": {},
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1636196164089_680754524",
+      "id": "20211106-105604_1457778064",
+      "dateCreated": "2021-11-06 10:56:04.089",
+      "dateStarted": "2021-11-06 13:58:13.182",
+      "dateFinished": "2021-11-06 13:58:13.196",
+      "status": "FINISHED"
+    },
+    {
+      "text": "%md\n### Inferring the schema",
+      "user": "anonymous",
+      "dateUpdated": "2021-11-06 10:56:04.089",
+      "progress": 0,
+      "config": {
+        "editorMode": "ace/mode/markdown",
+        "editorHide": true,
+        "editorSetting": {
+          "language": "markdown",
+          "editOnDblClick": true
+        }
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "HTML",
+            "data": "\u003cdiv class\u003d\"markdown-body\"\u003e\n\u003ch3\u003eInferring the schema\u003c/h3\u003e\n\u003c/div\u003e"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {},
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1636196164089_624979765",
+      "id": "20211106-105604_1076102223",
+      "dateCreated": "2021-11-06 10:56:04.089",
+      "status": "READY"
+    },
+    {
+      "text": "%md\nWith a `SQLContext`, we are ready to create a `DataFrame` from our existing RDD. But first we need to tell Spark SQL the schema in our data.   ",
+      "user": "anonymous",
+      "dateUpdated": "2021-11-06 10:56:04.089",
+      "progress": 0,
+      "config": {
+        "editorMode": "ace/mode/markdown",
+        "editorHide": true,
+        "editorSetting": {
+          "language": "markdown",
+          "editOnDblClick": true
+        }
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "HTML",
+            "data": "\u003cdiv class\u003d\"markdown-body\"\u003e\n\u003cp\u003eWith a \u003ccode\u003eSQLContext\u003c/code\u003e, we are ready to create a \u003ccode\u003eDataFrame\u003c/code\u003e from our existing RDD. But first we need to tell Spark SQL the schema in our data. \u003c/p\u003e\n\u003c/div\u003e"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {},
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1636196164089_1338740114",
+      "id": "20211106-105604_168629135",
+      "dateCreated": "2021-11-06 10:56:04.089",
+      "status": "READY"
+    },
+    {
+      "text": "%md\nSpark SQL can convert an RDD of `Row` objects to a `DataFrame`. Rows are constructed by passing a list of key/value pairs as *kwargs* to the `Row` class. The keys define the column names, and the types are inferred by looking at the first row. Therefore, it is important that there is no missing data in the first row of the RDD in order to properly infer the schema.",
+      "user": "anonymous",
+      "dateUpdated": "2021-11-06 10:56:04.089",
+      "progress": 0,
+      "config": {
+        "editorMode": "ace/mode/markdown",
+        "editorHide": true,
+        "editorSetting": {
+          "language": "markdown",
+          "editOnDblClick": true
+        }
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "HTML",
+            "data": "\u003cdiv class\u003d\"markdown-body\"\u003e\n\u003cp\u003eSpark SQL can convert an RDD of \u003ccode\u003eRow\u003c/code\u003e objects to a \u003ccode\u003eDataFrame\u003c/code\u003e. Rows are constructed by passing a list of key/value pairs as \u003cem\u003ekwargs\u003c/em\u003e to the \u003ccode\u003eRow\u003c/code\u003e class. The keys define the column names, and the types are inferred by looking at the first row. Therefore, it is important that there is no missing data in the first row of the RDD in order to properly infer the schema.\u003c/p\u003e\n\u003c/div\u003e"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {},
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1636196164089_1212804",
+      "id": "20211106-105604_973411968",
+      "dateCreated": "2021-11-06 10:56:04.089",
+      "status": "READY"
+    },
+    {
+      "text": "%md\nIn our case, we first need to split the comma separated data, and then use the information in KDD\u0027s 1999 task description to obtain the [column names](http://kdd.ics.uci.edu/databases/kddcup99/kddcup.names).  ",
+      "user": "anonymous",
+      "dateUpdated": "2021-11-06 10:56:04.089",
+      "progress": 0,
+      "config": {
+        "editorMode": "ace/mode/markdown",
+        "editorHide": true,
+        "editorSetting": {
+          "language": "markdown",
+          "editOnDblClick": true
+        }
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "HTML",
+            "data": "\u003cdiv class\u003d\"markdown-body\"\u003e\n\u003cp\u003eIn our case, we first need to split the comma separated data, and then use the information in KDD\u0026rsquo;s 1999 task description to obtain the \u003ca href\u003d\"http://kdd.ics.uci.edu/databases/kddcup99/kddcup.names\"\u003ecolumn names\u003c/a\u003e. \u003c/p\u003e\n\u003c/div\u003e"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {},
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1636196164089_1958104028",
+      "id": "20211106-105604_1942221629",
+      "dateCreated": "2021-11-06 10:56:04.089",
+      "status": "READY"
+    },
+    {
+      "text": "%pyspark\nfrom pyspark.sql import Row\n\ncsv_data \u003d raw_data.map(lambda l: l.split(\",\"))\nrow_data \u003d csv_data.map(lambda p: Row(\n    duration\u003dint(p[0]), \n    protocol_type\u003dp[1],\n    service\u003dp[2],\n    flag\u003dp[3],\n    src_bytes\u003dint(p[4]),\n    dst_bytes\u003dint(p[5])\n    )\n)",
+      "user": "anonymous",
+      "dateUpdated": "2021-11-06 14:00:41.653",
+      "progress": 0,
+      "config": {
+        "editorSetting": {
+          "language": "python",
+          "editOnDblClick": false,
+          "completionSupport": true,
+          "completionKey": "TAB"
+        },
+        "editorMode": "ace/mode/python",
+        "colWidth": 12.0,
+        "editorHide": false,
+        "fontSize": 9.0,
+        "results": {},
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": []
+      },
+      "apps": [],
+      "runtimeInfos": {},
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1636196164089_330798860",
+      "id": "20211106-105604_1668662858",
+      "dateCreated": "2021-11-06 10:56:04.089",
+      "dateStarted": "2021-11-06 14:00:41.662",
+      "dateFinished": "2021-11-06 14:00:41.687",
+      "status": "FINISHED"
+    },
+    {
+      "text": "%md\nOnce we have our RDD of `Row` we can infer and register the schema.  ",
+      "user": "anonymous",
+      "dateUpdated": "2021-11-06 10:56:04.089",
+      "progress": 0,
+      "config": {
+        "editorMode": "ace/mode/markdown",
+        "editorHide": true,
+        "editorSetting": {
+          "language": "markdown",
+          "editOnDblClick": true
+        }
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "HTML",
+            "data": "\u003cdiv class\u003d\"markdown-body\"\u003e\n\u003cp\u003eOnce we have our RDD of \u003ccode\u003eRow\u003c/code\u003e we can infer and register the schema. \u003c/p\u003e\n\u003c/div\u003e"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {},
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1636196164089_246545735",
+      "id": "20211106-105604_256088834",
+      "dateCreated": "2021-11-06 10:56:04.089",
+      "status": "READY"
+    },
+    {
+      "text": "%pyspark\ninteractions_df \u003d sqlContext.createDataFrame(row_data)\ninteractions_df.registerTempTable(\"interactions\")",
+      "user": "anonymous",
+      "dateUpdated": "2021-11-06 14:01:25.966",
+      "progress": 0,
+      "config": {
+        "editorSetting": {
+          "language": "python",
+          "editOnDblClick": false,
+          "completionSupport": true,
+          "completionKey": "TAB"
+        },
+        "editorMode": "ace/mode/python",
+        "colWidth": 12.0,
+        "editorHide": false,
+        "fontSize": 9.0,
+        "results": {},
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": []
+      },
+      "apps": [],
+      "runtimeInfos": {
+        "jobUrl": {
+          "propertyName": "jobUrl",
+          "label": "SPARK JOB",
+          "tooltip": "View in Spark web UI",
+          "group": "spark",
+          "values": [
+            {
+              "jobUrl": "http://6d3799a39347:4040/jobs/job?id\u003d37"
+            }
+          ],
+          "interpreterSettingId": "spark"
+        }
+      },
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1636196164089_1149913256",
+      "id": "20211106-105604_820126635",
+      "dateCreated": "2021-11-06 10:56:04.089",
+      "dateStarted": "2021-11-06 14:01:25.974",
+      "dateFinished": "2021-11-06 14:01:28.206",
+      "status": "FINISHED"
+    },
+    {
+      "text": "%md\nNow we can run SQL queries over our data frame that has been registered as a table.  ",
+      "user": "anonymous",
+      "dateUpdated": "2021-11-06 10:56:04.089",
+      "progress": 0,
+      "config": {
+        "editorMode": "ace/mode/markdown",
+        "editorHide": true,
+        "editorSetting": {
+          "language": "markdown",
+          "editOnDblClick": true
+        }
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "HTML",
+            "data": "\u003cdiv class\u003d\"markdown-body\"\u003e\n\u003cp\u003eNow we can run SQL queries over our data frame that has been registered as a table. \u003c/p\u003e\n\u003c/div\u003e"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {},
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1636196164089_208756500",
+      "id": "20211106-105604_1921602334",
+      "dateCreated": "2021-11-06 10:56:04.089",
+      "status": "READY"
+    },
+    {
+      "text": "%pyspark\n# Select tcp network interactions with more than 1 second duration and no transfer from destination\ntcp_interactions \u003d sqlContext.sql(\"\"\"\n    SELECT duration, dst_bytes FROM interactions WHERE protocol_type \u003d \u0027tcp\u0027 AND duration \u003e 1000 AND dst_bytes \u003d 0\n\"\"\")\ntcp_interactions.show()",
+      "user": "anonymous",
+      "dateUpdated": "2021-11-06 14:02:45.671",
+      "progress": 0,
+      "config": {
+        "editorSetting": {
+          "language": "python",
+          "editOnDblClick": false,
+          "completionSupport": true,
+          "completionKey": "TAB"
+        },
+        "editorMode": "ace/mode/python",
+        "colWidth": 12.0,
+        "editorHide": false,
+        "fontSize": 9.0,
+        "results": {},
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "TEXT",
+            "data": "+--------+---------+\n|duration|dst_bytes|\n+--------+---------+\n|    5057|        0|\n|    5059|        0|\n|    5051|        0|\n|    5056|        0|\n|    5051|        0|\n|    5039|        0|\n|    5062|        0|\n|    5041|        0|\n|    5056|        0|\n|    5064|        0|\n|    5043|        0|\n|    5061|        0|\n|    5049|        0|\n|    5061|        0|\n|    5048|        0|\n|    5047|        0|\n|    5044|        0|\n|    5063|        0|\n|    5068|        0|\n|    5062|        0|\n+--------+---------+\nonly showing top 20 rows\n\n"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {
+        "jobUrl": {
+          "propertyName": "jobUrl",
+          "label": "SPARK JOB",
+          "tooltip": "View in Spark web UI",
+          "group": "spark",
+          "values": [
+            {
+              "jobUrl": "http://6d3799a39347:4040/jobs/job?id\u003d38"
+            }
+          ],
+          "interpreterSettingId": "spark"
+        }
+      },
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1636196164089_1424024251",
+      "id": "20211106-105604_1065589907",
+      "dateCreated": "2021-11-06 10:56:04.089",
+      "dateStarted": "2021-11-06 14:02:45.680",
+      "dateFinished": "2021-11-06 14:02:48.047",
+      "status": "FINISHED"
+    },
+    {
+      "text": "%md\nThe results of SQL queries are RDDs and support all the normal RDD operations.  ",
+      "user": "anonymous",
+      "dateUpdated": "2021-11-06 10:56:04.089",
+      "progress": 0,
+      "config": {
+        "editorMode": "ace/mode/markdown",
+        "editorHide": true,
+        "editorSetting": {
+          "language": "markdown",
+          "editOnDblClick": true
+        }
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "HTML",
+            "data": "\u003cdiv class\u003d\"markdown-body\"\u003e\n\u003cp\u003eThe results of SQL queries are RDDs and support all the normal RDD operations. \u003c/p\u003e\n\u003c/div\u003e"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {},
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1636196164089_490091081",
+      "id": "20211106-105604_897366444",
+      "dateCreated": "2021-11-06 10:56:04.089",
+      "status": "READY"
+    },
+    {
+      "text": "%pyspark\n# Output duration together with dst_bytes\ntcp_interactions_out \u003d tcp_interactions.map(lambda p: \"Duration: {}, Dest. bytes: {}\".format(p.duration, p.dst_bytes))\nfor ti_out in tcp_interactions_out.collect():\n    print(ti_out)",
+      "user": "anonymous",
+      "dateUpdated": "2021-11-06 14:04:28.576",
+      "progress": 0,
+      "config": {
+        "editorSetting": {
+          "language": "python",
+          "editOnDblClick": false,
+          "completionSupport": true,
+          "completionKey": "TAB"
+        },
+        "editorMode": "ace/mode/python",
+        "colWidth": 12.0,
+        "editorHide": false,
+        "fontSize": 9.0,
+        "results": {},
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "ERROR",
+        "msg": [
+          {
+            "type": "TEXT",
+            "data": "Fail to execute line 3: tcp_interactions_out \u003d tcp_interactions.map(lambda p: \"Duration: {}, Dest. bytes: {}\".format(p.duration, p.dst_bytes))\nTraceback (most recent call last):\n  File \"/tmp/1636194530832-0/zeppelin_python.py\", line 153, in \u003cmodule\u003e\n    exec(code, _zcUserQueryNameSpace)\n  File \"\u003cstdin\u003e\", line 3, in \u003cmodule\u003e\n  File \"/spark/python/pyspark/sql/dataframe.py\", line 1401, in __getattr__\n    \"\u0027%s\u0027 object has no attribute \u0027%s\u0027\" % (self.__class__.__name__, name))\nAttributeError: \u0027DataFrame\u0027 object has no attribute \u0027map\u0027\n"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {},
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1636196164089_328486223",
+      "id": "20211106-105604_381213844",
+      "dateCreated": "2021-11-06 10:56:04.089",
+      "dateStarted": "2021-11-06 14:04:28.578",
+      "dateFinished": "2021-11-06 14:04:28.600",
+      "status": "ERROR"
+    },
+    {
+      "text": "%md\nWe can easily have a look at our data frame schema using `printSchema`.  ",
+      "user": "anonymous",
+      "dateUpdated": "2021-11-06 10:56:04.089",
+      "progress": 0,
+      "config": {
+        "editorMode": "ace/mode/markdown",
+        "editorHide": true,
+        "editorSetting": {
+          "language": "markdown",
+          "editOnDblClick": true
+        }
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "HTML",
+            "data": "\u003cdiv class\u003d\"markdown-body\"\u003e\n\u003cp\u003eWe can easily have a look at our data frame schema using \u003ccode\u003eprintSchema\u003c/code\u003e. \u003c/p\u003e\n\u003c/div\u003e"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {},
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1636196164089_2094130965",
+      "id": "20211106-105604_1721520482",
+      "dateCreated": "2021-11-06 10:56:04.089",
+      "status": "READY"
+    },
+    {
+      "text": "%pyspark\ninteractions_df.printSchema()",
+      "user": "anonymous",
+      "dateUpdated": "2021-11-06 14:08:56.388",
+      "progress": 0,
+      "config": {
+        "editorSetting": {
+          "language": "python",
+          "editOnDblClick": false,
+          "completionSupport": true,
+          "completionKey": "TAB"
+        },
+        "editorMode": "ace/mode/python",
+        "colWidth": 12.0,
+        "editorHide": false,
+        "fontSize": 9.0,
+        "results": {},
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "TEXT",
+            "data": "root\n |-- duration: long (nullable \u003d true)\n |-- protocol_type: string (nullable \u003d true)\n |-- service: string (nullable \u003d true)\n |-- flag: string (nullable \u003d true)\n |-- src_bytes: long (nullable \u003d true)\n |-- dst_bytes: long (nullable \u003d true)\n\n"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {},
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1636196164089_2063020762",
+      "id": "20211106-105604_1136201560",
+      "dateCreated": "2021-11-06 10:56:04.089",
+      "dateStarted": "2021-11-06 14:08:56.397",
+      "dateFinished": "2021-11-06 14:08:56.433",
+      "status": "FINISHED"
+    },
+    {
+      "text": "%md\n## Queries as `DataFrame` operations",
+      "user": "anonymous",
+      "dateUpdated": "2021-11-06 10:56:04.089",
+      "progress": 0,
+      "config": {
+        "editorMode": "ace/mode/markdown",
+        "editorHide": true,
+        "editorSetting": {
+          "language": "markdown",
+          "editOnDblClick": true
+        }
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "HTML",
+            "data": "\u003cdiv class\u003d\"markdown-body\"\u003e\n\u003ch2\u003eQueries as \u003ccode\u003eDataFrame\u003c/code\u003e operations\u003c/h2\u003e\n\u003c/div\u003e"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {},
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1636196164089_753954269",
+      "id": "20211106-105604_332955482",
+      "dateCreated": "2021-11-06 10:56:04.089",
+      "status": "READY"
+    },
+    {
+      "text": "%md\nSpark `DataFrame` provides a domain-specific language for structured data manipulation. This language includes methods we can concatenate in order to do selection, filtering, grouping, etc. For example, let\u0027s say we want to count how many interactions are there for each protocol type. We can proceed as follows.  ",
+      "user": "anonymous",
+      "dateUpdated": "2021-11-06 10:56:04.089",
+      "progress": 0,
+      "config": {
+        "editorMode": "ace/mode/markdown",
+        "editorHide": true,
+        "editorSetting": {
+          "language": "markdown",
+          "editOnDblClick": true
+        }
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "HTML",
+            "data": "\u003cdiv class\u003d\"markdown-body\"\u003e\n\u003cp\u003eSpark \u003ccode\u003eDataFrame\u003c/code\u003e provides a domain-specific language for structured data manipulation. This language includes methods we can concatenate in order to do selection, filtering, grouping, etc. For example, let\u0026rsquo;s say we want to count how many interactions are there for each protocol type. We can proceed as follows. \u003c/p\u003e\n\u003c/div\u003e"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {},
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1636196164089_184057451",
+      "id": "20211106-105604_1137991113",
+      "dateCreated": "2021-11-06 10:56:04.089",
+      "status": "READY"
+    },
+    {
+      "text": "%pyspark\nfrom time import time\n\nt0 \u003d time()\ninteractions_df.select(\"protocol_type\", \"duration\", \"dst_bytes\").groupBy(\"protocol_type\").count().show()\ntt \u003d time() - t0\n\nprint(\"Query performed in {} seconds\".format(round(tt,3)))",
+      "user": "anonymous",
+      "dateUpdated": "2021-11-06 14:10:08.997",
+      "progress": 0,
+      "config": {
+        "editorSetting": {
+          "language": "python",
+          "editOnDblClick": false,
+          "completionSupport": true,
+          "completionKey": "TAB"
+        },
+        "editorMode": "ace/mode/python",
+        "colWidth": 12.0,
+        "editorHide": false,
+        "fontSize": 9.0,
+        "results": {},
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "TEXT",
+            "data": "+-------------+------+\n|protocol_type| count|\n+-------------+------+\n|          tcp|190065|\n|          udp| 20354|\n|         icmp|283602|\n+-------------+------+\n\nQuery performed in 13.307 seconds\n"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {
+        "jobUrl": {
+          "propertyName": "jobUrl",
+          "label": "SPARK JOB",
+          "tooltip": "View in Spark web UI",
+          "group": "spark",
+          "values": [
+            {
+              "jobUrl": "http://6d3799a39347:4040/jobs/job?id\u003d39"
+            },
+            {
+              "jobUrl": "http://6d3799a39347:4040/jobs/job?id\u003d40"
+            },
+            {
+              "jobUrl": "http://6d3799a39347:4040/jobs/job?id\u003d41"
+            },
+            {
+              "jobUrl": "http://6d3799a39347:4040/jobs/job?id\u003d42"
+            },
+            {
+              "jobUrl": "http://6d3799a39347:4040/jobs/job?id\u003d43"
+            }
+          ],
+          "interpreterSettingId": "spark"
+        }
+      },
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1636196164089_1060821565",
+      "id": "20211106-105604_1204224912",
+      "dateCreated": "2021-11-06 10:56:04.089",
+      "dateStarted": "2021-11-06 14:10:09.006",
+      "dateFinished": "2021-11-06 14:10:22.404",
+      "status": "FINISHED"
+    },
+    {
+      "text": "%md\nNow imagine that we want to count how many interactions last more than 1 second, with no data transfer from destination, grouped by protocol type. We can just add to filter calls to the previous.   ",
+      "user": "anonymous",
+      "dateUpdated": "2021-11-06 10:56:04.090",
+      "progress": 0,
+      "config": {
+        "editorMode": "ace/mode/markdown",
+        "editorHide": true,
+        "editorSetting": {
+          "language": "markdown",
+          "editOnDblClick": true
+        }
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "HTML",
+            "data": "\u003cdiv class\u003d\"markdown-body\"\u003e\n\u003cp\u003eNow imagine that we want to count how many interactions last more than 1 second, with no data transfer from destination, grouped by protocol type. We can just add to filter calls to the previous. \u003c/p\u003e\n\u003c/div\u003e"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {},
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1636196164090_1417862013",
+      "id": "20211106-105604_1276053503",
+      "dateCreated": "2021-11-06 10:56:04.090",
+      "status": "READY"
+    },
+    {
+      "text": "%pyspark\nt0 \u003d time()\ninteractions_df.select(\"protocol_type\", \"duration\", \"dst_bytes\").filter(interactions_df.duration\u003e1000).filter(interactions_df.dst_bytes\u003d\u003d0).groupBy(\"protocol_type\").count().show()\ntt \u003d time() - t0\n\nprint(\"Query performed in {} seconds\".format(round(tt,3)))",
+      "user": "anonymous",
+      "dateUpdated": "2021-11-06 14:11:44.452",
+      "progress": 0,
+      "config": {
+        "editorSetting": {
+          "language": "python",
+          "editOnDblClick": false,
+          "completionSupport": true,
+          "completionKey": "TAB"
+        },
+        "editorMode": "ace/mode/python",
+        "colWidth": 12.0,
+        "editorHide": false,
+        "fontSize": 9.0,
+        "results": {},
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "TEXT",
+            "data": "+-------------+-----+\n|protocol_type|count|\n+-------------+-----+\n|          tcp|  139|\n+-------------+-----+\n\nQuery performed in 7.593 seconds\n"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {
+        "jobUrl": {
+          "propertyName": "jobUrl",
+          "label": "SPARK JOB",
+          "tooltip": "View in Spark web UI",
+          "group": "spark",
+          "values": [
+            {
+              "jobUrl": "http://6d3799a39347:4040/jobs/job?id\u003d44"
+            },
+            {
+              "jobUrl": "http://6d3799a39347:4040/jobs/job?id\u003d45"
+            },
+            {
+              "jobUrl": "http://6d3799a39347:4040/jobs/job?id\u003d46"
+            },
+            {
+              "jobUrl": "http://6d3799a39347:4040/jobs/job?id\u003d47"
+            },
+            {
+              "jobUrl": "http://6d3799a39347:4040/jobs/job?id\u003d48"
+            }
+          ],
+          "interpreterSettingId": "spark"
+        }
+      },
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1636196164090_1897477239",
+      "id": "20211106-105604_486376331",
+      "dateCreated": "2021-11-06 10:56:04.090",
+      "dateStarted": "2021-11-06 14:11:44.462",
+      "dateFinished": "2021-11-06 14:11:52.090",
+      "status": "FINISHED"
+    },
+    {
+      "text": "%md\nWe can use this to perform some [exploratory data analysis](http://en.wikipedia.org/wiki/Exploratory_data_analysis). Let\u0027s count how many attack and normal interactions we have. First we need to add the label column to our data.    ",
+      "user": "anonymous",
+      "dateUpdated": "2021-11-06 10:56:04.090",
+      "progress": 0,
+      "config": {
+        "editorMode": "ace/mode/markdown",
+        "editorHide": true,
+        "editorSetting": {
+          "language": "markdown",
+          "editOnDblClick": true
+        }
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "HTML",
+            "data": "\u003cdiv class\u003d\"markdown-body\"\u003e\n\u003cp\u003eWe can use this to perform some \u003ca href\u003d\"http://en.wikipedia.org/wiki/Exploratory_data_analysis\"\u003eexploratory data analysis\u003c/a\u003e. Let\u0026rsquo;s count how many attack and normal interactions we have. First we need to add the label column to our data. \u003c/p\u003e\n\u003c/div\u003e"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {},
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1636196164090_734303025",
+      "id": "20211106-105604_2099691464",
+      "dateCreated": "2021-11-06 10:56:04.090",
+      "status": "READY"
+    },
+    {
+      "text": "%pyspark\ndef get_label_type(label):\n    if label!\u003d\"normal.\":\n        return \"attack\"\n    else:\n        return \"normal\"\n    \nrow_labeled_data \u003d csv_data.map(lambda p: Row(\n    duration\u003dint(p[0]), \n    protocol_type\u003dp[1],\n    service\u003dp[2],\n    flag\u003dp[3],\n    src_bytes\u003dint(p[4]),\n    dst_bytes\u003dint(p[5]),\n    label\u003dget_label_type(p[41])\n    )\n)\ninteractions_labeled_df \u003d sqlContext.createDataFrame(row_labeled_data)",
+      "user": "anonymous",
+      "dateUpdated": "2021-11-06 14:13:35.531",
+      "progress": 0,
+      "config": {
+        "editorSetting": {
+          "language": "python",
+          "editOnDblClick": false,
+          "completionSupport": true,
+          "completionKey": "TAB"
+        },
+        "editorMode": "ace/mode/python",
+        "colWidth": 12.0,
+        "editorHide": false,
+        "fontSize": 9.0,
+        "results": {},
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": []
+      },
+      "apps": [],
+      "runtimeInfos": {
+        "jobUrl": {
+          "propertyName": "jobUrl",
+          "label": "SPARK JOB",
+          "tooltip": "View in Spark web UI",
+          "group": "spark",
+          "values": [
+            {
+              "jobUrl": "http://6d3799a39347:4040/jobs/job?id\u003d49"
+            }
+          ],
+          "interpreterSettingId": "spark"
+        }
+      },
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1636196164090_1288437796",
+      "id": "20211106-105604_167812666",
+      "dateCreated": "2021-11-06 10:56:04.090",
+      "dateStarted": "2021-11-06 14:13:35.541",
+      "dateFinished": "2021-11-06 14:13:35.650",
+      "status": "FINISHED"
+    },
+    {
+      "text": "%md\nThis time we don\u0027t need to register the schema since we are going to use the OO query interface.  ",
+      "user": "anonymous",
+      "dateUpdated": "2021-11-06 10:56:04.090",
+      "progress": 0,
+      "config": {
+        "editorMode": "ace/mode/markdown",
+        "editorHide": true,
+        "editorSetting": {
+          "language": "markdown",
+          "editOnDblClick": true
+        }
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "HTML",
+            "data": "\u003cdiv class\u003d\"markdown-body\"\u003e\n\u003cp\u003eThis time we don\u0026rsquo;t need to register the schema since we are going to use the OO query interface. \u003c/p\u003e\n\u003c/div\u003e"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {},
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1636196164090_899593291",
+      "id": "20211106-105604_888272921",
+      "dateCreated": "2021-11-06 10:56:04.090",
+      "status": "READY"
+    },
+    {
+      "text": "%md\nLet\u0027s check the previous actually works by counting attack and normal data in our data frame.  ",
+      "user": "anonymous",
+      "dateUpdated": "2021-11-06 10:56:04.090",
+      "progress": 0,
+      "config": {
+        "editorMode": "ace/mode/markdown",
+        "editorHide": true,
+        "editorSetting": {
+          "language": "markdown",
+          "editOnDblClick": true
+        }
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "HTML",
+            "data": "\u003cdiv class\u003d\"markdown-body\"\u003e\n\u003cp\u003eLet\u0026rsquo;s check the previous actually works by counting attack and normal data in our data frame. \u003c/p\u003e\n\u003c/div\u003e"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {},
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1636196164090_2085747996",
+      "id": "20211106-105604_199577430",
+      "dateCreated": "2021-11-06 10:56:04.090",
+      "status": "READY"
+    },
+    {
+      "text": "%pyspark\nt0 \u003d time()\ninteractions_labeled_df.select(\"label\").groupBy(\"label\").count().show()\ntt \u003d time() - t0\n\nprint(\"Query performed in {} seconds\".format(round(tt,3)))",
+      "user": "anonymous",
+      "dateUpdated": "2021-11-06 14:14:30.881",
+      "progress": 0,
+      "config": {
+        "editorSetting": {
+          "language": "python",
+          "editOnDblClick": false,
+          "completionSupport": true,
+          "completionKey": "TAB"
+        },
+        "editorMode": "ace/mode/python",
+        "colWidth": 12.0,
+        "editorHide": false,
+        "fontSize": 9.0,
+        "results": {},
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "TEXT",
+            "data": "+------+------+\n| label| count|\n+------+------+\n|normal| 97278|\n|attack|396743|\n+------+------+\n\nQuery performed in 7.178 seconds\n"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {
+        "jobUrl": {
+          "propertyName": "jobUrl",
+          "label": "SPARK JOB",
+          "tooltip": "View in Spark web UI",
+          "group": "spark",
+          "values": [
+            {
+              "jobUrl": "http://6d3799a39347:4040/jobs/job?id\u003d50"
+            },
+            {
+              "jobUrl": "http://6d3799a39347:4040/jobs/job?id\u003d51"
+            },
+            {
+              "jobUrl": "http://6d3799a39347:4040/jobs/job?id\u003d52"
+            },
+            {
+              "jobUrl": "http://6d3799a39347:4040/jobs/job?id\u003d53"
+            },
+            {
+              "jobUrl": "http://6d3799a39347:4040/jobs/job?id\u003d54"
+            }
+          ],
+          "interpreterSettingId": "spark"
+        }
+      },
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1636196164090_2072010523",
+      "id": "20211106-105604_1907191749",
+      "dateCreated": "2021-11-06 10:56:04.090",
+      "dateStarted": "2021-11-06 14:14:30.892",
+      "dateFinished": "2021-11-06 14:14:38.097",
+      "status": "FINISHED"
+    },
+    {
+      "text": "%md\nNow we want to count them by label and protocol type, in order to see how important the protocol type is to detect when an interaction is or not an attack.  ",
+      "user": "anonymous",
+      "dateUpdated": "2021-11-06 10:56:04.090",
+      "progress": 0,
+      "config": {
+        "editorMode": "ace/mode/markdown",
+        "editorHide": true,
+        "editorSetting": {
+          "language": "markdown",
+          "editOnDblClick": true
+        }
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "HTML",
+            "data": "\u003cdiv class\u003d\"markdown-body\"\u003e\n\u003cp\u003eNow we want to count them by label and protocol type, in order to see how important the protocol type is to detect when an interaction is or not an attack. \u003c/p\u003e\n\u003c/div\u003e"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {},
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1636196164090_282480806",
+      "id": "20211106-105604_2136137348",
+      "dateCreated": "2021-11-06 10:56:04.090",
+      "status": "READY"
+    },
+    {
+      "text": "%pyspark\nt0 \u003d time()\ninteractions_labeled_df.select(\"label\", \"protocol_type\").groupBy(\"label\", \"protocol_type\").count().show()\ntt \u003d time() - t0\n\nprint(\"Query performed in {} seconds\".format(round(tt,3)))",
+      "user": "anonymous",
+      "dateUpdated": "2021-11-06 14:15:19.588",
+      "progress": 0,
+      "config": {
+        "editorSetting": {
+          "language": "python",
+          "editOnDblClick": false,
+          "completionSupport": true,
+          "completionKey": "TAB"
+        },
+        "editorMode": "ace/mode/python",
+        "colWidth": 12.0,
+        "editorHide": false,
+        "fontSize": 9.0,
+        "results": {},
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "TEXT",
+            "data": "+------+-------------+------+\n| label|protocol_type| count|\n+------+-------------+------+\n|normal|          udp| 19177|\n|normal|         icmp|  1288|\n|normal|          tcp| 76813|\n|attack|         icmp|282314|\n|attack|          tcp|113252|\n|attack|          udp|  1177|\n+------+-------------+------+\n\nQuery performed in 8.545 seconds\n"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {
+        "jobUrl": {
+          "propertyName": "jobUrl",
+          "label": "SPARK JOB",
+          "tooltip": "View in Spark web UI",
+          "group": "spark",
+          "values": [
+            {
+              "jobUrl": "http://6d3799a39347:4040/jobs/job?id\u003d55"
+            },
+            {
+              "jobUrl": "http://6d3799a39347:4040/jobs/job?id\u003d56"
+            },
+            {
+              "jobUrl": "http://6d3799a39347:4040/jobs/job?id\u003d57"
+            },
+            {
+              "jobUrl": "http://6d3799a39347:4040/jobs/job?id\u003d58"
+            },
+            {
+              "jobUrl": "http://6d3799a39347:4040/jobs/job?id\u003d59"
+            }
+          ],
+          "interpreterSettingId": "spark"
+        }
+      },
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1636196164090_1763486201",
+      "id": "20211106-105604_1508116166",
+      "dateCreated": "2021-11-06 10:56:04.090",
+      "dateStarted": "2021-11-06 14:15:19.598",
+      "dateFinished": "2021-11-06 14:15:28.166",
+      "status": "FINISHED"
+    },
+    {
+      "text": "%md\nAt first sight it seems that *udp* interactions are in lower proportion between network attacks versus other protocol types.  ",
+      "user": "anonymous",
+      "dateUpdated": "2021-11-06 10:56:04.090",
+      "progress": 0,
+      "config": {
+        "editorMode": "ace/mode/markdown",
+        "editorHide": true,
+        "editorSetting": {
+          "language": "markdown",
+          "editOnDblClick": true
+        }
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "HTML",
+            "data": "\u003cdiv class\u003d\"markdown-body\"\u003e\n\u003cp\u003eAt first sight it seems that \u003cem\u003eudp\u003c/em\u003e interactions are in lower proportion between network attacks versus other protocol types. \u003c/p\u003e\n\u003c/div\u003e"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {},
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1636196164090_366503392",
+      "id": "20211106-105604_1670544742",
+      "dateCreated": "2021-11-06 10:56:04.090",
+      "status": "READY"
+    },
+    {
+      "text": "%md\nAnd we can do much more sophisticated groupings. For example, add to the previous a \"split\" based on data transfer from target.   ",
+      "user": "anonymous",
+      "dateUpdated": "2021-11-06 10:56:04.090",
+      "progress": 0,
+      "config": {
+        "editorMode": "ace/mode/markdown",
+        "editorHide": true,
+        "editorSetting": {
+          "language": "markdown",
+          "editOnDblClick": true
+        }
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "HTML",
+            "data": "\u003cdiv class\u003d\"markdown-body\"\u003e\n\u003cp\u003eAnd we can do much more sophisticated groupings. For example, add to the previous a \u0026ldquo;split\u0026rdquo; based on data transfer from target. \u003c/p\u003e\n\u003c/div\u003e"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {},
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1636196164090_65401862",
+      "id": "20211106-105604_276781885",
+      "dateCreated": "2021-11-06 10:56:04.090",
+      "status": "READY"
+    },
+    {
+      "text": "%pyspark\nt0 \u003d time()\ninteractions_labeled_df.select(\"label\", \"protocol_type\", \"dst_bytes\").groupBy(\"label\", \"protocol_type\", interactions_labeled_df.dst_bytes\u003d\u003d0).count().show()\ntt \u003d time() - t0\n\nprint(\"Query performed in {} seconds\".format(round(tt,3)))",
+      "user": "anonymous",
+      "dateUpdated": "2021-11-06 14:16:21.528",
+      "progress": 0,
+      "config": {
+        "editorSetting": {
+          "language": "python",
+          "editOnDblClick": false,
+          "completionSupport": true,
+          "completionKey": "TAB"
+        },
+        "editorMode": "ace/mode/python",
+        "colWidth": 12.0,
+        "editorHide": false,
+        "fontSize": 9.0,
+        "results": {},
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "TEXT",
+            "data": "+------+-------------+---------------+------+\n| label|protocol_type|(dst_bytes \u003d 0)| count|\n+------+-------------+---------------+------+\n|normal|          udp|          false| 15583|\n|attack|          udp|          false|    11|\n|attack|          tcp|           true|110583|\n|normal|          tcp|          false| 67500|\n|attack|         icmp|           true|282314|\n|attack|          tcp|          false|  2669|\n|normal|          tcp|           true|  9313|\n|normal|          udp|           true|  3594|\n|normal|         icmp|           true|  1288|\n|attack|          udp|           true|  1166|\n+------+-------------+---------------+------+\n\nQuery performed in 7.38 seconds\n"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {
+        "jobUrl": {
+          "propertyName": "jobUrl",
+          "label": "SPARK JOB",
+          "tooltip": "View in Spark web UI",
+          "group": "spark",
+          "values": [
+            {
+              "jobUrl": "http://6d3799a39347:4040/jobs/job?id\u003d60"
+            },
+            {
+              "jobUrl": "http://6d3799a39347:4040/jobs/job?id\u003d61"
+            },
+            {
+              "jobUrl": "http://6d3799a39347:4040/jobs/job?id\u003d62"
+            },
+            {
+              "jobUrl": "http://6d3799a39347:4040/jobs/job?id\u003d63"
+            },
+            {
+              "jobUrl": "http://6d3799a39347:4040/jobs/job?id\u003d64"
+            }
+          ],
+          "interpreterSettingId": "spark"
+        }
+      },
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1636196164090_409475311",
+      "id": "20211106-105604_1220840762",
+      "dateCreated": "2021-11-06 10:56:04.090",
+      "dateStarted": "2021-11-06 14:16:21.537",
+      "dateFinished": "2021-11-06 14:16:28.941",
+      "status": "FINISHED"
+    },
+    {
+      "text": "%md\nWe see how relevant is this new split to determine if a network interaction is an attack.  ",
+      "user": "anonymous",
+      "dateUpdated": "2021-11-06 10:56:04.090",
+      "progress": 0,
+      "config": {
+        "editorMode": "ace/mode/markdown",
+        "editorHide": true,
+        "editorSetting": {
+          "language": "markdown",
+          "editOnDblClick": true
+        }
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "HTML",
+            "data": "\u003cdiv class\u003d\"markdown-body\"\u003e\n\u003cp\u003eWe see how relevant is this new split to determine if a network interaction is an attack. \u003c/p\u003e\n\u003c/div\u003e"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {},
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1636196164090_227988149",
+      "id": "20211106-105604_829386962",
+      "dateCreated": "2021-11-06 10:56:04.090",
+      "status": "READY"
+    },
+    {
+      "text": "%md\nWe will stop here, but we can see how powerful this type of queries are in order to explore our data. Actually we can replicate all the splits we saw in previous notebooks, when introducing classification trees, just by selecting, groping, and filtering our dataframe. For a more detailed (but less real-world) list of Spark\u0027s `DataFrame` operations and data sources, have a look at the official documentation [here](https://spark.apache.org/docs/latest/sql-programming-guide.html#dataframe-operations).    ",
+      "user": "anonymous",
+      "dateUpdated": "2021-11-06 10:56:04.090",
+      "progress": 0,
+      "config": {
+        "editorMode": "ace/mode/markdown",
+        "editorHide": true,
+        "editorSetting": {
+          "language": "markdown",
+          "editOnDblClick": true
+        }
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "HTML",
+            "data": "\u003cdiv class\u003d\"markdown-body\"\u003e\n\u003cp\u003eWe will stop here, but we can see how powerful this type of queries are in order to explore our data. Actually we can replicate all the splits we saw in previous notebooks, when introducing classification trees, just by selecting, groping, and filtering our dataframe. For a more detailed (but less real-world) list of Spark\u0026rsquo;s \u003ccode\u003eDataFrame\u003c/code\u003e operations and data sources, have a look at the official documentation \u003ca href\u003d\"https://spark.apache.org/docs/latest/sql-programming-guide.html#dataframe-operations\"\u003ehere\u003c/a\u003e. \u003c/p\u003e\n\u003c/div\u003e"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {},
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1636196164090_1078820414",
+      "id": "20211106-105604_1097224916",
+      "dateCreated": "2021-11-06 10:56:04.090",
+      "status": "READY"
+    }
+  ],
+  "name": "12.dataframe-sql",
+  "id": "2GNX2N3S4",
+  "defaultInterpreterGroup": "spark",
+  "version": "0.9.0",
+  "noteParams": {},
+  "noteForms": {},
+  "angularObjects": {},
+  "config": {
+    "isZeppelinNotebookCronEnable": false
+  },
+  "info": {}
+}

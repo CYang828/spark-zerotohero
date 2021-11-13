@@ -1,0 +1,611 @@
+{
+  "paragraphs": [
+    {
+      "text": "%md\n# Spark 快速上手",
+      "user": "anonymous",
+      "dateUpdated": "2021-11-06 09:56:10.121",
+      "progress": 0,
+      "config": {
+        "editorMode": "ace/mode/markdown",
+        "editorHide": true,
+        "editorSetting": {
+          "language": "markdown",
+          "editOnDblClick": true
+        }
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "HTML",
+            "data": "\u003cdiv class\u003d\"markdown-body\"\u003e\n\u003ch1\u003eSpark 快速上手\u003c/h1\u003e\n\u003c/div\u003e"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {},
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1636192570121_1585515293",
+      "id": "20211106-095610_2122998081",
+      "dateCreated": "2021-11-06 09:56:10.121",
+      "status": "READY"
+    },
+    {
+      "text": "%md\n## 大数据世界中的 Hello World\n\n我们完成一个读取文件中的单词，并且统计单词出现个数的 Spark 程序，这个程序也是我们再大数据世界中的 Hello World。",
+      "user": "anonymous",
+      "dateUpdated": "2021-11-06 09:56:10.121",
+      "progress": 0,
+      "config": {
+        "editorMode": "ace/mode/markdown",
+        "editorHide": true,
+        "editorSetting": {
+          "language": "markdown",
+          "editOnDblClick": true
+        }
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "HTML",
+            "data": "\u003cdiv class\u003d\"markdown-body\"\u003e\n\u003ch2\u003e大数据世界中的 Hello World\u003c/h2\u003e\n\u003cp\u003e我们完成一个读取文件中的单词，并且统计单词出现个数的 Spark 程序，这个程序也是我们再大数据世界中的 Hello World。\u003c/p\u003e\n\u003c/div\u003e"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {},
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1636192570121_1573742499",
+      "id": "20211106-095610_2134269025",
+      "dateCreated": "2021-11-06 09:56:10.121",
+      "status": "READY"
+    },
+    {
+      "text": "%python\n# 为了能够让 python 找到 pyspark，使用 findspark\nimport findspark\nfindspark.init()",
+      "user": "anonymous",
+      "dateUpdated": "2021-11-06 09:56:10.121",
+      "progress": 0,
+      "config": {
+        "editorMode": "ace/mode/python",
+        "editorHide": false
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": []
+      },
+      "apps": [],
+      "runtimeInfos": {},
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1636192570121_19796624",
+      "id": "20211106-095610_152957345",
+      "dateCreated": "2021-11-06 09:56:10.121",
+      "status": "READY"
+    },
+    {
+      "text": "%python\n# 为了使用 RDDs，创建 SparkSession\nfrom pyspark.sql import SparkSession\nfrom pyspark.conf import SparkConf",
+      "user": "anonymous",
+      "dateUpdated": "2021-11-06 09:56:10.121",
+      "progress": 0,
+      "config": {
+        "editorMode": "ace/mode/python",
+        "editorHide": false
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": []
+      },
+      "apps": [],
+      "runtimeInfos": {},
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1636192570121_172539916",
+      "id": "20211106-095610_1267426666",
+      "dateCreated": "2021-11-06 09:56:10.121",
+      "status": "READY"
+    },
+    {
+      "text": "%python\n# 创建 SparkConf 和 SparkSession\nconf \u003d SparkConf()\\\n        .setMaster(\u0027local[*]\u0027)\\\n        .setAppName(\"WordCount\")\\\n        .setExecutorEnv(\"spark.executor.memory\",\"2g\")\\\n        .setExecutorEnv(\"spark.driver.memory\",\"2g\")\n\nspark \u003d SparkSession.builder\\\n        .config(conf\u003dconf)\\\n        .getOrCreate()\n# 获取 SparkContext\nsc \u003d spark.sparkContext",
+      "user": "anonymous",
+      "dateUpdated": "2021-11-06 09:56:10.121",
+      "progress": 0,
+      "config": {
+        "editorMode": "ace/mode/python",
+        "editorHide": false
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": []
+      },
+      "apps": [],
+      "runtimeInfos": {},
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1636192570121_137127344",
+      "id": "20211106-095610_2024732461",
+      "dateCreated": "2021-11-06 09:56:10.121",
+      "status": "READY"
+    },
+    {
+      "text": "%python\n!hadoop fs -put data/shakespeare.txt /dataset/shakespeare.txt",
+      "user": "anonymous",
+      "dateUpdated": "2021-11-06 09:56:10.121",
+      "progress": 0,
+      "config": {
+        "editorMode": "ace/mode/python",
+        "editorHide": false
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "TEXT",
+            "data": "put: `/dataset/shakespeare.txt\u0027: File exists\n"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {},
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1636192570121_2032334158",
+      "id": "20211106-095610_892762381",
+      "dateCreated": "2021-11-06 09:56:10.121",
+      "status": "READY"
+    },
+    {
+      "text": "%python\n!hadoop fs -ls /dataset",
+      "user": "anonymous",
+      "dateUpdated": "2021-11-06 09:56:10.121",
+      "progress": 0,
+      "config": {
+        "editorMode": "ace/mode/python",
+        "editorHide": false
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "TEXT",
+            "data": "Found 2 items\ndrwxr-xr-x   - bigdata supergroup          0 2021-04-24 22:24 /dataset/ml-25m\n-rw-r--r--   3 bigdata supergroup    1115394 2021-05-14 22:23 /dataset/shakespeare.txt\n"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {},
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1636192570121_307928969",
+      "id": "20211106-095610_1281886472",
+      "dateCreated": "2021-11-06 09:56:10.121",
+      "status": "READY"
+    },
+    {
+      "text": "%python\n# 读取莎士比亚文本数据集, 先把 data/shakespeare.txt 文件上传到 hdfs 上\nshakespeare_path \u003d \"/dataset/shakespeare.txt\"\nshakespeare_rdd\u003dsc.textFile(shakespeare_path)\nshakespeare_rdd.take(10)",
+      "user": "anonymous",
+      "dateUpdated": "2021-11-06 09:56:10.122",
+      "progress": 0,
+      "config": {
+        "editorMode": "ace/mode/python",
+        "editorHide": false
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "TEXT",
+            "data": "[\u0027First Citizen:\u0027,\n \u0027Before we proceed any further, hear me speak.\u0027,\n \u0027\u0027,\n \u0027All:\u0027,\n \u0027Speak, speak.\u0027,\n \u0027\u0027,\n \u0027First Citizen:\u0027,\n \u0027You are all resolved rather to die than to famish?\u0027,\n \u0027\u0027,\n \u0027All:\u0027]"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {},
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1636192570122_1281039114",
+      "id": "20211106-095610_1242623897",
+      "dateCreated": "2021-11-06 09:56:10.122",
+      "status": "READY"
+    },
+    {
+      "text": "%python\n# 获取数据集的行数\nshakespeare_rdd.count()",
+      "user": "anonymous",
+      "dateUpdated": "2021-11-06 09:56:10.122",
+      "progress": 0,
+      "config": {
+        "editorMode": "ace/mode/python",
+        "editorHide": false
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "TEXT",
+            "data": "40000"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {},
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1636192570122_2120490329",
+      "id": "20211106-095610_1938187335",
+      "dateCreated": "2021-11-06 09:56:10.122",
+      "status": "READY"
+    },
+    {
+      "text": "%python\n# 移除所有的标点符号\n# 把所有的单词转换成小写\ndef lower_clean_str(x):\n    punc\u003d\u0027!\"#$%\u0026\\\u0027()*+,./:;\u003c\u003d\u003e?@[\\\\]^_`{|}~-\u0027\n    lowercased_str \u003d x.lower()\n    for ch in punc:\n        lowercased_str \u003d lowercased_str.replace(ch, \u0027\u0027)\n    return lowercased_str",
+      "user": "anonymous",
+      "dateUpdated": "2021-11-06 09:56:10.122",
+      "progress": 0,
+      "config": {
+        "editorMode": "ace/mode/python",
+        "editorHide": false
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": []
+      },
+      "apps": [],
+      "runtimeInfos": {},
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1636192570122_620079130",
+      "id": "20211106-095610_1650874181",
+      "dateCreated": "2021-11-06 09:56:10.122",
+      "status": "READY"
+    },
+    {
+      "text": "%python\nsentence \u003d \u0027You are An apple.\u0027\nlower_clean_str(sentence)",
+      "user": "anonymous",
+      "dateUpdated": "2021-11-06 09:56:10.122",
+      "progress": 0,
+      "config": {
+        "editorMode": "ace/mode/python",
+        "editorHide": false
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "TEXT",
+            "data": "\u0027you are an apple\u0027"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {},
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1636192570122_349337444",
+      "id": "20211106-095610_368718080",
+      "dateCreated": "2021-11-06 09:56:10.122",
+      "status": "READY"
+    },
+    {
+      "text": "%python\n# 给文本中的所有行，都执行 lower_clean_str 方法\nshakespeare_rdd \u003d shakespeare_rdd.map(lower_clean_str)\n# 读取转换后的数据\nshakespeare_rdd.take(10)",
+      "user": "anonymous",
+      "dateUpdated": "2021-11-06 09:56:10.122",
+      "progress": 0,
+      "config": {
+        "editorMode": "ace/mode/python",
+        "editorHide": false
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "TEXT",
+            "data": "[\u0027first citizen\u0027,\n \u0027before we proceed any further hear me speak\u0027,\n \u0027\u0027,\n \u0027all\u0027,\n \u0027speak speak\u0027,\n \u0027\u0027,\n \u0027first citizen\u0027,\n \u0027you are all resolved rather to die than to famish\u0027,\n \u0027\u0027,\n \u0027all\u0027]"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {},
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1636192570122_1929199349",
+      "id": "20211106-095610_148623196",
+      "dateCreated": "2021-11-06 09:56:10.122",
+      "status": "READY"
+    },
+    {
+      "text": "%python\n# 使用 split 方法，把每一行中的单词分开（分词），并且把原来一行一行的数据“拉平”\nshakespeare_rdd \u003d shakespeare_rdd.flatMap(lambda satir: satir.split(\" \"))\nshakespeare_rdd.take(15)",
+      "user": "anonymous",
+      "dateUpdated": "2021-11-06 09:56:10.122",
+      "progress": 0,
+      "config": {
+        "editorMode": "ace/mode/python",
+        "editorHide": false
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "TEXT",
+            "data": "[\u0027first\u0027,\n \u0027citizen\u0027,\n \u0027before\u0027,\n \u0027we\u0027,\n \u0027proceed\u0027,\n \u0027any\u0027,\n \u0027further\u0027,\n \u0027hear\u0027,\n \u0027me\u0027,\n \u0027speak\u0027,\n \u0027\u0027,\n \u0027all\u0027,\n \u0027speak\u0027,\n \u0027speak\u0027,\n \u0027\u0027]"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {},
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1636192570122_1405282847",
+      "id": "20211106-095610_1220486748",
+      "dateCreated": "2021-11-06 09:56:10.122",
+      "status": "READY"
+    },
+    {
+      "text": "%python\n# 使用 filter 方法，把分词后出现的空格符给过滤掉\nshakespeare_rdd \u003d shakespeare_rdd.filter(lambda x: x!\u003d\u0027\u0027)\nshakespeare_rdd.take(15)",
+      "user": "anonymous",
+      "dateUpdated": "2021-11-06 09:56:10.122",
+      "progress": 0,
+      "config": {
+        "editorMode": "ace/mode/python",
+        "editorHide": false
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "TEXT",
+            "data": "[\u0027first\u0027,\n \u0027citizen\u0027,\n \u0027before\u0027,\n \u0027we\u0027,\n \u0027proceed\u0027,\n \u0027any\u0027,\n \u0027further\u0027,\n \u0027hear\u0027,\n \u0027me\u0027,\n \u0027speak\u0027,\n \u0027all\u0027,\n \u0027speak\u0027,\n \u0027speak\u0027,\n \u0027first\u0027,\n \u0027citizen\u0027]"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {},
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1636192570122_549254814",
+      "id": "20211106-095610_406031473",
+      "dateCreated": "2021-11-06 09:56:10.122",
+      "status": "READY"
+    },
+    {
+      "text": "%md\n计算每一个单词出现的次数",
+      "user": "anonymous",
+      "dateUpdated": "2021-11-06 09:56:10.122",
+      "progress": 0,
+      "config": {
+        "editorMode": "ace/mode/markdown",
+        "editorHide": true,
+        "editorSetting": {
+          "language": "markdown",
+          "editOnDblClick": true
+        }
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "HTML",
+            "data": "\u003cdiv class\u003d\"markdown-body\"\u003e\n\u003cp\u003e计算每一个单词出现的次数\u003c/p\u003e\n\u003c/div\u003e"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {},
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1636192570122_1881497184",
+      "id": "20211106-095610_1552272454",
+      "dateCreated": "2021-11-06 09:56:10.122",
+      "status": "READY"
+    },
+    {
+      "text": "%python\n# 为了能够统计单词出现的次数，我们需要先把原来的 rdd 转换成 (word, 1) 这样的一对对的 rdd\nshakespeare_count \u003d shakespeare_rdd.map(lambda  word: (word,1))\nshakespeare_count.take(15)",
+      "user": "anonymous",
+      "dateUpdated": "2021-11-06 09:56:10.122",
+      "progress": 0,
+      "config": {
+        "editorMode": "ace/mode/python",
+        "editorHide": false
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "TEXT",
+            "data": "[(\u0027first\u0027, 1),\n (\u0027citizen\u0027, 1),\n (\u0027before\u0027, 1),\n (\u0027we\u0027, 1),\n (\u0027proceed\u0027, 1),\n (\u0027any\u0027, 1),\n (\u0027further\u0027, 1),\n (\u0027hear\u0027, 1),\n (\u0027me\u0027, 1),\n (\u0027speak\u0027, 1),\n (\u0027all\u0027, 1),\n (\u0027speak\u0027, 1),\n (\u0027speak\u0027, 1),\n (\u0027first\u0027, 1),\n (\u0027citizen\u0027, 1)]"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {},
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1636192570122_1223602651",
+      "id": "20211106-095610_175266213",
+      "dateCreated": "2021-11-06 09:56:10.122",
+      "status": "READY"
+    },
+    {
+      "text": "%python\n# 使用 reduceByKey 来统计出每个单词出现的次数\nshakespeare_count_rbk \u003d shakespeare_count.reduceByKey(lambda x,y:(x+y)).sortByKey()\nshakespeare_count_rbk.take(10)",
+      "user": "anonymous",
+      "dateUpdated": "2021-11-06 09:56:10.122",
+      "progress": 0,
+      "config": {
+        "editorMode": "ace/mode/python",
+        "editorHide": false
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "TEXT",
+            "data": "[(\u00270indexgut\u0027, 1),\n (\u00271\u0027, 308),\n (\u002710\u0027, 4),\n (\u0027100\u0027, 2),\n (\u002710000\u0027, 1),\n (\u0027100000000trillion\u0027, 1),\n (\u0027100th\u0027, 1),\n (\u0027101\u0027, 1),\n (\u0027102\u0027, 1),\n (\u0027103\u0027, 1)]"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {},
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1636192570122_264144487",
+      "id": "20211106-095610_994968433",
+      "dateCreated": "2021-11-06 09:56:10.122",
+      "status": "READY"
+    },
+    {
+      "text": "%python\n# 为了能够得到使用频次倒序排列的结果，我们要先把 shakespeare_count 转换成 (count, word)\nshakespeare_count_rbk \u003d shakespeare_count_rbk.map(lambda x:(x[1],x[0]))\nshakespeare_count_rbk.take(15)",
+      "user": "anonymous",
+      "dateUpdated": "2021-11-06 09:56:10.122",
+      "progress": 0,
+      "config": {
+        "editorMode": "ace/mode/python",
+        "editorHide": false
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "TEXT",
+            "data": "[(1, \u00270indexgut\u0027),\n (308, \u00271\u0027),\n (4, \u002710\u0027),\n (2, \u0027100\u0027),\n (1, \u002710000\u0027),\n (1, \u0027100000000trillion\u0027),\n (1, \u0027100th\u0027),\n (1, \u0027101\u0027),\n (1, \u0027102\u0027),\n (1, \u0027103\u0027),\n (1, \u0027104\u0027),\n (1, \u0027105\u0027),\n (1, \u0027106\u0027),\n (1, \u0027107\u0027),\n (1, \u0027108\u0027)]"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {},
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1636192570122_1796213239",
+      "id": "20211106-095610_1067077741",
+      "dateCreated": "2021-11-06 09:56:10.122",
+      "status": "READY"
+    },
+    {
+      "text": "%python\n# 使用 sortByKey 来获取 key 的倒序结果\nshakespeare_count_rbk.sortByKey(False).take(100)",
+      "user": "anonymous",
+      "dateUpdated": "2021-11-06 09:56:10.122",
+      "progress": 0,
+      "config": {
+        "editorMode": "ace/mode/python",
+        "editorHide": false
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "TEXT",
+            "data": "[(27643, \u0027the\u0027),\n (26728, \u0027and\u0027),\n (20681, \u0027i\u0027),\n (19198, \u0027to\u0027),\n (18173, \u0027of\u0027),\n (14613, \u0027a\u0027),\n (13649, \u0027you\u0027),\n (12480, \u0027my\u0027),\n (11121, \u0027that\u0027),\n (10967, \u0027in\u0027),\n (9598, \u0027is\u0027),\n (8725, \u0027not\u0027),\n (8244, \u0027for\u0027),\n (7996, \u0027with\u0027),\n (7768, \u0027me\u0027),\n (7690, \u0027it\u0027),\n (7090, \u0027be\u0027),\n (6882, \u0027your\u0027),\n (6857, \u0027his\u0027),\n (6847, \u0027this\u0027),\n (6270, \u0027but\u0027),\n (6251, \u0027he\u0027),\n (5958, \u0027as\u0027),\n (5887, \u0027have\u0027),\n (5485, \u0027thou\u0027),\n (5268, \u0027so\u0027),\n (5192, \u0027him\u0027),\n (4979, \u0027will\u0027),\n (4465, \u0027what\u0027),\n (4412, \u0027by\u0027),\n (4032, \u0027thy\u0027),\n (3887, \u0027all\u0027),\n (3851, \u0027are\u0027),\n (3843, \u0027her\u0027),\n (3796, \u0027no\u0027),\n (3754, \u0027do\u0027),\n (3591, \u0027shall\u0027),\n (3503, \u0027if\u0027),\n (3306, \u0027we\u0027),\n (3178, \u0027thee\u0027),\n (3123, \u0027or\u0027),\n (3068, \u0027our\u0027),\n (3059, \u0027lord\u0027),\n (3051, \u0027on\u0027),\n (2861, \u0027king\u0027),\n (2812, \u0027good\u0027),\n (2779, \u0027now\u0027),\n (2754, \u0027sir\u0027),\n (2646, \u0027from\u0027),\n (2608, \u0027o\u0027),\n (2509, \u0027at\u0027),\n (2507, \u0027come\u0027),\n (2471, \u0027they\u0027),\n (2462, \u0027well\u0027),\n (2316, \u0027which\u0027),\n (2295, \u0027would\u0027),\n (2291, \u0027more\u0027),\n (2229, \u0027was\u0027),\n (2222, \u0027then\u0027),\n (2208, \u0027she\u0027),\n (2168, \u0027am\u0027),\n (2160, \u0027how\u0027),\n (2114, \u0027here\u0027),\n (2099, \u0027let\u0027),\n (2098, \u0027enter\u0027),\n (2077, \u0027their\u0027),\n (2053, \u0027love\u0027),\n (2051, \u0027when\u0027),\n (1980, \u0027them\u0027),\n (1972, \u0027ill\u0027),\n (1941, \u0027hath\u0027),\n (1881, \u0027than\u0027),\n (1865, \u0027may\u0027),\n (1836, \u0027an\u0027),\n (1835, \u0027man\u0027),\n (1808, \u0027there\u0027),\n (1787, \u0027one\u0027),\n (1734, \u0027go\u0027),\n (1731, \u0027upon\u0027),\n (1703, \u0027like\u0027),\n (1680, \u0027say\u0027),\n (1647, \u0027know\u0027),\n (1629, \u0027make\u0027),\n (1626, \u0027did\u0027),\n (1622, \u0027us\u0027),\n (1615, \u0027such\u0027),\n (1577, \u0027were\u0027),\n (1576, \u0027should\u0027),\n (1569, \u0027yet\u0027),\n (1492, \u0027must\u0027),\n (1465, \u0027why\u0027),\n (1440, \u0027see\u0027),\n (1427, \u0027had\u0027),\n (1405, \u0027tis\u0027),\n (1376, \u0027out\u0027),\n (1338, \u0027some\u0027),\n (1333, \u0027give\u0027),\n (1324, \u0027these\u0027),\n (1270, \u0027time\u0027),\n (1233, \u0027too\u0027)]"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {},
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1636192570122_2133863428",
+      "id": "20211106-095610_1301240868",
+      "dateCreated": "2021-11-06 09:56:10.122",
+      "status": "READY"
+    },
+    {
+      "text": "%md\n看到这里，你应该能够得到想要的对于单词的统计结果了。但是，你可能还有很多的疑惑~没关系，接下来，我们就来一层层的剥开这些程序神秘的面纱，看看它到底是这样工作的。",
+      "user": "anonymous",
+      "dateUpdated": "2021-11-06 09:56:10.123",
+      "progress": 0,
+      "config": {
+        "editorMode": "ace/mode/markdown",
+        "editorHide": true,
+        "editorSetting": {
+          "language": "markdown",
+          "editOnDblClick": true
+        }
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "HTML",
+            "data": "\u003cdiv class\u003d\"markdown-body\"\u003e\n\u003cp\u003e看到这里，你应该能够得到想要的对于单词的统计结果了。但是，你可能还有很多的疑惑~没关系，接下来，我们就来一层层的剥开这些程序神秘的面纱，看看它到底是这样工作的。\u003c/p\u003e\n\u003c/div\u003e"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {},
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1636192570123_894515727",
+      "id": "20211106-095610_1428724545",
+      "dateCreated": "2021-11-06 09:56:10.123",
+      "status": "READY"
+    }
+  ],
+  "name": "02.your-first-programming",
+  "id": "2GKJE85FX",
+  "defaultInterpreterGroup": "spark",
+  "version": "0.9.0",
+  "noteParams": {},
+  "noteForms": {},
+  "angularObjects": {},
+  "config": {
+    "isZeppelinNotebookCronEnable": false
+  },
+  "info": {}
+}

@@ -1,0 +1,1021 @@
+{
+  "paragraphs": [
+    {
+      "text": "%md\n# Data aggregations on RDDs",
+      "user": "anonymous",
+      "dateUpdated": "2021-11-06 10:00:00.051",
+      "progress": 0,
+      "config": {
+        "editorMode": "ace/mode/markdown",
+        "editorHide": true,
+        "editorSetting": {
+          "language": "markdown",
+          "editOnDblClick": true
+        }
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "HTML",
+            "data": "\u003cdiv class\u003d\"markdown-body\"\u003e\n\u003ch1\u003eData aggregations on RDDs\u003c/h1\u003e\n\u003c/div\u003e"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {},
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1636192800051_79243865",
+      "id": "20211106-100000_2084661313",
+      "dateCreated": "2021-11-06 10:00:00.051",
+      "status": "READY"
+    },
+    {
+      "text": "%md\nWe can aggregate RDD data in Spark by using three different actions: `reduce`, `fold`, and `aggregate`. The last one is the more general one and someway includes the first two.  ",
+      "user": "anonymous",
+      "dateUpdated": "2021-11-06 13:24:31.307",
+      "progress": 0,
+      "config": {
+        "editorMode": "ace/mode/markdown",
+        "editorHide": true,
+        "editorSetting": {
+          "language": "markdown",
+          "editOnDblClick": true,
+          "completionSupport": false
+        },
+        "colWidth": 12.0,
+        "fontSize": 9.0,
+        "enabled": true,
+        "results": {}
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "HTML",
+            "data": "\u003cdiv class\u003d\"markdown-body\"\u003e\n\u003cp\u003eWe can aggregate RDD data in Spark by using three different actions: \u003ccode\u003ereduce\u003c/code\u003e, \u003ccode\u003efold\u003c/code\u003e, and \u003ccode\u003eaggregate\u003c/code\u003e. The last one is the more general one and someway includes the first two. \u003c/p\u003e\n\u003c/div\u003e"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {},
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1636192800051_2099903245",
+      "id": "20211106-100000_1165661093",
+      "dateCreated": "2021-11-06 10:00:00.051",
+      "status": "READY"
+    },
+    {
+      "text": "%md\n## Getting the data and creating the RDD",
+      "user": "anonymous",
+      "dateUpdated": "2021-11-06 10:00:00.051",
+      "progress": 0,
+      "config": {
+        "editorMode": "ace/mode/markdown",
+        "editorHide": true,
+        "editorSetting": {
+          "language": "markdown",
+          "editOnDblClick": true
+        }
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "HTML",
+            "data": "\u003cdiv class\u003d\"markdown-body\"\u003e\n\u003ch2\u003eGetting the data and creating the RDD\u003c/h2\u003e\n\u003c/div\u003e"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {},
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1636192800051_1038108662",
+      "id": "20211106-100000_243031838",
+      "dateCreated": "2021-11-06 10:00:00.051",
+      "status": "READY"
+    },
+    {
+      "text": "%md\nAs we did in our first notebook, we will use the reduced dataset (10 percent) provided for the [KDD Cup 1999](http://kdd.ics.uci.edu/databases/kddcup99/kddcup99.html), containing nearly half million nework interactions. The file is provided as a Gzip file that we will download locally.  ",
+      "user": "anonymous",
+      "dateUpdated": "2021-11-06 10:00:00.051",
+      "progress": 0,
+      "config": {
+        "editorMode": "ace/mode/markdown",
+        "editorHide": true,
+        "editorSetting": {
+          "language": "markdown",
+          "editOnDblClick": true
+        }
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "HTML",
+            "data": "\u003cdiv class\u003d\"markdown-body\"\u003e\n\u003cp\u003eAs we did in our first notebook, we will use the reduced dataset (10 percent) provided for the \u003ca href\u003d\"http://kdd.ics.uci.edu/databases/kddcup99/kddcup99.html\"\u003eKDD Cup 1999\u003c/a\u003e, containing nearly half million nework interactions. The file is provided as a Gzip file that we will download locally. \u003c/p\u003e\n\u003c/div\u003e"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {},
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1636192800051_1973653744",
+      "id": "20211106-100000_1099919514",
+      "dateCreated": "2021-11-06 10:00:00.051",
+      "status": "READY"
+    },
+    {
+      "text": "%python\nimport urllib\nf \u003d urllib.urlretrieve (\"http://kdd.ics.uci.edu/databases/kddcup99/kddcup.data_10_percent.gz\", \"kddcup.data_10_percent.gz\")",
+      "user": "anonymous",
+      "dateUpdated": "2021-11-06 10:00:00.051",
+      "progress": 0,
+      "config": {
+        "editorMode": "ace/mode/python",
+        "editorHide": false
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": []
+      },
+      "apps": [],
+      "runtimeInfos": {},
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1636192800051_564012697",
+      "id": "20211106-100000_1365821148",
+      "dateCreated": "2021-11-06 10:00:00.051",
+      "status": "READY"
+    },
+    {
+      "text": "%pyspark\ndata_file \u003d \"hdfs://namenode:9000/dataset/kddcup.data_10_percent.gz\"\nraw_data \u003d sc.textFile(data_file)",
+      "user": "anonymous",
+      "dateUpdated": "2021-11-06 13:24:52.290",
+      "progress": 0,
+      "config": {
+        "editorMode": "ace/mode/python",
+        "editorHide": false,
+        "colWidth": 12.0,
+        "fontSize": 9.0,
+        "enabled": true,
+        "results": {},
+        "editorSetting": {
+          "language": "python",
+          "editOnDblClick": false,
+          "completionSupport": true,
+          "completionKey": "TAB"
+        }
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": []
+      },
+      "apps": [],
+      "runtimeInfos": {},
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1636192800051_996427160",
+      "id": "20211106-100000_1084129519",
+      "dateCreated": "2021-11-06 10:00:00.051",
+      "dateStarted": "2021-11-06 13:24:52.298",
+      "dateFinished": "2021-11-06 13:24:52.343",
+      "status": "FINISHED"
+    },
+    {
+      "text": "%md\n## Inspecting interaction duration by tag",
+      "user": "anonymous",
+      "dateUpdated": "2021-11-06 10:00:00.051",
+      "progress": 0,
+      "config": {
+        "editorMode": "ace/mode/markdown",
+        "editorHide": true,
+        "editorSetting": {
+          "language": "markdown",
+          "editOnDblClick": true
+        }
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "HTML",
+            "data": "\u003cdiv class\u003d\"markdown-body\"\u003e\n\u003ch2\u003eInspecting interaction duration by tag\u003c/h2\u003e\n\u003c/div\u003e"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {},
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1636192800051_398762247",
+      "id": "20211106-100000_745976653",
+      "dateCreated": "2021-11-06 10:00:00.051",
+      "status": "READY"
+    },
+    {
+      "text": "%md\nBoth `fold` and `reduce` take a function as an argument that is applied to two elements of the RDD. The `fold` action differs from `reduce` in that it gets and additional initial *zero value* to be used for the initial call. This value should be the identity element for the function provided.  |",
+      "user": "anonymous",
+      "dateUpdated": "2021-11-06 13:26:03.188",
+      "progress": 0,
+      "config": {
+        "editorMode": "ace/mode/markdown",
+        "editorHide": true,
+        "editorSetting": {
+          "language": "markdown",
+          "editOnDblClick": true,
+          "completionSupport": false
+        },
+        "colWidth": 12.0,
+        "fontSize": 9.0,
+        "enabled": true,
+        "results": {},
+        "tableHide": false
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "HTML",
+            "data": "\u003cdiv class\u003d\"markdown-body\"\u003e\n\u003cp\u003eBoth \u003ccode\u003efold\u003c/code\u003e and \u003ccode\u003ereduce\u003c/code\u003e take a function as an argument that is applied to two elements of the RDD. The \u003ccode\u003efold\u003c/code\u003e action differs from \u003ccode\u003ereduce\u003c/code\u003e in that it gets and additional initial \u003cem\u003ezero value\u003c/em\u003e to be used for the initial call. This value should be the identity element for the function provided.\u003c/p\u003e\n\n\u003c/div\u003e"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {},
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1636192800051_1400077556",
+      "id": "20211106-100000_373755385",
+      "dateCreated": "2021-11-06 10:00:00.051",
+      "dateStarted": "2021-11-06 13:26:02.950",
+      "dateFinished": "2021-11-06 13:26:02.960",
+      "status": "FINISHED"
+    },
+    {
+      "text": "%md\nAs an example, imagine we want to know the total duration of our interactions for normal and attack interactions. We can use `reduce` as follows.    ",
+      "user": "anonymous",
+      "dateUpdated": "2021-11-06 10:00:00.051",
+      "progress": 0,
+      "config": {
+        "editorMode": "ace/mode/markdown",
+        "editorHide": true,
+        "editorSetting": {
+          "language": "markdown",
+          "editOnDblClick": true
+        }
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "HTML",
+            "data": "\u003cdiv class\u003d\"markdown-body\"\u003e\n\u003cp\u003eAs an example, imagine we want to know the total duration of our interactions for normal and attack interactions. We can use \u003ccode\u003ereduce\u003c/code\u003e as follows. \u003c/p\u003e\n\u003c/div\u003e"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {},
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1636192800051_555693829",
+      "id": "20211106-100000_26109899",
+      "dateCreated": "2021-11-06 10:00:00.051",
+      "status": "READY"
+    },
+    {
+      "text": "%pyspark\n# parse data\ncsv_data \u003d raw_data.map(lambda x: x.split(\",\"))\n\n# separate into different RDDs\nnormal_csv_data \u003d csv_data.filter(lambda x: x[41]\u003d\u003d\"normal.\")\nattack_csv_data \u003d csv_data.filter(lambda x: x[41]!\u003d\"attack.\")",
+      "user": "anonymous",
+      "dateUpdated": "2021-11-06 13:27:13.511",
+      "progress": 0,
+      "config": {
+        "editorMode": "ace/mode/python",
+        "editorHide": false,
+        "colWidth": 12.0,
+        "fontSize": 9.0,
+        "enabled": true,
+        "results": {},
+        "editorSetting": {
+          "language": "python",
+          "editOnDblClick": false,
+          "completionSupport": true,
+          "completionKey": "TAB"
+        }
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": []
+      },
+      "apps": [],
+      "runtimeInfos": {},
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1636192800051_2086229317",
+      "id": "20211106-100000_891487981",
+      "dateCreated": "2021-11-06 10:00:00.051",
+      "dateStarted": "2021-11-06 13:27:13.519",
+      "dateFinished": "2021-11-06 13:27:13.544",
+      "status": "FINISHED"
+    },
+    {
+      "text": "%md\nThe function that we pass to `reduce` gets and returns elements of the same type of the RDD. If we want to sum durations we need to extract that element into a new RDD.  ",
+      "user": "anonymous",
+      "dateUpdated": "2021-11-06 10:00:00.052",
+      "progress": 0,
+      "config": {
+        "editorMode": "ace/mode/markdown",
+        "editorHide": true,
+        "editorSetting": {
+          "language": "markdown",
+          "editOnDblClick": true
+        }
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "HTML",
+            "data": "\u003cdiv class\u003d\"markdown-body\"\u003e\n\u003cp\u003eThe function that we pass to \u003ccode\u003ereduce\u003c/code\u003e gets and returns elements of the same type of the RDD. If we want to sum durations we need to extract that element into a new RDD. \u003c/p\u003e\n\u003c/div\u003e"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {},
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1636192800052_1502892152",
+      "id": "20211106-100000_752236511",
+      "dateCreated": "2021-11-06 10:00:00.052",
+      "status": "READY"
+    },
+    {
+      "text": "%pyspark\nnormal_csv_data.take(10)\n",
+      "user": "anonymous",
+      "dateUpdated": "2021-11-06 13:28:09.642",
+      "progress": 0,
+      "config": {
+        "editorSetting": {
+          "language": "text",
+          "editOnDblClick": false,
+          "completionKey": "TAB",
+          "completionSupport": true
+        },
+        "colWidth": 12.0,
+        "editorMode": "ace/mode/text",
+        "fontSize": 9.0,
+        "results": {},
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "TEXT",
+            "data": "[[\u00270\u0027, \u0027tcp\u0027, \u0027http\u0027, \u0027SF\u0027, \u0027181\u0027, \u00275450\u0027, \u00270\u0027, \u00270\u0027, \u00270\u0027, \u00270\u0027, \u00270\u0027, \u00271\u0027, \u00270\u0027, \u00270\u0027, \u00270\u0027, \u00270\u0027, \u00270\u0027, \u00270\u0027, \u00270\u0027, \u00270\u0027, \u00270\u0027, \u00270\u0027, \u00278\u0027, \u00278\u0027, \u00270.00\u0027, \u00270.00\u0027, \u00270.00\u0027, \u00270.00\u0027, \u00271.00\u0027, \u00270.00\u0027, \u00270.00\u0027, \u00279\u0027, \u00279\u0027, \u00271.00\u0027, \u00270.00\u0027, \u00270.11\u0027, \u00270.00\u0027, \u00270.00\u0027, \u00270.00\u0027, \u00270.00\u0027, \u00270.00\u0027, \u0027normal.\u0027], [\u00270\u0027, \u0027tcp\u0027, \u0027http\u0027, \u0027SF\u0027, \u0027239\u0027, \u0027486\u0027, \u00270\u0027, \u00270\u0027, \u00270\u0027, \u00270\u0027, \u00270\u0027, \u00271\u0027, \u00270\u0027, \u00270\u0027, \u00270\u0027, \u00270\u0027, \u00270\u0027, \u00270\u0027, \u00270\u0027, \u00270\u0027, \u00270\u0027, \u00270\u0027, \u00278\u0027, \u00278\u0027, \u00270.00\u0027, \u00270.00\u0027, \u00270.00\u0027, \u00270.00\u0027, \u00271.00\u0027, \u00270.00\u0027, \u00270.00\u0027, \u002719\u0027, \u002719\u0027, \u00271.00\u0027, \u00270.00\u0027, \u00270.05\u0027, \u00270.00\u0027, \u00270.00\u0027, \u00270.00\u0027, \u00270.00\u0027, \u00270.00\u0027, \u0027normal.\u0027], [\u00270\u0027, \u0027tcp\u0027, \u0027http\u0027, \u0027SF\u0027, \u0027235\u0027, \u00271337\u0027, \u00270\u0027, \u00270\u0027, \u00270\u0027, \u00270\u0027, \u00270\u0027, \u00271\u0027, \u00270\u0027, \u00270\u0027, \u00270\u0027, \u00270\u0027, \u00270\u0027, \u00270\u0027, \u00270\u0027, \u00270\u0027, \u00270\u0027, \u00270\u0027, \u00278\u0027, \u00278\u0027, \u00270.00\u0027, \u00270.00\u0027, \u00270.00\u0027, \u00270.00\u0027, \u00271.00\u0027, \u00270.00\u0027, \u00270.00\u0027, \u002729\u0027, \u002729\u0027, \u00271.00\u0027, \u00270.00\u0027, \u00270.03\u0027, \u00270.00\u0027, \u00270.00\u0027, \u00270.00\u0027, \u00270.00\u0027, \u00270.00\u0027, \u0027normal.\u0027], [\u00270\u0027, \u0027tcp\u0027, \u0027http\u0027, \u0027SF\u0027, \u0027219\u0027, \u00271337\u0027, \u00270\u0027, \u00270\u0027, \u00270\u0027, \u00270\u0027, \u00270\u0027, \u00271\u0027, \u00270\u0027, \u00270\u0027, \u00270\u0027, \u00270\u0027, \u00270\u0027, \u00270\u0027, \u00270\u0027, \u00270\u0027, \u00270\u0027, \u00270\u0027, \u00276\u0027, \u00276\u0027, \u00270.00\u0027, \u00270.00\u0027, \u00270.00\u0027, \u00270.00\u0027, \u00271.00\u0027, \u00270.00\u0027, \u00270.00\u0027, \u002739\u0027, \u002739\u0027, \u00271.00\u0027, \u00270.00\u0027, \u00270.03\u0027, \u00270.00\u0027, \u00270.00\u0027, \u00270.00\u0027, \u00270.00\u0027, \u00270.00\u0027, \u0027normal.\u0027], [\u00270\u0027, \u0027tcp\u0027, \u0027http\u0027, \u0027SF\u0027, \u0027217\u0027, \u00272032\u0027, \u00270\u0027, \u00270\u0027, \u00270\u0027, \u00270\u0027, \u00270\u0027, \u00271\u0027, \u00270\u0027, \u00270\u0027, \u00270\u0027, \u00270\u0027, \u00270\u0027, \u00270\u0027, \u00270\u0027, \u00270\u0027, \u00270\u0027, \u00270\u0027, \u00276\u0027, \u00276\u0027, \u00270.00\u0027, \u00270.00\u0027, \u00270.00\u0027, \u00270.00\u0027, \u00271.00\u0027, \u00270.00\u0027, \u00270.00\u0027, \u002749\u0027, \u002749\u0027, \u00271.00\u0027, \u00270.00\u0027, \u00270.02\u0027, \u00270.00\u0027, \u00270.00\u0027, \u00270.00\u0027, \u00270.00\u0027, \u00270.00\u0027, \u0027normal.\u0027], [\u00270\u0027, \u0027tcp\u0027, \u0027http\u0027, \u0027SF\u0027, \u0027217\u0027, \u00272032\u0027, \u00270\u0027, \u00270\u0027, \u00270\u0027, \u00270\u0027, \u00270\u0027, \u00271\u0027, \u00270\u0027, \u00270\u0027, \u00270\u0027, \u00270\u0027, \u00270\u0027, \u00270\u0027, \u00270\u0027, \u00270\u0027, \u00270\u0027, \u00270\u0027, \u00276\u0027, \u00276\u0027, \u00270.00\u0027, \u00270.00\u0027, \u00270.00\u0027, \u00270.00\u0027, \u00271.00\u0027, \u00270.00\u0027, \u00270.00\u0027, \u002759\u0027, \u002759\u0027, \u00271.00\u0027, \u00270.00\u0027, \u00270.02\u0027, \u00270.00\u0027, \u00270.00\u0027, \u00270.00\u0027, \u00270.00\u0027, \u00270.00\u0027, \u0027normal.\u0027], [\u00270\u0027, \u0027tcp\u0027, \u0027http\u0027, \u0027SF\u0027, \u0027212\u0027, \u00271940\u0027, \u00270\u0027, \u00270\u0027, \u00270\u0027, \u00270\u0027, \u00270\u0027, \u00271\u0027, \u00270\u0027, \u00270\u0027, \u00270\u0027, \u00270\u0027, \u00270\u0027, \u00270\u0027, \u00270\u0027, \u00270\u0027, \u00270\u0027, \u00270\u0027, \u00271\u0027, \u00272\u0027, \u00270.00\u0027, \u00270.00\u0027, \u00270.00\u0027, \u00270.00\u0027, \u00271.00\u0027, \u00270.00\u0027, \u00271.00\u0027, \u00271\u0027, \u002769\u0027, \u00271.00\u0027, \u00270.00\u0027, \u00271.00\u0027, \u00270.04\u0027, \u00270.00\u0027, \u00270.00\u0027, \u00270.00\u0027, \u00270.00\u0027, \u0027normal.\u0027], [\u00270\u0027, \u0027tcp\u0027, \u0027http\u0027, \u0027SF\u0027, \u0027159\u0027, \u00274087\u0027, \u00270\u0027, \u00270\u0027, \u00270\u0027, \u00270\u0027, \u00270\u0027, \u00271\u0027, \u00270\u0027, \u00270\u0027, \u00270\u0027, \u00270\u0027, \u00270\u0027, \u00270\u0027, \u00270\u0027, \u00270\u0027, \u00270\u0027, \u00270\u0027, \u00275\u0027, \u00275\u0027, \u00270.00\u0027, \u00270.00\u0027, \u00270.00\u0027, \u00270.00\u0027, \u00271.00\u0027, \u00270.00\u0027, \u00270.00\u0027, \u002711\u0027, \u002779\u0027, \u00271.00\u0027, \u00270.00\u0027, \u00270.09\u0027, \u00270.04\u0027, \u00270.00\u0027, \u00270.00\u0027, \u00270.00\u0027, \u00270.00\u0027, \u0027normal.\u0027], [\u00270\u0027, \u0027tcp\u0027, \u0027http\u0027, \u0027SF\u0027, \u0027210\u0027, \u0027151\u0027, \u00270\u0027, \u00270\u0027, \u00270\u0027, \u00270\u0027, \u00270\u0027, \u00271\u0027, \u00270\u0027, \u00270\u0027, \u00270\u0027, \u00270\u0027, \u00270\u0027, \u00270\u0027, \u00270\u0027, \u00270\u0027, \u00270\u0027, \u00270\u0027, \u00278\u0027, \u00278\u0027, \u00270.00\u0027, \u00270.00\u0027, \u00270.00\u0027, \u00270.00\u0027, \u00271.00\u0027, \u00270.00\u0027, \u00270.00\u0027, \u00278\u0027, \u002789\u0027, \u00271.00\u0027, \u00270.00\u0027, \u00270.12\u0027, \u00270.04\u0027, \u00270.00\u0027, \u00270.00\u0027, \u00270.00\u0027, \u00270.00\u0027, \u0027normal.\u0027], [\u00270\u0027, \u0027tcp\u0027, \u0027http\u0027, \u0027SF\u0027, \u0027212\u0027, \u0027786\u0027, \u00270\u0027, \u00270\u0027, \u00270\u0027, \u00271\u0027, \u00270\u0027, \u00271\u0027, \u00270\u0027, \u00270\u0027, \u00270\u0027, \u00270\u0027, \u00270\u0027, \u00270\u0027, \u00270\u0027, \u00270\u0027, \u00270\u0027, \u00270\u0027, \u00278\u0027, \u00278\u0027, \u00270.00\u0027, \u00270.00\u0027, \u00270.00\u0027, \u00270.00\u0027, \u00271.00\u0027, \u00270.00\u0027, \u00270.00\u0027, \u00278\u0027, \u002799\u0027, \u00271.00\u0027, \u00270.00\u0027, \u00270.12\u0027, \u00270.05\u0027, \u00270.00\u0027, \u00270.00\u0027, \u00270.00\u0027, \u00270.00\u0027, \u0027normal.\u0027]]\n"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {
+        "jobUrl": {
+          "propertyName": "jobUrl",
+          "label": "SPARK JOB",
+          "tooltip": "View in Spark web UI",
+          "group": "spark",
+          "values": [
+            {
+              "jobUrl": "http://6d3799a39347:4040/jobs/job?id\u003d26"
+            }
+          ],
+          "interpreterSettingId": "spark"
+        }
+      },
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1636205269487_2110655124",
+      "id": "paragraph_1636205269487_2110655124",
+      "dateCreated": "2021-11-06 13:27:49.487",
+      "dateStarted": "2021-11-06 13:28:09.652",
+      "dateFinished": "2021-11-06 13:28:09.734",
+      "status": "FINISHED"
+    },
+    {
+      "text": "%pyspark\nnormal_duration_data \u003d normal_csv_data.map(lambda x: int(x[0]))\nattack_duration_data \u003d attack_csv_data.map(lambda x: int(x[0]))",
+      "user": "anonymous",
+      "dateUpdated": "2021-11-06 13:28:40.474",
+      "progress": 0,
+      "config": {
+        "editorMode": "ace/mode/python",
+        "editorHide": false,
+        "colWidth": 12.0,
+        "fontSize": 9.0,
+        "enabled": true,
+        "results": {},
+        "editorSetting": {
+          "language": "python",
+          "editOnDblClick": false,
+          "completionSupport": true,
+          "completionKey": "TAB"
+        }
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": []
+      },
+      "apps": [],
+      "runtimeInfos": {},
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1636192800052_670056091",
+      "id": "20211106-100000_38854521",
+      "dateCreated": "2021-11-06 10:00:00.052",
+      "dateStarted": "2021-11-06 13:28:40.484",
+      "dateFinished": "2021-11-06 13:28:40.495",
+      "status": "FINISHED"
+    },
+    {
+      "text": "%pyspark\nnormal_duration_data.take(10)",
+      "user": "anonymous",
+      "dateUpdated": "2021-11-06 13:28:42.874",
+      "progress": 0,
+      "config": {
+        "editorMode": "ace/mode/python",
+        "editorHide": false,
+        "colWidth": 12.0,
+        "fontSize": 9.0,
+        "enabled": true,
+        "results": {},
+        "editorSetting": {
+          "language": "python",
+          "editOnDblClick": false,
+          "completionSupport": true,
+          "completionKey": "TAB"
+        }
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "TEXT",
+            "data": "[0, 0, 0, 0, 0, 0, 0, 0, 0, 0]\n"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {
+        "jobUrl": {
+          "propertyName": "jobUrl",
+          "label": "SPARK JOB",
+          "tooltip": "View in Spark web UI",
+          "group": "spark",
+          "values": [
+            {
+              "jobUrl": "http://6d3799a39347:4040/jobs/job?id\u003d27"
+            }
+          ],
+          "interpreterSettingId": "spark"
+        }
+      },
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1636192800052_2130216172",
+      "id": "20211106-100000_1888633031",
+      "dateCreated": "2021-11-06 10:00:00.052",
+      "dateStarted": "2021-11-06 13:28:42.883",
+      "dateFinished": "2021-11-06 13:28:44.016",
+      "status": "FINISHED"
+    },
+    {
+      "text": "%md\nNow we can reduce these new RDDs.  ",
+      "user": "anonymous",
+      "dateUpdated": "2021-11-06 10:00:00.052",
+      "progress": 0,
+      "config": {
+        "editorMode": "ace/mode/markdown",
+        "editorHide": true,
+        "editorSetting": {
+          "language": "markdown",
+          "editOnDblClick": true
+        }
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "HTML",
+            "data": "\u003cdiv class\u003d\"markdown-body\"\u003e\n\u003cp\u003eNow we can reduce these new RDDs. \u003c/p\u003e\n\u003c/div\u003e"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {},
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1636192800052_697025886",
+      "id": "20211106-100000_1571497046",
+      "dateCreated": "2021-11-06 10:00:00.052",
+      "status": "READY"
+    },
+    {
+      "text": "%pyspark\ntotal_normal_duration \u003d normal_duration_data.reduce(lambda x, y: x + y)\ntotal_attack_duration \u003d attack_duration_data.reduce(lambda x, y: x + y)\n\nprint(\"Total duration for \u0027normal\u0027 interactions is {}\".\\\n    format(total_normal_duration))\nprint(\"Total duration for \u0027attack\u0027 interactions is {}\".\\\n    format(total_attack_duration))",
+      "user": "anonymous",
+      "dateUpdated": "2021-11-06 13:30:09.352",
+      "progress": 0,
+      "config": {
+        "editorMode": "ace/mode/python",
+        "editorHide": false,
+        "colWidth": 12.0,
+        "fontSize": 9.0,
+        "enabled": true,
+        "results": {},
+        "editorSetting": {
+          "language": "python",
+          "editOnDblClick": false,
+          "completionSupport": true,
+          "completionKey": "TAB"
+        }
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "TEXT",
+            "data": "Total duration for \u0027normal\u0027 interactions is 21075991\nTotal duration for \u0027attack\u0027 interactions is 23702783\n"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {
+        "jobUrl": {
+          "propertyName": "jobUrl",
+          "label": "SPARK JOB",
+          "tooltip": "View in Spark web UI",
+          "group": "spark",
+          "values": [
+            {
+              "jobUrl": "http://6d3799a39347:4040/jobs/job?id\u003d28"
+            },
+            {
+              "jobUrl": "http://6d3799a39347:4040/jobs/job?id\u003d29"
+            }
+          ],
+          "interpreterSettingId": "spark"
+        }
+      },
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1636192800052_903075573",
+      "id": "20211106-100000_1079941363",
+      "dateCreated": "2021-11-06 10:00:00.052",
+      "dateStarted": "2021-11-06 13:30:09.360",
+      "dateFinished": "2021-11-06 13:30:13.248",
+      "status": "FINISHED"
+    },
+    {
+      "text": "%md\nWe can go further and use counts to calculate duration means.  ",
+      "user": "anonymous",
+      "dateUpdated": "2021-11-06 10:00:00.052",
+      "progress": 0,
+      "config": {
+        "editorMode": "ace/mode/markdown",
+        "editorHide": true,
+        "editorSetting": {
+          "language": "markdown",
+          "editOnDblClick": true
+        }
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "HTML",
+            "data": "\u003cdiv class\u003d\"markdown-body\"\u003e\n\u003cp\u003eWe can go further and use counts to calculate duration means. \u003c/p\u003e\n\u003c/div\u003e"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {},
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1636192800052_1948768349",
+      "id": "20211106-100000_1156656278",
+      "dateCreated": "2021-11-06 10:00:00.052",
+      "status": "READY"
+    },
+    {
+      "text": "%pyspark\nnormal_count \u003d normal_duration_data.count()\nattack_count \u003d attack_duration_data.count()\n\nprint(\"Mean duration for \u0027normal\u0027 interactions is {}\".\\\n    format(round(total_normal_duration/float(normal_count),3)))\nprint(\"Mean duration for \u0027attack\u0027 interactions is {}\".\\\n    format(round(total_attack_duration/float(attack_count),3)))",
+      "user": "anonymous",
+      "dateUpdated": "2021-11-06 13:31:02.308",
+      "progress": 0,
+      "config": {
+        "editorMode": "ace/mode/python",
+        "editorHide": false,
+        "colWidth": 12.0,
+        "fontSize": 9.0,
+        "enabled": true,
+        "results": {},
+        "editorSetting": {
+          "language": "python",
+          "editOnDblClick": false,
+          "completionSupport": true,
+          "completionKey": "TAB"
+        }
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "TEXT",
+            "data": "Mean duration for \u0027normal\u0027 interactions is 216.657\nMean duration for \u0027attack\u0027 interactions is 47.979\n"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {
+        "jobUrl": {
+          "propertyName": "jobUrl",
+          "label": "SPARK JOB",
+          "tooltip": "View in Spark web UI",
+          "group": "spark",
+          "values": [
+            {
+              "jobUrl": "http://6d3799a39347:4040/jobs/job?id\u003d30"
+            },
+            {
+              "jobUrl": "http://6d3799a39347:4040/jobs/job?id\u003d31"
+            }
+          ],
+          "interpreterSettingId": "spark"
+        }
+      },
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1636192800052_1358154064",
+      "id": "20211106-100000_638044343",
+      "dateCreated": "2021-11-06 10:00:00.052",
+      "dateStarted": "2021-11-06 13:31:02.317",
+      "dateFinished": "2021-11-06 13:31:07.160",
+      "status": "FINISHED"
+    },
+    {
+      "text": "%md\nWe have a first (and too simplistic) approach to identify attack interactions.",
+      "user": "anonymous",
+      "dateUpdated": "2021-11-06 10:00:00.052",
+      "progress": 0,
+      "config": {
+        "editorMode": "ace/mode/markdown",
+        "editorHide": true,
+        "editorSetting": {
+          "language": "markdown",
+          "editOnDblClick": true
+        }
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "HTML",
+            "data": "\u003cdiv class\u003d\"markdown-body\"\u003e\n\u003cp\u003eWe have a first (and too simplistic) approach to identify attack interactions.\u003c/p\u003e\n\u003c/div\u003e"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {},
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1636192800052_358051022",
+      "id": "20211106-100000_571134389",
+      "dateCreated": "2021-11-06 10:00:00.052",
+      "status": "READY"
+    },
+    {
+      "text": "%md\n## A better way, using `aggregate`  ",
+      "user": "anonymous",
+      "dateUpdated": "2021-11-06 10:00:00.052",
+      "progress": 0,
+      "config": {
+        "editorMode": "ace/mode/markdown",
+        "editorHide": true,
+        "editorSetting": {
+          "language": "markdown",
+          "editOnDblClick": true
+        }
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "HTML",
+            "data": "\u003cdiv class\u003d\"markdown-body\"\u003e\n\u003ch2\u003eA better way, using \u003ccode\u003eaggregate\u003c/code\u003e\u003c/h2\u003e\n\u003c/div\u003e"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {},
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1636192800052_221272164",
+      "id": "20211106-100000_371678215",
+      "dateCreated": "2021-11-06 10:00:00.052",
+      "status": "READY"
+    },
+    {
+      "text": "%md\nThe `aggregate` action frees us from the constraint of having the return be the same type as the RDD we are working on. Like with `fold`, we supply an initial zero value of the type we want to return. Then we provide two functions. The first one is used to combine the elements from our RDD with the accumulator. The second function is needed to merge two accumulators. Let\u0027s see it in action calculating the mean we did before.  ",
+      "user": "anonymous",
+      "dateUpdated": "2021-11-06 13:32:33.758",
+      "progress": 0,
+      "config": {
+        "editorMode": "ace/mode/markdown",
+        "editorHide": true,
+        "editorSetting": {
+          "language": "markdown",
+          "editOnDblClick": true,
+          "completionSupport": false
+        },
+        "colWidth": 12.0,
+        "fontSize": 9.0,
+        "enabled": true,
+        "results": {},
+        "tableHide": false
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "HTML",
+            "data": "\u003cdiv class\u003d\"markdown-body\"\u003e\n\u003cp\u003eThe \u003ccode\u003eaggregate\u003c/code\u003e action frees us from the constraint of having the return be the same type as the RDD we are working on. Like with \u003ccode\u003efold\u003c/code\u003e, we supply an initial zero value of the type we want to return. Then we provide two functions. The first one is used to combine the elements from our RDD with the accumulator. The second function is needed to merge two accumulators. Let\u0026rsquo;s see it in action calculating the mean we did before.\u003c/p\u003e\n\n\u003c/div\u003e"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {},
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1636192800052_1268729576",
+      "id": "20211106-100000_1535072201",
+      "dateCreated": "2021-11-06 10:00:00.052",
+      "dateStarted": "2021-11-06 13:32:33.760",
+      "dateFinished": "2021-11-06 13:32:33.770",
+      "status": "FINISHED"
+    },
+    {
+      "text": "%pyspark\n\nnormal_duration_data.take(100)",
+      "user": "anonymous",
+      "dateUpdated": "2021-11-06 13:35:50.552",
+      "progress": 0,
+      "config": {
+        "editorSetting": {
+          "language": "text",
+          "editOnDblClick": false,
+          "completionKey": "TAB",
+          "completionSupport": true
+        },
+        "colWidth": 12.0,
+        "editorMode": "ace/mode/text",
+        "fontSize": 9.0,
+        "results": {},
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "TEXT",
+            "data": "[0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]\n"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {
+        "jobUrl": {
+          "propertyName": "jobUrl",
+          "label": "SPARK JOB",
+          "tooltip": "View in Spark web UI",
+          "group": "spark",
+          "values": [
+            {
+              "jobUrl": "http://6d3799a39347:4040/jobs/job?id\u003d33"
+            }
+          ],
+          "interpreterSettingId": "spark"
+        }
+      },
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1636205733909_1086535540",
+      "id": "paragraph_1636205733909_1086535540",
+      "dateCreated": "2021-11-06 13:35:33.909",
+      "dateStarted": "2021-11-06 13:35:50.561",
+      "dateFinished": "2021-11-06 13:35:50.622",
+      "status": "FINISHED"
+    },
+    {
+      "text": "%python\nnormal_sum_count \u003d normal_duration_data.aggregate(\n    (0,0), # the initial value\n    (lambda acc, value: (acc[0] + value, acc[1] + 1)), # combine value with acc\n    (lambda acc1, acc2: (acc1[0] + acc2[0], acc1[1] + acc2[1])) # combine accumulators\n)\n\nprint(\"Mean duration for \u0027normal\u0027 interactions is {}\".\\\n    format(round(normal_sum_count[0]/float(normal_sum_count[1]),3)))",
+      "user": "anonymous",
+      "dateUpdated": "2021-11-06 10:00:00.052",
+      "progress": 0,
+      "config": {
+        "editorMode": "ace/mode/python",
+        "editorHide": false
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "TEXT",
+            "data": "Mean duration for \u0027normal\u0027 interactions is 216.657\n"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {},
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1636192800052_943268772",
+      "id": "20211106-100000_2060841376",
+      "dateCreated": "2021-11-06 10:00:00.052",
+      "status": "READY"
+    },
+    {
+      "text": "%md\nIn the previous aggregation, the accumulator first element keeps the total sum, while the second element keeps the count. Combining an accumulator with an RDD element consists in summing up the value and incrementing the count. Combining two accumulators requires just a pairwise sum.  ",
+      "user": "anonymous",
+      "dateUpdated": "2021-11-06 10:00:00.052",
+      "progress": 0,
+      "config": {
+        "editorMode": "ace/mode/markdown",
+        "editorHide": true,
+        "editorSetting": {
+          "language": "markdown",
+          "editOnDblClick": true
+        }
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "HTML",
+            "data": "\u003cdiv class\u003d\"markdown-body\"\u003e\n\u003cp\u003eIn the previous aggregation, the accumulator first element keeps the total sum, while the second element keeps the count. Combining an accumulator with an RDD element consists in summing up the value and incrementing the count. Combining two accumulators requires just a pairwise sum. \u003c/p\u003e\n\u003c/div\u003e"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {},
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1636192800052_1662653862",
+      "id": "20211106-100000_2115486991",
+      "dateCreated": "2021-11-06 10:00:00.052",
+      "status": "READY"
+    },
+    {
+      "text": "%md\nWe can do the same with attack type interactions.  ",
+      "user": "anonymous",
+      "dateUpdated": "2021-11-06 10:00:00.052",
+      "progress": 0,
+      "config": {
+        "editorMode": "ace/mode/markdown",
+        "editorHide": true,
+        "editorSetting": {
+          "language": "markdown",
+          "editOnDblClick": true
+        }
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "HTML",
+            "data": "\u003cdiv class\u003d\"markdown-body\"\u003e\n\u003cp\u003eWe can do the same with attack type interactions. \u003c/p\u003e\n\u003c/div\u003e"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {},
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1636192800052_527012138",
+      "id": "20211106-100000_1352145402",
+      "dateCreated": "2021-11-06 10:00:00.052",
+      "status": "READY"
+    },
+    {
+      "text": "%python\nattack_sum_count \u003d attack_duration_data.aggregate(\n    (0,0), # the initial value\n    (lambda acc, value: (acc[0] + value, acc[1] + 1)), # combine value with acc\n    (lambda acc1, acc2: (acc1[0] + acc2[0], acc1[1] + acc2[1])) # combine accumulators\n)\n\nprint(\"Mean duration for \u0027attack\u0027 interactions is {}\".\\\n    format(round(attack_sum_count[0]/float(attack_sum_count[1]),3)))",
+      "user": "anonymous",
+      "dateUpdated": "2021-11-06 10:00:00.052",
+      "progress": 0,
+      "config": {
+        "editorMode": "ace/mode/python",
+        "editorHide": false
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "TEXT",
+            "data": "Mean duration for \u0027attack\u0027 interactions is 6.621\n"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {},
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1636192800052_43724072",
+      "id": "20211106-100000_1289832798",
+      "dateCreated": "2021-11-06 10:00:00.052",
+      "status": "READY"
+    }
+  ],
+  "name": "10.rdd-aggregations",
+  "id": "2GPK3VY1J",
+  "defaultInterpreterGroup": "spark",
+  "version": "0.9.0",
+  "noteParams": {},
+  "noteForms": {},
+  "angularObjects": {},
+  "config": {
+    "isZeppelinNotebookCronEnable": false
+  },
+  "info": {}
+}

@@ -1,0 +1,1537 @@
+{
+  "paragraphs": [
+    {
+      "text": "%md\n# RDD basics",
+      "user": "anonymous",
+      "dateUpdated": "2021-11-06 09:58:37.732",
+      "progress": 0,
+      "config": {
+        "editorMode": "ace/mode/markdown",
+        "editorHide": true,
+        "editorSetting": {
+          "language": "markdown",
+          "editOnDblClick": true
+        }
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "HTML",
+            "data": "\u003cdiv class\u003d\"markdown-body\"\u003e\n\u003ch1\u003eRDD basics\u003c/h1\u003e\n\u003c/div\u003e"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {},
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1636192717732_473363456",
+      "id": "20211106-095837_1056281517",
+      "dateCreated": "2021-11-06 09:58:37.732",
+      "status": "READY"
+    },
+    {
+      "text": "%md\nThis notebook will introduce three basic but essential Spark operations. \n- Two of them are the *transformations* `map` and `filter`.\n- The other is the *action* `collect`. At the same time we will introduce the concept of *persistence* in Spark.   ",
+      "user": "anonymous",
+      "dateUpdated": "2021-11-06 09:58:37.732",
+      "progress": 0,
+      "config": {
+        "editorMode": "ace/mode/markdown",
+        "editorHide": true,
+        "editorSetting": {
+          "language": "markdown",
+          "editOnDblClick": true
+        }
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "HTML",
+            "data": "\u003cdiv class\u003d\"markdown-body\"\u003e\n\u003cp\u003eThis notebook will introduce three basic but essential Spark operations.\u003cbr/\u003e- Two of them are the \u003cem\u003etransformations\u003c/em\u003e \u003ccode\u003emap\u003c/code\u003e and \u003ccode\u003efilter\u003c/code\u003e.\u003cbr/\u003e- The other is the \u003cem\u003eaction\u003c/em\u003e \u003ccode\u003ecollect\u003c/code\u003e. At the same time we will introduce the concept of \u003cem\u003epersistence\u003c/em\u003e in Spark. \u003c/p\u003e\n\u003c/div\u003e"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {},
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1636192717732_1830487465",
+      "id": "20211106-095837_1391729319",
+      "dateCreated": "2021-11-06 09:58:37.732",
+      "status": "READY"
+    },
+    {
+      "text": "%md\n## Getting the data and creating the RDD",
+      "user": "anonymous",
+      "dateUpdated": "2021-11-06 09:58:37.732",
+      "progress": 0,
+      "config": {
+        "editorMode": "ace/mode/markdown",
+        "editorHide": true,
+        "editorSetting": {
+          "language": "markdown",
+          "editOnDblClick": true
+        }
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "HTML",
+            "data": "\u003cdiv class\u003d\"markdown-body\"\u003e\n\u003ch2\u003eGetting the data and creating the RDD\u003c/h2\u003e\n\u003c/div\u003e"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {},
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1636192717732_1432296465",
+      "id": "20211106-095837_697907474",
+      "dateCreated": "2021-11-06 09:58:37.732",
+      "status": "READY"
+    },
+    {
+      "text": "%md\nAs we did in our first notebook, we will use the reduced dataset (10 percent) provided for the KDD Cup 1999, containing nearly half million network interactions. The file is provided as a Gzip file that we will download locally.",
+      "user": "anonymous",
+      "dateUpdated": "2021-11-06 09:58:37.732",
+      "progress": 0,
+      "config": {
+        "editorMode": "ace/mode/markdown",
+        "editorHide": true,
+        "editorSetting": {
+          "language": "markdown",
+          "editOnDblClick": true
+        }
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "HTML",
+            "data": "\u003cdiv class\u003d\"markdown-body\"\u003e\n\u003cp\u003eAs we did in our first notebook, we will use the reduced dataset (10 percent) provided for the KDD Cup 1999, containing nearly half million network interactions. The file is provided as a Gzip file that we will download locally.\u003c/p\u003e\n\u003c/div\u003e"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {},
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1636192717732_1337144669",
+      "id": "20211106-095837_1916558880",
+      "dateCreated": "2021-11-06 09:58:37.732",
+      "status": "READY"
+    },
+    {
+      "text": "%python\nimport urllib\nf \u003d urllib.request.urlretrieve (\"http://kdd.ics.uci.edu/databases/kddcup99/kddcup.data_10_percent.gz\", \"kddcup.data_10_percent.gz\")",
+      "user": "anonymous",
+      "dateUpdated": "2021-11-06 09:58:37.732",
+      "progress": 0,
+      "config": {
+        "editorMode": "ace/mode/python",
+        "editorHide": false
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": []
+      },
+      "apps": [],
+      "runtimeInfos": {},
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1636192717732_166920008",
+      "id": "20211106-095837_1104314353",
+      "dateCreated": "2021-11-06 09:58:37.732",
+      "status": "READY"
+    },
+    {
+      "text": "%md\n1998年美国国防部高级规划署（DARPA）在MIT林肯实验室进行了一项入侵检测评估项目。林肯实验室建立了模拟美国空军局域网的一个网络环境，收集了9周时间的 TCPdump(*) 网络连接和系统审计数据，仿真各种用户类型、各种不同的网络流量和攻击手段，使它就像一个真实的网络环境。",
+      "user": "anonymous",
+      "dateUpdated": "2021-11-06 12:43:11.038",
+      "progress": 0,
+      "config": {
+        "editorMode": "ace/mode/markdown",
+        "editorHide": true,
+        "editorSetting": {
+          "language": "markdown",
+          "editOnDblClick": true,
+          "completionSupport": false
+        },
+        "colWidth": 12.0,
+        "fontSize": 9.0,
+        "enabled": true,
+        "results": {},
+        "tableHide": false
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "HTML",
+            "data": "\u003cdiv class\u003d\"markdown-body\"\u003e\n\u003cp\u003e1998年美国国防部高级规划署（DARPA）在MIT林肯实验室进行了一项入侵检测评估项目。林肯实验室建立了模拟美国空军局域网的一个网络环境，收集了9周时间的 TCPdump(*) 网络连接和系统审计数据，仿真各种用户类型、各种不同的网络流量和攻击手段，使它就像一个真实的网络环境。\u003c/p\u003e\n\n\u003c/div\u003e"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {},
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1636192717732_265341621",
+      "id": "20211106-095837_1237473515",
+      "dateCreated": "2021-11-06 09:58:37.732",
+      "dateStarted": "2021-11-06 12:43:11.040",
+      "dateFinished": "2021-11-06 12:43:11.050",
+      "status": "FINISHED"
+    },
+    {
+      "text": "%python\n!hadoop fs -put ./kddcup.data_10_percent.gz /kddcup.data_10_percent.gz",
+      "user": "anonymous",
+      "dateUpdated": "2021-11-06 09:58:37.732",
+      "progress": 0,
+      "config": {
+        "editorMode": "ace/mode/python",
+        "editorHide": false
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "TEXT",
+            "data": "put: `/kddcup.data_10_percent.gz\u0027: File exists\n"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {},
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1636192717732_1759055927",
+      "id": "20211106-095837_593704151",
+      "dateCreated": "2021-11-06 09:58:37.732",
+      "status": "READY"
+    },
+    {
+      "text": "%md\nNow we can use this file to create our RDD.",
+      "user": "anonymous",
+      "dateUpdated": "2021-11-06 09:58:37.732",
+      "progress": 0,
+      "config": {
+        "editorMode": "ace/mode/markdown",
+        "editorHide": true,
+        "editorSetting": {
+          "language": "markdown",
+          "editOnDblClick": true
+        }
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "HTML",
+            "data": "\u003cdiv class\u003d\"markdown-body\"\u003e\n\u003cp\u003eNow we can use this file to create our RDD.\u003c/p\u003e\n\u003c/div\u003e"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {},
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1636192717732_1715120745",
+      "id": "20211106-095837_2142472603",
+      "dateCreated": "2021-11-06 09:58:37.732",
+      "status": "READY"
+    },
+    {
+      "text": "%pyspark\ndata_file \u003d \"hdfs://namenode:9000/dataset/kddcup.data_10_percent.gz\"\nraw_data \u003d sc.textFile(data_file)\nraw_data",
+      "user": "anonymous",
+      "dateUpdated": "2021-11-06 12:45:57.178",
+      "progress": 0,
+      "config": {
+        "editorMode": "ace/mode/python",
+        "editorHide": false,
+        "colWidth": 12.0,
+        "fontSize": 9.0,
+        "enabled": true,
+        "results": {},
+        "editorSetting": {
+          "language": "python",
+          "editOnDblClick": false,
+          "completionSupport": true,
+          "completionKey": "TAB"
+        }
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "TEXT",
+            "data": "hdfs://namenode:9000/dataset/kddcup.data_10_percent.gz MapPartitionsRDD[19] at textFile at NativeMethodAccessorImpl.java:0\n"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {},
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1636192717732_656600983",
+      "id": "20211106-095837_768363627",
+      "dateCreated": "2021-11-06 09:58:37.732",
+      "dateStarted": "2021-11-06 12:45:57.188",
+      "dateFinished": "2021-11-06 12:45:57.234",
+      "status": "FINISHED"
+    },
+    {
+      "text": "%pyspark\nraw_data.take(10)",
+      "user": "anonymous",
+      "dateUpdated": "2021-11-06 12:46:22.548",
+      "progress": 0,
+      "config": {
+        "editorSetting": {
+          "language": "scala",
+          "editOnDblClick": false,
+          "completionKey": "TAB",
+          "completionSupport": true
+        },
+        "colWidth": 12.0,
+        "editorMode": "ace/mode/scala",
+        "fontSize": 9.0,
+        "results": {},
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "TEXT",
+            "data": "[\u00270,tcp,http,SF,181,5450,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,8,8,0.00,0.00,0.00,0.00,1.00,0.00,0.00,9,9,1.00,0.00,0.11,0.00,0.00,0.00,0.00,0.00,normal.\u0027, \u00270,tcp,http,SF,239,486,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,8,8,0.00,0.00,0.00,0.00,1.00,0.00,0.00,19,19,1.00,0.00,0.05,0.00,0.00,0.00,0.00,0.00,normal.\u0027, \u00270,tcp,http,SF,235,1337,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,8,8,0.00,0.00,0.00,0.00,1.00,0.00,0.00,29,29,1.00,0.00,0.03,0.00,0.00,0.00,0.00,0.00,normal.\u0027, \u00270,tcp,http,SF,219,1337,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,6,6,0.00,0.00,0.00,0.00,1.00,0.00,0.00,39,39,1.00,0.00,0.03,0.00,0.00,0.00,0.00,0.00,normal.\u0027, \u00270,tcp,http,SF,217,2032,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,6,6,0.00,0.00,0.00,0.00,1.00,0.00,0.00,49,49,1.00,0.00,0.02,0.00,0.00,0.00,0.00,0.00,normal.\u0027, \u00270,tcp,http,SF,217,2032,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,6,6,0.00,0.00,0.00,0.00,1.00,0.00,0.00,59,59,1.00,0.00,0.02,0.00,0.00,0.00,0.00,0.00,normal.\u0027, \u00270,tcp,http,SF,212,1940,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,1,2,0.00,0.00,0.00,0.00,1.00,0.00,1.00,1,69,1.00,0.00,1.00,0.04,0.00,0.00,0.00,0.00,normal.\u0027, \u00270,tcp,http,SF,159,4087,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,5,5,0.00,0.00,0.00,0.00,1.00,0.00,0.00,11,79,1.00,0.00,0.09,0.04,0.00,0.00,0.00,0.00,normal.\u0027, \u00270,tcp,http,SF,210,151,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,8,8,0.00,0.00,0.00,0.00,1.00,0.00,0.00,8,89,1.00,0.00,0.12,0.04,0.00,0.00,0.00,0.00,normal.\u0027, \u00270,tcp,http,SF,212,786,0,0,0,1,0,1,0,0,0,0,0,0,0,0,0,0,8,8,0.00,0.00,0.00,0.00,1.00,0.00,0.00,8,99,1.00,0.00,0.12,0.05,0.00,0.00,0.00,0.00,normal.\u0027]\n"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {
+        "jobUrl": {
+          "propertyName": "jobUrl",
+          "label": "SPARK JOB",
+          "tooltip": "View in Spark web UI",
+          "group": "spark",
+          "values": [
+            {
+              "jobUrl": "http://6d3799a39347:4040/jobs/job?id\u003d3"
+            }
+          ],
+          "interpreterSettingId": "spark"
+        }
+      },
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1636202774165_643947515",
+      "id": "paragraph_1636202774165_643947515",
+      "dateCreated": "2021-11-06 12:46:14.165",
+      "dateStarted": "2021-11-06 12:46:22.558",
+      "dateFinished": "2021-11-06 12:46:23.600",
+      "status": "FINISHED"
+    },
+    {
+      "text": "%md\n## The `filter` transformation",
+      "user": "anonymous",
+      "dateUpdated": "2021-11-06 09:58:37.732",
+      "progress": 0,
+      "config": {
+        "editorMode": "ace/mode/markdown",
+        "editorHide": true,
+        "editorSetting": {
+          "language": "markdown",
+          "editOnDblClick": true
+        }
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "HTML",
+            "data": "\u003cdiv class\u003d\"markdown-body\"\u003e\n\u003ch2\u003eThe \u003ccode\u003efilter\u003c/code\u003e transformation\u003c/h2\u003e\n\u003c/div\u003e"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {},
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1636192717732_1810192384",
+      "id": "20211106-095837_1989303353",
+      "dateCreated": "2021-11-06 09:58:37.732",
+      "status": "READY"
+    },
+    {
+      "text": "%md\nThis transformation can be applied to RDDs in order to keep just elements that satisfy a certain condition. More concretely, a function is evaluated on every element in the original RDD. The new resulting RDD will contain just those elements that make the function return `True`.",
+      "user": "anonymous",
+      "dateUpdated": "2021-11-06 09:58:37.732",
+      "progress": 0,
+      "config": {
+        "editorMode": "ace/mode/markdown",
+        "editorHide": true,
+        "editorSetting": {
+          "language": "markdown",
+          "editOnDblClick": true
+        }
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "HTML",
+            "data": "\u003cdiv class\u003d\"markdown-body\"\u003e\n\u003cp\u003eThis transformation can be applied to RDDs in order to keep just elements that satisfy a certain condition. More concretely, a function is evaluated on every element in the original RDD. The new resulting RDD will contain just those elements that make the function return \u003ccode\u003eTrue\u003c/code\u003e.\u003c/p\u003e\n\u003c/div\u003e"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {},
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1636192717732_1433494323",
+      "id": "20211106-095837_1290603440",
+      "dateCreated": "2021-11-06 09:58:37.732",
+      "status": "READY"
+    },
+    {
+      "text": "%md\nFor example, imagine we want to count how many `normal.` interactions we have in our dataset. We can filter our `raw_data` RDD as follows.  ",
+      "user": "anonymous",
+      "dateUpdated": "2021-11-06 09:58:37.732",
+      "progress": 0,
+      "config": {
+        "editorMode": "ace/mode/markdown",
+        "editorHide": true,
+        "editorSetting": {
+          "language": "markdown",
+          "editOnDblClick": true
+        }
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "HTML",
+            "data": "\u003cdiv class\u003d\"markdown-body\"\u003e\n\u003cp\u003eFor example, imagine we want to count how many \u003ccode\u003enormal.\u003c/code\u003e interactions we have in our dataset. We can filter our \u003ccode\u003eraw_data\u003c/code\u003e RDD as follows. \u003c/p\u003e\n\u003c/div\u003e"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {},
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1636192717732_1131248602",
+      "id": "20211106-095837_1448546434",
+      "dateCreated": "2021-11-06 09:58:37.732",
+      "status": "READY"
+    },
+    {
+      "text": "%pyspark\nnormal_raw_data \u003d raw_data.filter(lambda x: \u0027normal.\u0027 in x)\nnormal_raw_data",
+      "user": "anonymous",
+      "dateUpdated": "2021-11-06 12:49:39.004",
+      "progress": 0,
+      "config": {
+        "editorMode": "ace/mode/python",
+        "editorHide": false,
+        "colWidth": 12.0,
+        "fontSize": 9.0,
+        "enabled": true,
+        "results": {},
+        "editorSetting": {
+          "language": "python",
+          "editOnDblClick": false,
+          "completionSupport": true,
+          "completionKey": "TAB"
+        }
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "TEXT",
+            "data": "PythonRDD[22] at RDD at PythonRDD.scala:53\n"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {},
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1636192717733_621107763",
+      "id": "20211106-095837_931151098",
+      "dateCreated": "2021-11-06 09:58:37.733",
+      "dateStarted": "2021-11-06 12:49:39.014",
+      "dateFinished": "2021-11-06 12:49:39.069",
+      "status": "FINISHED"
+    },
+    {
+      "text": "%md\nNow we can count how many elements we have in the new RDD.",
+      "user": "anonymous",
+      "dateUpdated": "2021-11-06 09:58:37.733",
+      "progress": 0,
+      "config": {
+        "editorMode": "ace/mode/markdown",
+        "editorHide": true,
+        "editorSetting": {
+          "language": "markdown",
+          "editOnDblClick": true
+        }
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "HTML",
+            "data": "\u003cdiv class\u003d\"markdown-body\"\u003e\n\u003cp\u003eNow we can count how many elements we have in the new RDD.\u003c/p\u003e\n\u003c/div\u003e"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {},
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1636192717733_46113648",
+      "id": "20211106-095837_1512576982",
+      "dateCreated": "2021-11-06 09:58:37.733",
+      "status": "READY"
+    },
+    {
+      "text": "%pyspark\nnormal_count \u003d normal_raw_data.count()\nprint(\"There are {} \u0027normal\u0027 interactions\".format(normal_count))",
+      "user": "anonymous",
+      "dateUpdated": "2021-11-06 12:50:59.822",
+      "progress": 0,
+      "config": {
+        "editorMode": "ace/mode/python",
+        "editorHide": false,
+        "colWidth": 12.0,
+        "fontSize": 9.0,
+        "enabled": true,
+        "results": {},
+        "editorSetting": {
+          "language": "python",
+          "editOnDblClick": false,
+          "completionSupport": true,
+          "completionKey": "TAB"
+        }
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "TEXT",
+            "data": "There are 97278 \u0027normal\u0027 interactions\n"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {
+        "jobUrl": {
+          "propertyName": "jobUrl",
+          "label": "SPARK JOB",
+          "tooltip": "View in Spark web UI",
+          "group": "spark",
+          "values": [
+            {
+              "jobUrl": "http://6d3799a39347:4040/jobs/job?id\u003d4"
+            }
+          ],
+          "interpreterSettingId": "spark"
+        }
+      },
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1636192717733_441129161",
+      "id": "20211106-095837_822937055",
+      "dateCreated": "2021-11-06 09:58:37.733",
+      "dateStarted": "2021-11-06 12:50:59.833",
+      "dateFinished": "2021-11-06 12:51:01.744",
+      "status": "FINISHED"
+    },
+    {
+      "text": "%pyspark\nraw_data.count()",
+      "user": "anonymous",
+      "dateUpdated": "2021-11-06 12:51:33.753",
+      "progress": 0,
+      "config": {
+        "editorMode": "ace/mode/python",
+        "editorHide": false,
+        "colWidth": 12.0,
+        "fontSize": 9.0,
+        "enabled": true,
+        "results": {},
+        "editorSetting": {
+          "language": "python",
+          "editOnDblClick": false,
+          "completionSupport": true,
+          "completionKey": "TAB"
+        }
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "TEXT",
+            "data": "494021\n"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {
+        "jobUrl": {
+          "propertyName": "jobUrl",
+          "label": "SPARK JOB",
+          "tooltip": "View in Spark web UI",
+          "group": "spark",
+          "values": [
+            {
+              "jobUrl": "http://6d3799a39347:4040/jobs/job?id\u003d5"
+            }
+          ],
+          "interpreterSettingId": "spark"
+        }
+      },
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1636192717733_1745940582",
+      "id": "20211106-095837_1605423228",
+      "dateCreated": "2021-11-06 09:58:37.733",
+      "dateStarted": "2021-11-06 12:51:33.763",
+      "dateFinished": "2021-11-06 12:51:35.582",
+      "status": "FINISHED"
+    },
+    {
+      "text": "%md\nRemember from notebook 1 that we have a total of 494021 in our 10 percent dataset. Here we can see that 97278 contain the `normal.` tag word.  ",
+      "user": "anonymous",
+      "dateUpdated": "2021-11-06 09:58:37.733",
+      "progress": 0,
+      "config": {
+        "editorMode": "ace/mode/markdown",
+        "editorHide": true,
+        "editorSetting": {
+          "language": "markdown",
+          "editOnDblClick": true
+        }
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "HTML",
+            "data": "\u003cdiv class\u003d\"markdown-body\"\u003e\n\u003cp\u003eRemember from notebook 1 that we have a total of 494021 in our 10 percent dataset. Here we can see that 97278 contain the \u003ccode\u003enormal.\u003c/code\u003e tag word. \u003c/p\u003e\n\u003c/div\u003e"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {},
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1636192717733_707078970",
+      "id": "20211106-095837_1767985308",
+      "dateCreated": "2021-11-06 09:58:37.733",
+      "status": "READY"
+    },
+    {
+      "text": "%md\nNotice that we have measured the elapsed time for counting the elements in the RDD. We have done this because we wanted to point out that actual (distributed) computations in Spark take place when we execute *actions* and not *transformations*. In this case `count` is the action we execute on the RDD. We can apply as many transformations as we want on a our RDD and no computation will take place until we call the first action that, in this case takes a few seconds to complete.",
+      "user": "anonymous",
+      "dateUpdated": "2021-11-06 09:58:37.733",
+      "progress": 0,
+      "config": {
+        "editorMode": "ace/mode/markdown",
+        "editorHide": true,
+        "editorSetting": {
+          "language": "markdown",
+          "editOnDblClick": true
+        }
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "HTML",
+            "data": "\u003cdiv class\u003d\"markdown-body\"\u003e\n\u003cp\u003eNotice that we have measured the elapsed time for counting the elements in the RDD. We have done this because we wanted to point out that actual (distributed) computations in Spark take place when we execute \u003cem\u003eactions\u003c/em\u003e and not \u003cem\u003etransformations\u003c/em\u003e. In this case \u003ccode\u003ecount\u003c/code\u003e is the action we execute on the RDD. We can apply as many transformations as we want on a our RDD and no computation will take place until we call the first action that, in this case takes a few seconds to complete.\u003c/p\u003e\n\u003c/div\u003e"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {},
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1636192717733_2087100617",
+      "id": "20211106-095837_1944943809",
+      "dateCreated": "2021-11-06 09:58:37.733",
+      "status": "READY"
+    },
+    {
+      "text": "%md\n## The `map` transformation",
+      "user": "anonymous",
+      "dateUpdated": "2021-11-06 09:58:37.733",
+      "progress": 0,
+      "config": {
+        "editorMode": "ace/mode/markdown",
+        "editorHide": true,
+        "editorSetting": {
+          "language": "markdown",
+          "editOnDblClick": true
+        }
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "HTML",
+            "data": "\u003cdiv class\u003d\"markdown-body\"\u003e\n\u003ch2\u003eThe \u003ccode\u003emap\u003c/code\u003e transformation\u003c/h2\u003e\n\u003c/div\u003e"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {},
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1636192717733_1724525707",
+      "id": "20211106-095837_542477890",
+      "dateCreated": "2021-11-06 09:58:37.733",
+      "status": "READY"
+    },
+    {
+      "text": "%md\nBy using the `map` transformation in Spark, we can apply a function to every element in our RDD. Python\u0027s lambdas are specially expressive for this particular.",
+      "user": "anonymous",
+      "dateUpdated": "2021-11-06 09:58:37.733",
+      "progress": 0,
+      "config": {
+        "editorMode": "ace/mode/markdown",
+        "editorHide": true,
+        "editorSetting": {
+          "language": "markdown",
+          "editOnDblClick": true
+        }
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "HTML",
+            "data": "\u003cdiv class\u003d\"markdown-body\"\u003e\n\u003cp\u003eBy using the \u003ccode\u003emap\u003c/code\u003e transformation in Spark, we can apply a function to every element in our RDD. Python\u0026rsquo;s lambdas are specially expressive for this particular.\u003c/p\u003e\n\u003c/div\u003e"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {},
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1636192717733_1348317170",
+      "id": "20211106-095837_1734362630",
+      "dateCreated": "2021-11-06 09:58:37.733",
+      "status": "READY"
+    },
+    {
+      "text": "%md\nIn this case we want to read our data file as a CSV formatted one. We can do this by applying a lambda function to each element in the RDD as follows.",
+      "user": "anonymous",
+      "dateUpdated": "2021-11-06 09:58:37.733",
+      "progress": 0,
+      "config": {
+        "editorMode": "ace/mode/markdown",
+        "editorHide": true,
+        "editorSetting": {
+          "language": "markdown",
+          "editOnDblClick": true
+        }
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "HTML",
+            "data": "\u003cdiv class\u003d\"markdown-body\"\u003e\n\u003cp\u003eIn this case we want to read our data file as a CSV formatted one. We can do this by applying a lambda function to each element in the RDD as follows.\u003c/p\u003e\n\u003c/div\u003e"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {},
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1636192717733_1315876777",
+      "id": "20211106-095837_1448298743",
+      "dateCreated": "2021-11-06 09:58:37.733",
+      "status": "READY"
+    },
+    {
+      "text": "%pyspark\nfrom pprint import pprint\ncsv_data \u003d raw_data.map(lambda x: x.split(\",\"))\nhead_rows \u003d csv_data.take(5)\nhead_rows",
+      "user": "anonymous",
+      "dateUpdated": "2021-11-06 12:54:43.099",
+      "progress": 0,
+      "config": {
+        "editorMode": "ace/mode/python",
+        "editorHide": false,
+        "colWidth": 12.0,
+        "fontSize": 9.0,
+        "enabled": true,
+        "results": {},
+        "editorSetting": {
+          "language": "python",
+          "editOnDblClick": false,
+          "completionSupport": true,
+          "completionKey": "TAB"
+        }
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "TEXT",
+            "data": "[[\u00270\u0027, \u0027tcp\u0027, \u0027http\u0027, \u0027SF\u0027, \u0027181\u0027, \u00275450\u0027, \u00270\u0027, \u00270\u0027, \u00270\u0027, \u00270\u0027, \u00270\u0027, \u00271\u0027, \u00270\u0027, \u00270\u0027, \u00270\u0027, \u00270\u0027, \u00270\u0027, \u00270\u0027, \u00270\u0027, \u00270\u0027, \u00270\u0027, \u00270\u0027, \u00278\u0027, \u00278\u0027, \u00270.00\u0027, \u00270.00\u0027, \u00270.00\u0027, \u00270.00\u0027, \u00271.00\u0027, \u00270.00\u0027, \u00270.00\u0027, \u00279\u0027, \u00279\u0027, \u00271.00\u0027, \u00270.00\u0027, \u00270.11\u0027, \u00270.00\u0027, \u00270.00\u0027, \u00270.00\u0027, \u00270.00\u0027, \u00270.00\u0027, \u0027normal.\u0027], [\u00270\u0027, \u0027tcp\u0027, \u0027http\u0027, \u0027SF\u0027, \u0027239\u0027, \u0027486\u0027, \u00270\u0027, \u00270\u0027, \u00270\u0027, \u00270\u0027, \u00270\u0027, \u00271\u0027, \u00270\u0027, \u00270\u0027, \u00270\u0027, \u00270\u0027, \u00270\u0027, \u00270\u0027, \u00270\u0027, \u00270\u0027, \u00270\u0027, \u00270\u0027, \u00278\u0027, \u00278\u0027, \u00270.00\u0027, \u00270.00\u0027, \u00270.00\u0027, \u00270.00\u0027, \u00271.00\u0027, \u00270.00\u0027, \u00270.00\u0027, \u002719\u0027, \u002719\u0027, \u00271.00\u0027, \u00270.00\u0027, \u00270.05\u0027, \u00270.00\u0027, \u00270.00\u0027, \u00270.00\u0027, \u00270.00\u0027, \u00270.00\u0027, \u0027normal.\u0027], [\u00270\u0027, \u0027tcp\u0027, \u0027http\u0027, \u0027SF\u0027, \u0027235\u0027, \u00271337\u0027, \u00270\u0027, \u00270\u0027, \u00270\u0027, \u00270\u0027, \u00270\u0027, \u00271\u0027, \u00270\u0027, \u00270\u0027, \u00270\u0027, \u00270\u0027, \u00270\u0027, \u00270\u0027, \u00270\u0027, \u00270\u0027, \u00270\u0027, \u00270\u0027, \u00278\u0027, \u00278\u0027, \u00270.00\u0027, \u00270.00\u0027, \u00270.00\u0027, \u00270.00\u0027, \u00271.00\u0027, \u00270.00\u0027, \u00270.00\u0027, \u002729\u0027, \u002729\u0027, \u00271.00\u0027, \u00270.00\u0027, \u00270.03\u0027, \u00270.00\u0027, \u00270.00\u0027, \u00270.00\u0027, \u00270.00\u0027, \u00270.00\u0027, \u0027normal.\u0027], [\u00270\u0027, \u0027tcp\u0027, \u0027http\u0027, \u0027SF\u0027, \u0027219\u0027, \u00271337\u0027, \u00270\u0027, \u00270\u0027, \u00270\u0027, \u00270\u0027, \u00270\u0027, \u00271\u0027, \u00270\u0027, \u00270\u0027, \u00270\u0027, \u00270\u0027, \u00270\u0027, \u00270\u0027, \u00270\u0027, \u00270\u0027, \u00270\u0027, \u00270\u0027, \u00276\u0027, \u00276\u0027, \u00270.00\u0027, \u00270.00\u0027, \u00270.00\u0027, \u00270.00\u0027, \u00271.00\u0027, \u00270.00\u0027, \u00270.00\u0027, \u002739\u0027, \u002739\u0027, \u00271.00\u0027, \u00270.00\u0027, \u00270.03\u0027, \u00270.00\u0027, \u00270.00\u0027, \u00270.00\u0027, \u00270.00\u0027, \u00270.00\u0027, \u0027normal.\u0027], [\u00270\u0027, \u0027tcp\u0027, \u0027http\u0027, \u0027SF\u0027, \u0027217\u0027, \u00272032\u0027, \u00270\u0027, \u00270\u0027, \u00270\u0027, \u00270\u0027, \u00270\u0027, \u00271\u0027, \u00270\u0027, \u00270\u0027, \u00270\u0027, \u00270\u0027, \u00270\u0027, \u00270\u0027, \u00270\u0027, \u00270\u0027, \u00270\u0027, \u00270\u0027, \u00276\u0027, \u00276\u0027, \u00270.00\u0027, \u00270.00\u0027, \u00270.00\u0027, \u00270.00\u0027, \u00271.00\u0027, \u00270.00\u0027, \u00270.00\u0027, \u002749\u0027, \u002749\u0027, \u00271.00\u0027, \u00270.00\u0027, \u00270.02\u0027, \u00270.00\u0027, \u00270.00\u0027, \u00270.00\u0027, \u00270.00\u0027, \u00270.00\u0027, \u0027normal.\u0027]]\n"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {
+        "jobUrl": {
+          "propertyName": "jobUrl",
+          "label": "SPARK JOB",
+          "tooltip": "View in Spark web UI",
+          "group": "spark",
+          "values": [
+            {
+              "jobUrl": "http://6d3799a39347:4040/jobs/job?id\u003d7"
+            }
+          ],
+          "interpreterSettingId": "spark"
+        }
+      },
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1636192717733_414802605",
+      "id": "20211106-095837_20584359",
+      "dateCreated": "2021-11-06 09:58:37.733",
+      "dateStarted": "2021-11-06 12:54:43.108",
+      "dateFinished": "2021-11-06 12:54:43.260",
+      "status": "FINISHED"
+    },
+    {
+      "text": "%pyspark\nhead_rows[0]",
+      "user": "anonymous",
+      "dateUpdated": "2021-11-06 12:55:16.059",
+      "progress": 0,
+      "config": {
+        "editorSetting": {
+          "language": "python",
+          "editOnDblClick": false,
+          "completionKey": "TAB",
+          "completionSupport": true
+        },
+        "colWidth": 12.0,
+        "editorMode": "ace/mode/python",
+        "fontSize": 9.0,
+        "results": {},
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "TEXT",
+            "data": "[\u00270\u0027, \u0027tcp\u0027, \u0027http\u0027, \u0027SF\u0027, \u0027181\u0027, \u00275450\u0027, \u00270\u0027, \u00270\u0027, \u00270\u0027, \u00270\u0027, \u00270\u0027, \u00271\u0027, \u00270\u0027, \u00270\u0027, \u00270\u0027, \u00270\u0027, \u00270\u0027, \u00270\u0027, \u00270\u0027, \u00270\u0027, \u00270\u0027, \u00270\u0027, \u00278\u0027, \u00278\u0027, \u00270.00\u0027, \u00270.00\u0027, \u00270.00\u0027, \u00270.00\u0027, \u00271.00\u0027, \u00270.00\u0027, \u00270.00\u0027, \u00279\u0027, \u00279\u0027, \u00271.00\u0027, \u00270.00\u0027, \u00270.11\u0027, \u00270.00\u0027, \u00270.00\u0027, \u00270.00\u0027, \u00270.00\u0027, \u00270.00\u0027, \u0027normal.\u0027]\n"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {},
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1636203304508_111214791",
+      "id": "paragraph_1636203304508_111214791",
+      "dateCreated": "2021-11-06 12:55:04.509",
+      "dateStarted": "2021-11-06 12:55:16.069",
+      "dateFinished": "2021-11-06 12:55:16.098",
+      "status": "FINISHED"
+    },
+    {
+      "text": "%md\nAgain, all action happens once we call the first Spark *action* (i.e. *take* in this case). What if we take a lot of elements instead of just the first few?  ",
+      "user": "anonymous",
+      "dateUpdated": "2021-11-06 09:58:37.733",
+      "progress": 0,
+      "config": {
+        "editorMode": "ace/mode/markdown",
+        "editorHide": true,
+        "editorSetting": {
+          "language": "markdown",
+          "editOnDblClick": true
+        }
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "HTML",
+            "data": "\u003cdiv class\u003d\"markdown-body\"\u003e\n\u003cp\u003eAgain, all action happens once we call the first Spark \u003cem\u003eaction\u003c/em\u003e (i.e. \u003cem\u003etake\u003c/em\u003e in this case). What if we take a lot of elements instead of just the first few? \u003c/p\u003e\n\u003c/div\u003e"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {},
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1636192717733_1257424909",
+      "id": "20211106-095837_219262556",
+      "dateCreated": "2021-11-06 09:58:37.733",
+      "status": "READY"
+    },
+    {
+      "text": "%python\nhead_rows \u003d csv_data.take(100000)",
+      "user": "anonymous",
+      "dateUpdated": "2021-11-06 12:55:34.894",
+      "progress": 0,
+      "config": {
+        "editorMode": "ace/mode/python",
+        "editorHide": false,
+        "colWidth": 12.0,
+        "fontSize": 9.0,
+        "enabled": true,
+        "results": {},
+        "editorSetting": {
+          "language": "python",
+          "editOnDblClick": false,
+          "completionSupport": true
+        }
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "TEXT",
+            "data": "CPU times: user 685 ms, sys: 37.3 ms, total: 722 ms\nWall time: 2.14 s\n"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {},
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1636192717733_1015078586",
+      "id": "20211106-095837_1747224974",
+      "dateCreated": "2021-11-06 09:58:37.733",
+      "status": "READY"
+    },
+    {
+      "text": "%md\nWe can see that it takes longer. The `map` function is applied now in a  distributed way to a lot of elements on the RDD, hence the longer execution time.",
+      "user": "anonymous",
+      "dateUpdated": "2021-11-06 09:58:37.733",
+      "progress": 0,
+      "config": {
+        "editorMode": "ace/mode/markdown",
+        "editorHide": true,
+        "editorSetting": {
+          "language": "markdown",
+          "editOnDblClick": true
+        }
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "HTML",
+            "data": "\u003cdiv class\u003d\"markdown-body\"\u003e\n\u003cp\u003eWe can see that it takes longer. The \u003ccode\u003emap\u003c/code\u003e function is applied now in a distributed way to a lot of elements on the RDD, hence the longer execution time.\u003c/p\u003e\n\u003c/div\u003e"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {},
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1636192717733_2097380087",
+      "id": "20211106-095837_612130957",
+      "dateCreated": "2021-11-06 09:58:37.733",
+      "status": "READY"
+    },
+    {
+      "text": "%md\n### Using `map` and predefined functions",
+      "user": "anonymous",
+      "dateUpdated": "2021-11-06 09:58:37.733",
+      "progress": 0,
+      "config": {
+        "editorMode": "ace/mode/markdown",
+        "editorHide": true,
+        "editorSetting": {
+          "language": "markdown",
+          "editOnDblClick": true
+        }
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "HTML",
+            "data": "\u003cdiv class\u003d\"markdown-body\"\u003e\n\u003ch3\u003eUsing \u003ccode\u003emap\u003c/code\u003e and predefined functions\u003c/h3\u003e\n\u003c/div\u003e"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {},
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1636192717733_1131109179",
+      "id": "20211106-095837_1965739146",
+      "dateCreated": "2021-11-06 09:58:37.733",
+      "status": "READY"
+    },
+    {
+      "text": "%md\nOf course we can use predefined functions with `map`. Imagine we want to have each element in the RDD as a key-value pair where the key is the tag (e.g. *normal*) and the value is the whole list of elements that represents the row in the CSV formatted file. We could proceed as follows.    ",
+      "user": "anonymous",
+      "dateUpdated": "2021-11-06 09:58:37.733",
+      "progress": 0,
+      "config": {
+        "editorMode": "ace/mode/markdown",
+        "editorHide": true,
+        "editorSetting": {
+          "language": "markdown",
+          "editOnDblClick": true
+        }
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "HTML",
+            "data": "\u003cdiv class\u003d\"markdown-body\"\u003e\n\u003cp\u003eOf course we can use predefined functions with \u003ccode\u003emap\u003c/code\u003e. Imagine we want to have each element in the RDD as a key-value pair where the key is the tag (e.g. \u003cem\u003enormal\u003c/em\u003e) and the value is the whole list of elements that represents the row in the CSV formatted file. We could proceed as follows. \u003c/p\u003e\n\u003c/div\u003e"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {},
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1636192717733_1335369738",
+      "id": "20211106-095837_1976172349",
+      "dateCreated": "2021-11-06 09:58:37.733",
+      "status": "READY"
+    },
+    {
+      "text": "%pyspark\ndef parse_interaction(line):\n    elems \u003d line.split(\",\")\n    tag \u003d elems[41]\n    return (tag, elems)\n\nkey_csv_data \u003d raw_data.map(parse_interaction)\nhead_rows \u003d key_csv_data.take(5)\npprint(head_rows[0])",
+      "user": "anonymous",
+      "dateUpdated": "2021-11-06 12:58:47.909",
+      "progress": 0,
+      "config": {
+        "editorMode": "ace/mode/python",
+        "editorHide": false,
+        "colWidth": 12.0,
+        "fontSize": 9.0,
+        "enabled": true,
+        "results": {},
+        "editorSetting": {
+          "language": "python",
+          "editOnDblClick": false,
+          "completionSupport": true,
+          "completionKey": "TAB"
+        }
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "TEXT",
+            "data": "(\u0027normal.\u0027,\n [\u00270\u0027,\n  \u0027tcp\u0027,\n  \u0027http\u0027,\n  \u0027SF\u0027,\n  \u0027181\u0027,\n  \u00275450\u0027,\n  \u00270\u0027,\n  \u00270\u0027,\n  \u00270\u0027,\n  \u00270\u0027,\n  \u00270\u0027,\n  \u00271\u0027,\n  \u00270\u0027,\n  \u00270\u0027,\n  \u00270\u0027,\n  \u00270\u0027,\n  \u00270\u0027,\n  \u00270\u0027,\n  \u00270\u0027,\n  \u00270\u0027,\n  \u00270\u0027,\n  \u00270\u0027,\n  \u00278\u0027,\n  \u00278\u0027,\n  \u00270.00\u0027,\n  \u00270.00\u0027,\n  \u00270.00\u0027,\n  \u00270.00\u0027,\n  \u00271.00\u0027,\n  \u00270.00\u0027,\n  \u00270.00\u0027,\n  \u00279\u0027,\n  \u00279\u0027,\n  \u00271.00\u0027,\n  \u00270.00\u0027,\n  \u00270.11\u0027,\n  \u00270.00\u0027,\n  \u00270.00\u0027,\n  \u00270.00\u0027,\n  \u00270.00\u0027,\n  \u00270.00\u0027,\n  \u0027normal.\u0027])\n"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {
+        "jobUrl": {
+          "propertyName": "jobUrl",
+          "label": "SPARK JOB",
+          "tooltip": "View in Spark web UI",
+          "group": "spark",
+          "values": [
+            {
+              "jobUrl": "http://6d3799a39347:4040/jobs/job?id\u003d8"
+            }
+          ],
+          "interpreterSettingId": "spark"
+        }
+      },
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1636192717734_907162413",
+      "id": "20211106-095837_971858163",
+      "dateCreated": "2021-11-06 09:58:37.734",
+      "dateStarted": "2021-11-06 12:58:47.921",
+      "dateFinished": "2021-11-06 12:58:49.000",
+      "status": "FINISHED"
+    },
+    {
+      "text": "%md\nThat was easy, wasn\u0027t it?",
+      "user": "anonymous",
+      "dateUpdated": "2021-11-06 09:58:37.734",
+      "progress": 0,
+      "config": {
+        "editorMode": "ace/mode/markdown",
+        "editorHide": true,
+        "editorSetting": {
+          "language": "markdown",
+          "editOnDblClick": true
+        }
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "HTML",
+            "data": "\u003cdiv class\u003d\"markdown-body\"\u003e\n\u003cp\u003eThat was easy, wasn\u0026rsquo;t it?\u003c/p\u003e\n\u003c/div\u003e"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {},
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1636192717734_745577401",
+      "id": "20211106-095837_2119309131",
+      "dateCreated": "2021-11-06 09:58:37.734",
+      "status": "READY"
+    },
+    {
+      "text": "%md\nIn our notebook about working with key-value pairs we will use this type of RDDs to do data aggregations (e.g. count by key).",
+      "user": "anonymous",
+      "dateUpdated": "2021-11-06 09:58:37.734",
+      "progress": 0,
+      "config": {
+        "editorMode": "ace/mode/markdown",
+        "editorHide": true,
+        "editorSetting": {
+          "language": "markdown",
+          "editOnDblClick": true
+        }
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "HTML",
+            "data": "\u003cdiv class\u003d\"markdown-body\"\u003e\n\u003cp\u003eIn our notebook about working with key-value pairs we will use this type of RDDs to do data aggregations (e.g. count by key).\u003c/p\u003e\n\u003c/div\u003e"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {},
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1636192717734_964271267",
+      "id": "20211106-095837_1572854423",
+      "dateCreated": "2021-11-06 09:58:37.734",
+      "status": "READY"
+    },
+    {
+      "text": "%md\n## The `collect` action",
+      "user": "anonymous",
+      "dateUpdated": "2021-11-06 12:56:03.847",
+      "progress": 0,
+      "config": {
+        "editorMode": "ace/mode/markdown",
+        "editorHide": true,
+        "editorSetting": {
+          "language": "markdown",
+          "editOnDblClick": true,
+          "completionSupport": false
+        },
+        "colWidth": 12.0,
+        "fontSize": 9.0,
+        "enabled": true,
+        "results": {},
+        "tableHide": false
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "HTML",
+            "data": "\u003cdiv class\u003d\"markdown-body\"\u003e\n\u003ch2\u003eThe \u003ccode\u003ecollect\u003c/code\u003e action\u003c/h2\u003e\n\n\u003c/div\u003e"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {},
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1636192717734_1258213956",
+      "id": "20211106-095837_1739978250",
+      "dateCreated": "2021-11-06 09:58:37.734",
+      "dateStarted": "2021-11-06 12:56:03.849",
+      "dateFinished": "2021-11-06 12:56:03.858",
+      "status": "FINISHED"
+    },
+    {
+      "text": "%md\nSo far we have used the actions `count` and `take`. Another basic action we need to learn is `collect`. Basically it will get all the elements in the RDD into memory for us to work with them. For this reason it has to be used with care, specially when working with large RDDs.  ",
+      "user": "anonymous",
+      "dateUpdated": "2021-11-06 09:58:37.734",
+      "progress": 0,
+      "config": {
+        "editorMode": "ace/mode/markdown",
+        "editorHide": true,
+        "editorSetting": {
+          "language": "markdown",
+          "editOnDblClick": true
+        }
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "HTML",
+            "data": "\u003cdiv class\u003d\"markdown-body\"\u003e\n\u003cp\u003eSo far we have used the actions \u003ccode\u003ecount\u003c/code\u003e and \u003ccode\u003etake\u003c/code\u003e. Another basic action we need to learn is \u003ccode\u003ecollect\u003c/code\u003e. Basically it will get all the elements in the RDD into memory for us to work with them. For this reason it has to be used with care, specially when working with large RDDs. \u003c/p\u003e\n\u003c/div\u003e"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {},
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1636192717734_1931520727",
+      "id": "20211106-095837_890104055",
+      "dateCreated": "2021-11-06 09:58:37.734",
+      "status": "READY"
+    },
+    {
+      "text": "%md\nAn example using our raw data.    ",
+      "user": "anonymous",
+      "dateUpdated": "2021-11-06 09:58:37.734",
+      "progress": 0,
+      "config": {
+        "editorMode": "ace/mode/markdown",
+        "editorHide": true,
+        "editorSetting": {
+          "language": "markdown",
+          "editOnDblClick": true
+        }
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "HTML",
+            "data": "\u003cdiv class\u003d\"markdown-body\"\u003e\n\u003cp\u003eAn example using our raw data. \u003c/p\u003e\n\u003c/div\u003e"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {},
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1636192717734_1137826220",
+      "id": "20211106-095837_1535854930",
+      "dateCreated": "2021-11-06 09:58:37.734",
+      "status": "READY"
+    },
+    {
+      "text": "%pyspark\n\nall_raw_data \u003d raw_data.collect()\n",
+      "user": "anonymous",
+      "dateUpdated": "2021-11-06 12:56:01.820",
+      "progress": 0,
+      "config": {
+        "editorMode": "ace/mode/python",
+        "editorHide": false,
+        "colWidth": 12.0,
+        "fontSize": 9.0,
+        "enabled": true,
+        "results": {},
+        "editorSetting": {
+          "language": "python",
+          "editOnDblClick": false,
+          "completionSupport": true,
+          "completionKey": "TAB"
+        }
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "TEXT",
+            "data": "CPU times: user 1.16 s, sys: 72.9 ms, total: 1.23 s\nWall time: 7.09 s\n"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {},
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1636192717734_1395479491",
+      "id": "20211106-095837_2017676246",
+      "dateCreated": "2021-11-06 09:58:37.734",
+      "status": "READY"
+    },
+    {
+      "text": "%md\nThat took longer as any other action we used before, of course. Every Spark worker node that has a fragment of the RDD has to be coordinated in order to retrieve its part, and then *reduce* everything together.    ",
+      "user": "anonymous",
+      "dateUpdated": "2021-11-06 09:58:37.734",
+      "progress": 0,
+      "config": {
+        "editorMode": "ace/mode/markdown",
+        "editorHide": true,
+        "editorSetting": {
+          "language": "markdown",
+          "editOnDblClick": true
+        }
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "HTML",
+            "data": "\u003cdiv class\u003d\"markdown-body\"\u003e\n\u003cp\u003eThat took longer as any other action we used before, of course. Every Spark worker node that has a fragment of the RDD has to be coordinated in order to retrieve its part, and then \u003cem\u003ereduce\u003c/em\u003e everything together. \u003c/p\u003e\n\u003c/div\u003e"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {},
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1636192717734_1991067068",
+      "id": "20211106-095837_814675826",
+      "dateCreated": "2021-11-06 09:58:37.734",
+      "status": "READY"
+    },
+    {
+      "text": "%md\nAs a last example combining all the previous, we want to collect all the `normal` interactions as key-value pairs.   ",
+      "user": "anonymous",
+      "dateUpdated": "2021-11-06 09:58:37.734",
+      "progress": 0,
+      "config": {
+        "editorMode": "ace/mode/markdown",
+        "editorHide": true,
+        "editorSetting": {
+          "language": "markdown",
+          "editOnDblClick": true
+        }
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "HTML",
+            "data": "\u003cdiv class\u003d\"markdown-body\"\u003e\n\u003cp\u003eAs a last example combining all the previous, we want to collect all the \u003ccode\u003enormal\u003c/code\u003e interactions as key-value pairs. \u003c/p\u003e\n\u003c/div\u003e"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {},
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1636192717734_1772909021",
+      "id": "20211106-095837_1788799940",
+      "dateCreated": "2021-11-06 09:58:37.734",
+      "status": "READY"
+    },
+    {
+      "text": "%pyspark\nimport time\n\n\n# get data from file\ndata_file \u003d \"hdfs://namenode:9000/dataset/kddcup.data_10_percent.gz\"\nraw_data \u003d sc.textFile(data_file)\n\n# parse into key-value pairs\nkey_csv_data \u003d raw_data.map(parse_interaction)\n\n# filter normal key interactions\nnormal_key_interactions \u003d key_csv_data.filter(lambda x: x[0] \u003d\u003d \"normal.\")\n\n# collect all\nt0 \u003d time.time()\nall_normal \u003d normal_key_interactions.collect()\ntt \u003d time.time() - t0\nnormal_count \u003d len(all_normal)\nprint(\"Data collected in {} seconds\".format(round(tt,3)))\nprint(\"There are {} \u0027normal\u0027 interactions\".format(normal_count))",
+      "user": "anonymous",
+      "dateUpdated": "2021-11-06 13:01:04.407",
+      "progress": 0,
+      "config": {
+        "editorMode": "ace/mode/python",
+        "editorHide": false,
+        "colWidth": 12.0,
+        "fontSize": 9.0,
+        "enabled": true,
+        "results": {},
+        "editorSetting": {
+          "language": "python",
+          "editOnDblClick": false,
+          "completionSupport": true,
+          "completionKey": "TAB"
+        }
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "TEXT",
+            "data": "Data collected in 3.887 seconds\nThere are 97278 \u0027normal\u0027 interactions\n"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {
+        "jobUrl": {
+          "propertyName": "jobUrl",
+          "label": "SPARK JOB",
+          "tooltip": "View in Spark web UI",
+          "group": "spark",
+          "values": [
+            {
+              "jobUrl": "http://6d3799a39347:4040/jobs/job?id\u003d9"
+            }
+          ],
+          "interpreterSettingId": "spark"
+        }
+      },
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1636192717734_1134955742",
+      "id": "20211106-095837_1801387548",
+      "dateCreated": "2021-11-06 09:58:37.734",
+      "dateStarted": "2021-11-06 13:01:04.416",
+      "dateFinished": "2021-11-06 13:01:08.349",
+      "status": "FINISHED"
+    },
+    {
+      "text": "%md\nThis count matches with the previous count for `normal` interactions. The new procedure is more time consuming. This is because we retrieve all the data with `collect` and then use Python\u0027s `len` on the resulting list. Before we were just counting the total number of elements in the RDD by using `count`.  ",
+      "user": "anonymous",
+      "dateUpdated": "2021-11-06 09:58:37.734",
+      "progress": 0,
+      "config": {
+        "editorMode": "ace/mode/markdown",
+        "editorHide": true,
+        "editorSetting": {
+          "language": "markdown",
+          "editOnDblClick": true
+        }
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "HTML",
+            "data": "\u003cdiv class\u003d\"markdown-body\"\u003e\n\u003cp\u003eThis count matches with the previous count for \u003ccode\u003enormal\u003c/code\u003e interactions. The new procedure is more time consuming. This is because we retrieve all the data with \u003ccode\u003ecollect\u003c/code\u003e and then use Python\u0026rsquo;s \u003ccode\u003elen\u003c/code\u003e on the resulting list. Before we were just counting the total number of elements in the RDD by using \u003ccode\u003ecount\u003c/code\u003e. \u003c/p\u003e\n\u003c/div\u003e"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {},
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1636192717734_400813895",
+      "id": "20211106-095837_161551706",
+      "dateCreated": "2021-11-06 09:58:37.734",
+      "status": "READY"
+    }
+  ],
+  "name": "07.rdd-basic",
+  "id": "2GNA1E2PE",
+  "defaultInterpreterGroup": "spark",
+  "version": "0.9.0",
+  "noteParams": {},
+  "noteForms": {},
+  "angularObjects": {},
+  "config": {
+    "isZeppelinNotebookCronEnable": false
+  },
+  "info": {}
+}
